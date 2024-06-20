@@ -130,6 +130,11 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         }
     }
 
+    public void actualizarComboBoxCodigoServicio() {
+        vista.actualizarComboBoxCodigoServicio();
+    }
+
+
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if (pageIndex > 0) {
