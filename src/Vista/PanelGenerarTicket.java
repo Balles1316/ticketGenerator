@@ -11,6 +11,7 @@ public class PanelGenerarTicket extends JPanel {
     private JComboBox<String> comboServicios;
     private JButton btnImprimir;
     private JavaEscritorio vista;
+    public static int nTicket ;
 
     public PanelGenerarTicket(JavaEscritorio vista) {
         this.vista = vista;

@@ -18,6 +18,8 @@ public class JavaEscritorio extends JFrame {
     private JMenuBar menuBar;
     private JMenu menuTicket, menuCliente, menuAyuda;
     private JMenuItem menuItemGenerarTicket, menuItemEditarPrecios;
+    private JMenuItem menuItemEditarClientes , menuItemMostrarClientes ;
+    private JMenuItem menuItemMasAyuda ;
 
     public JavaEscritorio() {
         super("Parabeus S.L");
@@ -44,6 +46,8 @@ public class JavaEscritorio extends JFrame {
         menuBar.add(menuCliente);
         menuBar.add(menuAyuda);
 
+        //SubMenu Ticket
+
         menuItemGenerarTicket = new JMenuItem("Generar Ticket");
         menuItemGenerarTicket.addActionListener(new ActionListener() {
             @Override
@@ -66,6 +70,40 @@ public class JavaEscritorio extends JFrame {
         });
         menuTicket.add(menuItemEditarPrecios);
 
+        //SubMenu Cliente
+        menuItemEditarClientes = new JMenuItem("Anadir Clientes");
+        menuItemEditarClientes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "AnadirClientes");
+            }
+        });
+        menuCliente.add(menuItemEditarClientes);
+
+        menuItemMostrarClientes = new JMenuItem("Mostrar Clientes");
+        
+        menuItemMostrarClientes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "MostrarClientes");
+            }
+        });
+        menuCliente.add(menuItemMostrarClientes);
+
+        menuItemMasAyuda = new JMenuItem("Mas Ayuda");
+        menuItemMasAyuda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(
+                    JavaEscritorio.this,
+                    "Para obtener más ayuda contactenos en:\nGitHub - Balles1316\nGitHub - Blue_Bot",
+                    "Ayuda",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+        });
+        menuAyuda.add(menuItemMasAyuda);
+
         setJMenuBar(menuBar);
     }
 
@@ -76,7 +114,8 @@ public class JavaEscritorio extends JFrame {
         // Agregar paneles al cardPanel
         cardPanel.add(new PanelGenerarTicket(this), "GenerarTicket");
         cardPanel.add(new PanelEditarPrecios(this), "EditarPrecios");
-        cardPanel.add(new PanelDatosCliente(), "DatosCliente");
+        cardPanel.add(new PanelDatosCliente(this), "AnadirClientes");
+        cardPanel.add(new PanelMostrarCliente(this), "MostrarClientes");
 
         add(cardPanel);
     }
