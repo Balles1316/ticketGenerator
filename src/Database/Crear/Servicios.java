@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Clientes {
+public class Servicios {
     public static void main(String[] args) {
         Connection conn = null;
         Statement s = null;
@@ -15,14 +15,14 @@ public class Clientes {
         try {
             conn = getConnection();
             s = conn.createStatement();
-            s.execute("CREATE TABLE IF NOT EXISTS CLIENTES ("
+            s.execute("CREATE TABLE IF NOT EXISTS SERVICIOS ("
                         + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                         + "nombre TEXT NOT NULL,"
                         + "descripcion TEXT,"
                         + "precio REAL)"
             );
         } catch (SQLException ex) {
-            System.out.println("Error en CREATE de CLIENTES");
+            System.out.println("Error en CREATE de SERVICIOS");
         } finally{
             try {
                 if (s != null) {
@@ -32,7 +32,7 @@ public class Clientes {
                     conn.close();
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
