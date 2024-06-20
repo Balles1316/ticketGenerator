@@ -22,7 +22,7 @@ public class PanelGenerarTicket extends JPanel {
         setLayout(new GridLayout(5, 2, 10, 10));
         setBorder(BorderFactory.createTitledBorder("Datos del Ticket"));
 
-        txtNumeroTicket = new JTextField();
+        txtNumeroTicket = new JTextField(nTicket);
         txtCantidad = new JTextField("1");
         txtPrecioConIVA = new JTextField();
         comboServicios = new JComboBox<>();
@@ -40,13 +40,7 @@ public class PanelGenerarTicket extends JPanel {
         add(btnImprimir);
 
         comboServicios.addActionListener(e -> {
-            if (comboServicios.getSelectedItem() != null) {
-                for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
-                    if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
-                        txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
-                    }
-                }
-            }
+
         });
     }
 
@@ -65,4 +59,7 @@ public class PanelGenerarTicket extends JPanel {
             comboServicios.addItem(codigoServicio);
         }
     }
+
+    public JComboBox<String> getComboServicios() {return comboServicios;}
+
 }

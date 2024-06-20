@@ -1,6 +1,7 @@
 package Controlador;
 
 import Vista.JavaEscritorio;
+import Vista.PanelGenerarTicket;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class JavaEscritorioControlador extends WindowAdapter implements Printable {
     private JavaEscritorio vista;
+    private PanelGenerarTicket generarTicket ;
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
     private List<String> itemName;
@@ -85,8 +87,23 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
                 if (doPrint) {
                     try {
                         job.print();
+                        //nTicket ++  ;
                     } catch (PrinterException ex) {
                         JOptionPane.showMessageDialog(null, "Error al imprimir: " + ex.getMessage());
+                    }
+                }
+            }
+        });
+
+        generarTicket.getComboServicios().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> comboServicios = generarTicket.getComboServicios() ;
+                if (comboServicios.getSelectedItem() != null) {
+                    for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
+                        if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
+                            txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
+                        }
                     }
                 }
             }
