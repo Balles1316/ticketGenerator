@@ -1,5 +1,7 @@
 package Vista;
 
+import Controlador.JavaEscritorioControlador;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -40,7 +42,17 @@ public class PanelGenerarTicket extends JPanel {
         add(btnImprimir);
 
         comboServicios.addActionListener(e -> {
-
+            if (comboServicios.getSelectedItem() != null) {
+                for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
+                    if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
+                        txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
+                        JavaEscritorioControlador controlador = new JavaEscritorioControlador(vista);
+                        controlador.addItemName(comboServicios.getSelectedItem().toString());
+                        controlador.addItemPrice(txtPrecioConIVA.getText());
+                        controlador.addQuantity(txtCantidad.getText());
+                    }
+                }
+            }
         });
     }
 
@@ -62,4 +74,5 @@ public class PanelGenerarTicket extends JPanel {
 
     public JComboBox<String> getComboServicios() {return comboServicios;}
 
+    public JTextField getTxtPrecioConIVA() {return txtPrecioConIVA;}
 }

@@ -1,7 +1,6 @@
 package Controlador;
 
 import Vista.JavaEscritorio;
-import Vista.PanelGenerarTicket;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,14 +10,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
 public class JavaEscritorioControlador extends WindowAdapter implements Printable {
     private JavaEscritorio vista;
-    private PanelGenerarTicket generarTicket ;
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
     private List<String> itemName;
@@ -36,6 +34,12 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         this.vista.addWindowListener(this);
         modeloTabla = vista.getModeloTabla();
         tablaPrecios = vista.getTable();
+
+        itemName = new ArrayList<>();
+        itemPrice = new ArrayList<>();
+        quantity = new ArrayList<>();
+        subtotal = new ArrayList<>();
+
         agregarOyentesDeEventos();
     }
 
@@ -81,13 +85,26 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         vista.getBtnImprimir().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                for (String item : itemName){
+                    System.out.println(item);
+                }
+
+                // Create a PrinterJob instance
                 PrinterJob job = PrinterJob.getPrinterJob();
+
+                // Set the Printable instance (JavaEscritorioControlador) for printing
                 job.setPrintable(JavaEscritorioControlador.this);
+
+                // Show print dialog
                 boolean doPrint = job.printDialog();
+
                 if (doPrint) {
                     try {
+                        // Perform the actual print operation
                         job.print();
-                        //nTicket ++  ;
+                        // Clear lists after printing
+                        limpiarListas();
                     } catch (PrinterException ex) {
                         JOptionPane.showMessageDialog(null, "Error al imprimir: " + ex.getMessage());
                     }
@@ -95,19 +112,6 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
             }
         });
 
-        generarTicket.getComboServicios().addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JComboBox<String> comboServicios = generarTicket.getComboServicios() ;
-                if (comboServicios.getSelectedItem() != null) {
-                    for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
-                        if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
-                            txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
-                        }
-                    }
-                }
-            }
-        });
     }
 
     public void guardarPrecios() {
@@ -147,10 +151,41 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         }
     }
 
+    private void limpiarListas() {
+        itemName.clear();
+        itemPrice.clear();
+        quantity.clear();
+        subtotal.clear();
+    }
+
     public void actualizarComboBoxCodigoServicio() {
         vista.actualizarComboBoxCodigoServicio();
     }
 
+    // Getters y setters para las listas
+    public List<String> getItemName() {
+        return itemName;
+    }
+
+    public void addItemName(String name) {
+        this.itemName.add(name);
+    }
+
+    public List<String> getItemPrice() {
+        return itemPrice;
+    }
+
+    public void addItemPrice(String price) {
+        this.itemPrice.add(price);
+    }
+
+    public List<String> getQuantity() {
+        return quantity;
+    }
+
+    public void addQuantity(String qty) {
+        this.quantity.add(qty);
+    }
 
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
@@ -190,24 +225,26 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         y += headerRectHeight;
 
         for (int s = 0; s < itemName.size(); s++) {
+            System.out.println(itemName.get(s));
             g2d.drawString(" " + itemName.get(s) + "                            ", 10, y);
             y += yShift;
             g2d.drawString("      " + quantity.get(s) + " * " + itemPrice.get(s), 10, y);
-            g2d.drawString(subtotal.get(s), 160, y);
+            //g2d.drawString(subtotal.get(s), 160, y);
+            g2d.drawString(itemPrice.get(s), 160, y);
             y += yShift;
         }
 
         g2d.drawString("-------------------------------------", 10, y);
         y += yShift;
-        g2d.drawString(" Total amount:               " + txttotalAmount.getText() + "   ", 10, y);
+        g2d.drawString(" Total amount:               " /*+ txttotalAmount.getText()*/ + "   ", 10, y);
         y += yShift;
         g2d.drawString("-------------------------------------", 10, y);
         y += yShift;
-        g2d.drawString(" Cash      :                 " + txtcash.getText() + "   ", 10, y);
+        g2d.drawString(" Cash      :                 " + /*txtcash.getText() +*/ "   ", 10, y);
         y += yShift;
         g2d.drawString("-------------------------------------", 10, y);
         y += yShift;
-        g2d.drawString(" Balance   :                 " + balance + "   ", 10, y);
+        g2d.drawString(" Balance   :                 " + /*balance +*/ "   ", 10, y);
         y += yShift;
 
         g2d.drawString("*************************************", 10, y);
