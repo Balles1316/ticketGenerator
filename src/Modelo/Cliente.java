@@ -1,10 +1,12 @@
 package Modelo;
 
+import java.util.Date;
+
 public class Cliente {
 
     private String nombre;
     private String apellido;
-    private String direccion;
+    private Date fNacimiento;
     private String telefono;
     private String email;
 
@@ -12,10 +14,10 @@ public class Cliente {
         // Constructor por defecto
     }
 
-    public Cliente(String nombre, String apellido, String direccion, String telefono, String email) {
+    public Cliente(String nombre, String apellido, Date fNacimiento, String telefono, String email) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.direccion = direccion;
+        this.fNacimiento = fNacimiento;
         this.telefono = telefono;
         this.email = email;
     }
@@ -36,15 +38,6 @@ public class Cliente {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    // Getter y Setter para dirección
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
     }
 
     // Getter y Setter para teléfono
