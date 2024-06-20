@@ -120,9 +120,9 @@ public class JavaEscritorio extends JFrame {
         comboServicios = new JComboBox<>();
         btnImprimir = new JButton("Imprimir");
         
-        pnlDatosTicket.add(new JLabel("N�mero de Ticket:"));
+        pnlDatosTicket.add(new JLabel("Numero de Ticket:"));
         pnlDatosTicket.add(txtNumeroTicket);
-        pnlDatosTicket.add(new JLabel("C�digo Servicio:"));
+        pnlDatosTicket.add(new JLabel("Codigo Servicio:"));
         pnlDatosTicket.add(comboServicios);
         pnlDatosTicket.add(new JLabel("Cantidad:"));
         pnlDatosTicket.add(txtCantidad);
@@ -165,7 +165,7 @@ public class JavaEscritorio extends JFrame {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
         
          // Bot�n para a�adir un nuevo producto y precio
-        btnAgregar = new JButton("A�adir Producto");
+        btnAgregar = new JButton("Añadir Producto");
     
         // Bot�n para eliminar un producto seleccionado
         btnEliminar = new JButton("Eliminar Producto");
