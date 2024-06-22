@@ -24,7 +24,7 @@ public class PanelGenerarTicket extends JPanel {
         setLayout(new GridLayout(5, 2, 10, 10));
         setBorder(BorderFactory.createTitledBorder("Datos del Ticket"));
 
-        txtNumeroTicket = new JTextField(nTicket);
+        txtNumeroTicket = new JTextField(String.valueOf(nTicket));
         txtCantidad = new JTextField("1");
         txtPrecioConIVA = new JTextField();
         comboServicios = new JComboBox<>();
@@ -45,11 +45,13 @@ public class PanelGenerarTicket extends JPanel {
             if (comboServicios.getSelectedItem() != null) {
                 for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
                     if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
-                        txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
+                        Object priceObject = vista.getModeloTabla().getValueAt(i, 1);
+                        String priceString = priceObject.toString();
+                        txtPrecioConIVA.setText(priceString);
                         JavaEscritorioControlador controlador = new JavaEscritorioControlador(vista);
-//                        controlador.addItemName(comboServicios.getSelectedItem().toString());
-//                        controlador.addItemPrice(txtPrecioConIVA.getText());
-//                        controlador.addQuantity(txtCantidad.getText());
+                        // controlador.addItemName(comboServicios.getSelectedItem().toString());
+                        // controlador.addItemPrice(txtPrecioConIVA.getText());
+                        // controlador.addQuantity(txtCantidad.getText());
                     }
                 }
             }
@@ -72,7 +74,11 @@ public class PanelGenerarTicket extends JPanel {
         }
     }
 
-    public JComboBox<String> getComboServicios() {return comboServicios;}
+    public JComboBox<String> getComboServicios() {
+        return comboServicios;
+    }
 
-    public JTextField getTxtPrecioConIVA() {return txtPrecioConIVA;}
+    public JTextField getTxtPrecioConIVA() {
+        return txtPrecioConIVA;
+    }
 }
