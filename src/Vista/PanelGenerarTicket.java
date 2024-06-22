@@ -1,11 +1,13 @@
 package Vista;
 
 import Controlador.JavaEscritorioControlador;
+import Modelo.Ticket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PanelGenerarTicket extends JPanel {
@@ -13,6 +15,7 @@ public class PanelGenerarTicket extends JPanel {
     private JComboBox<String> comboServicios;
     private JButton btnImprimir;
     private JavaEscritorio vista;
+    public List<Ticket> tickets;
     public static int nTicket ;
 
     public PanelGenerarTicket(JavaEscritorio vista) {
@@ -45,18 +48,28 @@ public class PanelGenerarTicket extends JPanel {
             if (comboServicios.getSelectedItem() != null) {
                 for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
                     if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
-                        Object priceObject = vista.getModeloTabla().getValueAt(i, 1);
-                        String priceString = priceObject.toString();
-                        txtPrecioConIVA.setText(priceString);
-                        JavaEscritorioControlador controlador = new JavaEscritorioControlador(vista);
-                        // controlador.addItemName(comboServicios.getSelectedItem().toString());
-                        // controlador.addItemPrice(txtPrecioConIVA.getText());
-                        // controlador.addQuantity(txtCantidad.getText());
+                        Object precioConIVAObj = vista.getModeloTabla().getValueAt(i, 1);
+                        String precioConIVA = precioConIVAObj.toString(); // Convertir a String
+                        txtPrecioConIVA.setText(precioConIVA);
+                        try {
+                            int cantidad = Integer.parseInt(txtCantidad.getText());
+                            addServicio(nTicket, comboServicios.getSelectedItem().toString(), Integer.parseInt(txtCantidad.getText()), precioConIVA);
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(this, "Cantidad debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
                     }
                 }
             }
         });
+
     }
+
+    public void addServicio(int nTicket, String nameServicio, int cantidad, String precioConIVA) {
+        Ticket ticket = new Ticket(nTicket, nameServicio, cantidad, precioConIVA);
+        tickets.add(ticket); // Agregar el ticket a la lista
+    }
+
 
     public JButton getBtnImprimir() {
         return btnImprimir;

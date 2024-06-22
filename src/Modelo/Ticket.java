@@ -2,8 +2,8 @@ package Modelo;
 
 public class Ticket {
 
-    private String txtNumeroTicket;
-    private String txtCantidad;
+    private int txtNumeroTicket;
+    private int txtCantidad;
     private String txtPrecioConIVA;
     private String servicio;
 
@@ -11,26 +11,26 @@ public class Ticket {
         // Constructor por defecto
     }
 
-    public Ticket(String txtNumeroTicket, String txtCantidad, String txtPrecioConIVA, String servicio) {
+    public Ticket(int txtNumeroTicket, String servicio , int txtCantidad, String txtPrecioConIVA ) {
         this.txtNumeroTicket = txtNumeroTicket;
         this.txtCantidad = txtCantidad;
         this.txtPrecioConIVA = txtPrecioConIVA;
         this.servicio = servicio;
     }
 
-    public String getTxtNumeroTicket() {
+    public int getTxtNumeroTicket() {
         return txtNumeroTicket;
     }
 
-    public void setTxtNumeroTicket(String txtNumeroTicket) {
+    public void setTxtNumeroTicket(int txtNumeroTicket) {
         this.txtNumeroTicket = txtNumeroTicket;
     }
 
-    public String getTxtCantidad() {
+    public int getTxtCantidad() {
         return txtCantidad;
     }
 
-    public void setTxtCantidad(String txtCantidad) {
+    public void setTxtCantidad(int txtCantidad) {
         this.txtCantidad = txtCantidad;
     }
 

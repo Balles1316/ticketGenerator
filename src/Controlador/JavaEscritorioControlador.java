@@ -5,6 +5,7 @@ import Database.Insertar;
 import Modelo.Servicio;
 import Vista.JavaEscritorio;
 import Vista.PanelGenerarTicket;
+import Modelo.Ticket;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,6 +20,7 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
     private PanelGenerarTicket generarTicket ;
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
+    private List<Ticket> tickets;
     private List<String> itemName;
     private List<String> itemPrice;
     private List<String> quantity;
@@ -183,7 +185,7 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         g2d.drawString("-------------------------------------", 10, y);
         y += headerRectHeight;
 
-        for (int s = 0; s < itemName.size(); s++) {
+        for (int s = 0; s < tickets.size(); s++) {
             g2d.drawString(" " + itemName.get(s) + "                            ", 10, y);
             y += yShift;
             g2d.drawString("      " + quantity.get(s) + " * " + itemPrice.get(s), 10, y);
