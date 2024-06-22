@@ -7,7 +7,7 @@ import java.awt.*;
 public class PanelEditarPrecios extends JPanel {
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
-    private JButton btnAgregar, btnEliminar;
+    private JButton btnAgregar, btnEliminar, btnGuardar, btnCancelar;
 
     public PanelEditarPrecios(JavaEscritorio vista) {
         setLayout(new BorderLayout());

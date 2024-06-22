@@ -1,20 +1,18 @@
 package Controlador;
 
+import Database.Consulta;
+import Database.Insertar;
+import Modelo.Servicio;
 import Vista.JavaEscritorio;
 import Vista.PanelGenerarTicket;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.print.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 
 public class JavaEscritorioControlador extends WindowAdapter implements Printable {
     private JavaEscritorio vista;
@@ -95,54 +93,50 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
             }
         });
 
-        generarTicket.getComboServicios().addActionListener(new ActionListener(){
+        /*generarTicket.getComboServicios().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox<String> comboServicios = generarTicket.getComboServicios() ;
                 if (comboServicios.getSelectedItem() != null) {
                     for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
                         if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
-                            txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
+                            //txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
                         }
                     }
                 }
             }
-        });
+        });*/
     }
 
     public void guardarPrecios() {
-        Properties propiedades = new Properties();
-
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String producto = (String) modeloTabla.getValueAt(i, 0);
-            String precio = (String) modeloTabla.getValueAt(i, 1);
-            propiedades.setProperty(producto, precio);
-        }
-
         try {
-            propiedades.store(new FileOutputStream("precios.properties"), "Precios de Productos");
-            System.out.println("Precios guardados correctamente.");
-        } catch (IOException ex) {
+            for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+                String nombre = (String) modeloTabla.getValueAt(i, 0);
+                Double precio = (Double) modeloTabla.getValueAt(i, 1);
+                new Insertar(nombre, precio);
+            }
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar los precios.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void cargarPrecios() {
-        Properties propiedades = new Properties();
-
         try {
-            propiedades.load(new FileInputStream("precios.properties"));
-            if (tablaPrecios == null || tablaPrecios.getModel() != modeloTabla) {
+            Consulta consulta = new Consulta();
+            consulta.consultarServicios();
+
+            if (tablaPrecios == null || tablaPrecios.getModel() != modeloTabla)
                 tablaPrecios.setModel(modeloTabla);
-            }
+
             tablaPrecios.setEnabled(true);
             tablaPrecios.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
             modeloTabla.setRowCount(0);
-            for (String key : propiedades.stringPropertyNames()) {
-                String precio = propiedades.getProperty(key);
-                modeloTabla.addRow(new Object[]{key, precio});
+
+            List<Servicio> serviciosList = consulta.getServiciosList();
+            for (Servicio servicio : serviciosList) {
+                modeloTabla.addRow(new Object[]{servicio.getNombre(), servicio.getPrecio()});
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar los precios.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

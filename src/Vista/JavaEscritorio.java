@@ -16,13 +16,13 @@ public class JavaEscritorio extends JFrame {
     private CardLayout cardLayout;
     private JPanel cardPanel;
     private JMenuBar menuBar;
-    private JMenu menuTicket, menuCliente, menuAyuda;
+    private JMenu menuTicket, menuServicios, menuCliente, menuAyuda;
     private JMenuItem menuItemGenerarTicket, menuItemEditarPrecios;
     private JMenuItem menuItemEditarClientes , menuItemMostrarClientes ;
-    private JMenuItem menuItemMasAyuda ;
+    private JMenuItem menuItemMasAyuda, menuItemInsertar, menuItemModificar ;
 
     public JavaEscritorio() {
-        super("Parabeus S.L");
+        super("Parabeus S.L. Escritorio");
 
         inicializarVentana();
         inicializarMenu();
@@ -39,15 +39,36 @@ public class JavaEscritorio extends JFrame {
     private void inicializarMenu() {
         menuBar = new JMenuBar();
         menuTicket = new JMenu("Tickets");
+        menuServicios = new JMenu("Servicios");
         menuCliente = new JMenu("Cliente");
         menuAyuda = new JMenu("Ayuda");
 
         menuBar.add(menuTicket);
         menuBar.add(menuCliente);
+        menuBar.add(menuServicios);
         menuBar.add(menuAyuda);
 
-        //SubMenu Ticket
+        // SUBMENU SERVICIOS
+        menuItemInsertar = new JMenuItem("Insertar Servicio");
+        menuItemInsertar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "Insertar Servicio");
+            }
+        });
+        menuServicios.add(menuItemInsertar);
 
+        menuItemModificar = new JMenuItem("Modificar Servicio");
+        menuItemModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "Modificar Servicio");
+            }
+        });
+        menuServicios.add(menuItemModificar);
+
+
+        //SubMenu Ticket
         menuItemGenerarTicket = new JMenuItem("Generar Ticket");
         menuItemGenerarTicket.addActionListener(new ActionListener() {
             @Override
@@ -96,7 +117,7 @@ public class JavaEscritorio extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(
                     JavaEscritorio.this,
-                    "Para obtener más ayuda contactenos en:\nGitHub - Balles1316\nGitHub - Blue_Bot",
+                    "Para obtener más ayuda contactenos en:\nGitHub - Balles1316\nGitHub - blue-c0de",
                     "Ayuda",
                     JOptionPane.INFORMATION_MESSAGE
                 );
@@ -114,6 +135,8 @@ public class JavaEscritorio extends JFrame {
         // Agregar paneles al cardPanel
         cardPanel.add(new PanelGenerarTicket(this), "GenerarTicket");
         cardPanel.add(new PanelEditarPrecios(this), "EditarPrecios");
+        cardPanel.add(new InsertarServiciosView(this), "Insertar Servicio");
+        cardPanel.add(new ModificarServiciosView(this), "Modificar Servicio");
         cardPanel.add(new PanelDatosCliente(this), "AnadirClientes");
         cardPanel.add(new PanelMostrarCliente(this), "MostrarClientes");
 

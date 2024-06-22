@@ -1,0 +1,8 @@
+C:\Users\Celeste\Downloads\ticketGenerator\src\Controlador\JavaEscritorioControlador.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Modelo\Cliente.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Modelo\Ticket.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Vista\JavaEscritorio.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Vista\PanelDatosCliente.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Vista\PanelEditarPrecios.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Vista\PanelGenerarTicket.java
+C:\Users\Celeste\Downloads\ticketGenerator\src\Vista\PanelMostrarCliente.java

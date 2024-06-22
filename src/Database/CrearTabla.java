@@ -1,4 +1,4 @@
-package Database.Crear;
+package Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Servicios {
+public class CrearTabla {
     public static void main(String[] args) {
         Connection conn = null;
         Statement s = null;
@@ -16,9 +16,7 @@ public class Servicios {
             conn = getConnection();
             s = conn.createStatement();
             s.execute("CREATE TABLE IF NOT EXISTS SERVICIOS ("
-                        + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                         + "nombre TEXT NOT NULL,"
-                        + "descripcion TEXT,"
                         + "precio REAL)"
             );
         } catch (SQLException ex) {
@@ -32,7 +30,7 @@ public class Servicios {
                     conn.close();
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Servicios.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CrearTabla.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
