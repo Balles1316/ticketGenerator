@@ -1,8 +1,9 @@
-package Vista;
+package Vista.Servicio;
 
 import Database.Consulta;
 import Database.Modificar;
 import Modelo.Servicio;
+import Vista.JavaEscritorio;
 
 import javax.swing.*;
 import java.awt.*;

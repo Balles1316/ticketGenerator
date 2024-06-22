@@ -1,6 +1,10 @@
 package Vista;
 
 import Controlador.JavaEscritorioControlador;
+import Vista.Servicio.EliminarServiciosView;
+import Vista.Servicio.InsertarServiciosView;
+import Vista.Servicio.ModificarServiciosView;
+import Vista.Servicio.MostrarServiciosView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,9 +21,9 @@ public class JavaEscritorio extends JFrame {
     private JPanel cardPanel;
     private JMenuBar menuBar;
     private JMenu menuTicket, menuServicios, menuCliente, menuAyuda;
-    private JMenuItem menuItemGenerarTicket, menuItemEditarPrecios;
+    private JMenuItem menuItemGenerarTicket, menuItemMasAyuda;
     private JMenuItem menuItemEditarClientes , menuItemMostrarClientes ;
-    private JMenuItem menuItemMasAyuda, menuItemInsertar, menuItemModificar, menuItemEliminar ;
+    private JMenuItem menuItemListarServicios, menuItemInsertar, menuItemModificar, menuItemEliminar ;
 
     public JavaEscritorio() {
         super("Parabeus S.L. Escritorio");
@@ -49,6 +53,15 @@ public class JavaEscritorio extends JFrame {
         menuBar.add(menuAyuda);
 
         // SUBMENU SERVICIOS
+        menuItemListarServicios = new JMenuItem("Listar Servicios");
+        menuItemListarServicios.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "Listar Servicios");
+            }
+        });
+        menuServicios.add(menuItemListarServicios);
+
         menuItemInsertar = new JMenuItem("Insertar Servicio");
         menuItemInsertar.addActionListener(new ActionListener() {
             @Override
@@ -89,15 +102,6 @@ public class JavaEscritorio extends JFrame {
             }
         });
         menuTicket.add(menuItemGenerarTicket);
-
-        menuItemEditarPrecios = new JMenuItem("Editar Precios");
-        menuItemEditarPrecios.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "EditarPrecios");
-            }
-        });
-        menuTicket.add(menuItemEditarPrecios);
 
         //SubMenu Cliente
         menuItemEditarClientes = new JMenuItem("Anadir Clientes");
@@ -142,7 +146,7 @@ public class JavaEscritorio extends JFrame {
 
         // Agregar paneles al cardPanel
         cardPanel.add(new PanelGenerarTicket(this), "GenerarTicket");
-        cardPanel.add(new PanelEditarPrecios(this), "EditarPrecios");
+        cardPanel.add(new MostrarServiciosView(this), "Listar Servicios");
         cardPanel.add(new InsertarServiciosView(this), "Insertar Servicio");
         cardPanel.add(new ModificarServiciosView(this), "Modificar Servicio");
         cardPanel.add(new EliminarServiciosView(this), "Eliminar Servicio");
@@ -153,23 +157,15 @@ public class JavaEscritorio extends JFrame {
     }
 
     public DefaultTableModel getModeloTabla() {
-        return ((PanelEditarPrecios) cardPanel.getComponent(1)).getModeloTabla();
+        return ((MostrarServiciosView) cardPanel.getComponent(1)).getModeloTabla();
     }
 
     public JTable getTable() {
-        return ((PanelEditarPrecios) cardPanel.getComponent(1)).getTablaPrecios();
+        return ((MostrarServiciosView) cardPanel.getComponent(1)).getTablaPrecios();
     }
 
     public JButton getBtnImprimir() {
         return ((PanelGenerarTicket) cardPanel.getComponent(0)).getBtnImprimir();
-    }
-
-    public JButton getBtnAgregar() {
-        return ((PanelEditarPrecios) cardPanel.getComponent(1)).getBtnAgregar();
-    }
-
-    public JButton getBtnEliminar() {
-        return ((PanelEditarPrecios) cardPanel.getComponent(1)).getBtnEliminar();
     }
 
     public void actualizarComboBoxCodigoServicio() {
