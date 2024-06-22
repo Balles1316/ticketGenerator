@@ -166,4 +166,5 @@ public class JavaEscritorio extends JFrame {
     public void actualizarComboBoxCodigoServicio() {
         ((PanelGenerarTicket) cardPanel.getComponent(0)).actualizarComboBoxCodigoServicio(getModeloTabla());
     }
+
 }
