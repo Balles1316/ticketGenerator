@@ -116,6 +116,11 @@ public class ModificarServiciosView extends JPanel{
                     public void actionPerformed(ActionEvent e) {
                         Modificar modificar = new Modificar();
                         modificar.modificarServicio(txtNombre.getText().trim(), Double.parseDouble(txtPrecio.getText().trim()), tfPregunta.getText().trim());
+
+                        JOptionPane.showMessageDialog(vista, "Servicio modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                        txtNombre.setText("");
+                        txtPrecio.setText("");
+                        tfPregunta.setText("");
                     }
                 });
 

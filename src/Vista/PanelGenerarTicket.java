@@ -47,9 +47,9 @@ public class PanelGenerarTicket extends JPanel {
                     if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
                         txtPrecioConIVA.setText((String) vista.getModeloTabla().getValueAt(i, 1));
                         JavaEscritorioControlador controlador = new JavaEscritorioControlador(vista);
-                        controlador.addItemName(comboServicios.getSelectedItem().toString());
-                        controlador.addItemPrice(txtPrecioConIVA.getText());
-                        controlador.addQuantity(txtCantidad.getText());
+//                        controlador.addItemName(comboServicios.getSelectedItem().toString());
+//                        controlador.addItemPrice(txtPrecioConIVA.getText());
+//                        controlador.addQuantity(txtCantidad.getText());
                     }
                 }
             }
