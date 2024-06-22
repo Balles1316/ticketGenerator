@@ -51,33 +51,6 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
     }
 
     private void agregarOyentesDeEventos() {
-        vista.getBtnAgregar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                modeloTabla.addRow(new Object[]{"", ""});
-                int fila = modeloTabla.getRowCount() - 1;
-                int columna = 0;
-                tablaPrecios.editCellAt(fila, columna);
-                Component editor = tablaPrecios.getEditorComponent();
-                if (editor != null) {
-                    editor.requestFocus();
-                }
-            }
-        });
-
-        vista.getBtnEliminar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int filaSeleccionada = tablaPrecios.getSelectedRow();
-                if (filaSeleccionada >= 0) {
-                    modeloTabla.removeRow(filaSeleccionada);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Por favor, selecciona un producto para eliminar.");
-                }
-                guardarPrecios();
-            }
-        });
-
         vista.getBtnImprimir().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
