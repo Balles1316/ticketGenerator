@@ -19,7 +19,7 @@ public class JavaEscritorio extends JFrame {
     private JMenu menuTicket, menuServicios, menuCliente, menuAyuda;
     private JMenuItem menuItemGenerarTicket, menuItemEditarPrecios;
     private JMenuItem menuItemEditarClientes , menuItemMostrarClientes ;
-    private JMenuItem menuItemMasAyuda, menuItemInsertar, menuItemModificar ;
+    private JMenuItem menuItemMasAyuda, menuItemInsertar, menuItemModificar, menuItemEliminar ;
 
     public JavaEscritorio() {
         super("Parabeus S.L. Escritorio");
@@ -67,6 +67,14 @@ public class JavaEscritorio extends JFrame {
         });
         menuServicios.add(menuItemModificar);
 
+        menuItemEliminar = new JMenuItem("Eliminar Servicio");
+        menuItemEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "Eliminar Servicio");
+            }
+        });
+        menuServicios.add(menuItemEliminar);
 
         //SubMenu Ticket
         menuItemGenerarTicket = new JMenuItem("Generar Ticket");
@@ -137,6 +145,7 @@ public class JavaEscritorio extends JFrame {
         cardPanel.add(new PanelEditarPrecios(this), "EditarPrecios");
         cardPanel.add(new InsertarServiciosView(this), "Insertar Servicio");
         cardPanel.add(new ModificarServiciosView(this), "Modificar Servicio");
+        cardPanel.add(new EliminarServiciosView(this), "Eliminar Servicio");
         cardPanel.add(new PanelDatosCliente(this), "AnadirClientes");
         cardPanel.add(new PanelMostrarCliente(this), "MostrarClientes");
 

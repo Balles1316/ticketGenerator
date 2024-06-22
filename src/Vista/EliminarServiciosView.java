@@ -1,7 +1,7 @@
 package Vista;
 
 import Database.Consulta;
-import Database.Modificar;
+import Database.Eliminar;
 import Modelo.Servicio;
 
 import javax.swing.*;
@@ -10,17 +10,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ModificarServiciosView extends JPanel {
+public class EliminarServiciosView extends JPanel {
     private JavaEscritorio vista;
+    private JPanel panelDatos;
     private JTextField tfPregunta;
     private JTextField txtNombre;
     private JTextField txtPrecio;
     private JButton btnGuardar;
-    private JPanel panelDatos;
 
-    public ModificarServiciosView(JavaEscritorio vista) {
-        this.vista = vista;
+    public EliminarServiciosView(JavaEscritorio vista) {
         setLayout(new BorderLayout());
+        this.vista = vista;
         initComponents();
     }
 
@@ -33,7 +33,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        JLabel lblTitulo = new JLabel("Modificar Servicios");
+        JLabel lblTitulo = new JLabel("Eliminar Servicios");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
 
         panelPrincipal.add(lblTitulo, gbc);
@@ -92,6 +92,7 @@ public class ModificarServiciosView extends JPanel {
         txtPrecio.setPreferredSize(new Dimension(200, 25));
         panelDatos.add(txtPrecio, gbcDatos);
 
+        // SIGUIENTE LINEA
         gbc.gridy = 2; // Posición después del panel de pregunta
         gbc.anchor = GridBagConstraints.CENTER;
         panelPrincipal.add(panelDatos, gbc);
@@ -99,7 +100,7 @@ public class ModificarServiciosView extends JPanel {
         // SIGUIENTE LINEA
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.CENTER;
-        btnGuardar = new JButton("Modificar");
+        btnGuardar = new JButton("Eliminar");
         panelPrincipal.add(btnGuardar, gbc);
 
         btnBuscar.addActionListener(new ActionListener() {
@@ -112,7 +113,7 @@ public class ModificarServiciosView extends JPanel {
         btnGuardar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                modificarServicio();
+                eliminarServicio();
             }
         });
 
@@ -139,26 +140,22 @@ public class ModificarServiciosView extends JPanel {
         }
     }
 
-    private void modificarServicio() {
-        String nuevoNombre = txtNombre.getText().trim();
-        String nuevoPrecio = txtPrecio.getText().trim();
-        String nombreBusqueda = tfPregunta.getText().trim();
+    private void eliminarServicio() {
+        int respuesta = JOptionPane.showConfirmDialog(vista,
+                "¿Estás seguro de que quieres eliminar este servicio?",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
 
-        if (nuevoNombre.isEmpty() || nuevoPrecio.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Por favor, completa todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
+        if (respuesta == JOptionPane.YES_OPTION) {
+            Eliminar eliminar = new Eliminar();
+            eliminar.eliminarServicio(txtNombre.getText().trim());
+            JOptionPane.showMessageDialog(vista, "Servicio eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
 
-        try {
-            double precio = Double.parseDouble(nuevoPrecio);
-            Modificar modificar = new Modificar();
-            modificar.modificarServicio(nuevoNombre, precio, nombreBusqueda);
-            JOptionPane.showMessageDialog(vista, "Servicio modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            txtNombre.setText("");
-            txtPrecio.setText("");
-            tfPregunta.setText("");
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vista, "El precio debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        // Limpia los campos de texto independientemente de la respuesta
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        tfPregunta.setText("");
     }
 }
