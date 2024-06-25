@@ -1,6 +1,6 @@
 package Vista.Servicio;
 
-import Database.Insertar;
+import Database.Clientes.Insertar;
 import Vista.JavaEscritorio;
 
 import javax.swing.*;

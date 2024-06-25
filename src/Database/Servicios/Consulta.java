@@ -1,4 +1,4 @@
-package Database;
+package Database.Servicios;
 
 import Modelo.Servicio;
 

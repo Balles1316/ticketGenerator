@@ -1,23 +1,26 @@
-package Database;
+package Database.ServiciosRealizados;
 
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Eliminar {
+public class Modificar {
     private Connection conn = null;
     private Statement s = null;
 
-    public void eliminarServicio(String nombreS) {
+    public void modificarServicio(String nombreNuevo, Double precio, String nombreViejo) {
         try {
             conn = getConnection();
             s = conn.createStatement();
 
-            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM SERVICIOS WHERE nombre = ?");
-            pstmt.setString(1, nombreS);
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE SERVICIOS SET nombre = ?, precio = ? WHERE nombre like ?");
+            pstmt.setString(1, nombreNuevo);
+            pstmt.setDouble(2, precio);
+            pstmt.setString(3, "%" + nombreViejo + "%");
+
             pstmt.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("Error en DELETE de SERVICIOS");
+            System.out.println("Error en UPDATE de SERVICIOS");
         } finally{
             try {
                 if (s != null) {

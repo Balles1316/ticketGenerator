@@ -1,7 +1,7 @@
-package Vista;
+package Vista.tickets;
 
-import Controlador.JavaEscritorioControlador;
 import Modelo.Ticket;
+import Vista.JavaEscritorio;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -67,7 +67,7 @@ public class PanelGenerarTicket extends JPanel {
 
     public void addServicio(int nTicket, String nameServicio, int cantidad, String precioConIVA) {
         Ticket ticket = new Ticket(nTicket, nameServicio, cantidad, precioConIVA);
-        tickets.add(ticket); // Agregar el ticket a la lista
+        /*tickets.add(ticket); // Agregar el ticket a la lista*/
     }
 
 

@@ -1,4 +1,6 @@
-package Vista;
+package Vista.Clientes;
+
+import Vista.JavaEscritorio;
 
 import javax.swing.*;
 import java.awt.*;

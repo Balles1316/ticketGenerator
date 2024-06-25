@@ -1,10 +1,13 @@
 package Vista;
 
 import Controlador.JavaEscritorioControlador;
+import Vista.Clientes.PanelDatosCliente;
+import Vista.Clientes.PanelMostrarCliente;
 import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
 import Vista.Servicio.MostrarServiciosView;
+import Vista.tickets.PanelGenerarTicket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

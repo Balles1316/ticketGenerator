@@ -1,7 +1,7 @@
 package Vista.Servicio;
 
-import Database.Consulta;
-import Database.Eliminar;
+import Database.Clientes.Consulta;
+import Database.Clientes.Eliminar;
 import Modelo.Servicio;
 import Vista.JavaEscritorio;
 
