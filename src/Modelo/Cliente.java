@@ -9,17 +9,15 @@ public class Cliente {
     private Date fNacimiento;
     private String telefono;
     private String email;
+    private String cp;
 
-    public Cliente() {
-        // Constructor por defecto
-    }
-
-    public Cliente(String nombre, String apellido, Date fNacimiento, String telefono, String email) {
+    public Cliente(String nombre, String apellido, Date fNacimiento, String telefono, String email, String cp) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fNacimiento = fNacimiento;
         this.telefono = telefono;
         this.email = email;
+        this.cp = cp;
     }
 
     // Getter y Setter para nombre
@@ -58,4 +56,19 @@ public class Cliente {
         this.email = email;
     }
 
+    public String getCp() {
+        return cp;
+    }
+
+    public void setCp(String cp) {
+        this.cp = cp;
+    }
+
+    public Date getfNacimiento() {
+        return fNacimiento;
+    }
+
+    public void setfNacimiento(Date fNacimiento) {
+        this.fNacimiento = fNacimiento;
+    }
 }

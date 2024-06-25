@@ -1,22 +1,19 @@
 package Vista;
 
 import Controlador.JavaEscritorioControlador;
-import Vista.Clientes.PanelDatosCliente;
-import Vista.Clientes.PanelMostrarCliente;
+import Vista.Cliente.InsertarClienteView;
+import Vista.Cliente.MostrarClienteView;
 import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
 import Vista.Servicio.MostrarServiciosView;
 import Vista.tickets.PanelGenerarTicket;
-import Vista.tickets.PanelMostrarTicket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JavaEscritorio extends JFrame {
 
@@ -27,17 +24,12 @@ public class JavaEscritorio extends JFrame {
     private JPanel cardPanel;
     private JMenuBar menuBar;
     private JMenu menuTicket, menuServicios, menuCliente, menuAyuda;
-    private JMenuItem menuItemGenerarTicket, menuItemMostrarTicket , menuItemModificarTickets, menuItemEliminarTickets;
+    private JMenuItem menuItemGenerarTicket, menuItemMasAyuda;
     private JMenuItem menuItemEditarClientes , menuItemMostrarClientes ;
     private JMenuItem menuItemListarServicios, menuItemInsertar, menuItemModificar, menuItemEliminar ;
-    private JMenuItem menuItemMasAyuda ;
-
-    private Map<String, JPanel> panelsMap;
 
     public JavaEscritorio() {
         super("Parabeus S.L. Escritorio");
-
-        panelsMap = new HashMap<>();
 
         inicializarVentana();
         inicializarMenu();
@@ -68,6 +60,8 @@ public class JavaEscritorio extends JFrame {
         menuItemListarServicios.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                controlador = new JavaEscritorioControlador(JavaEscritorio.this);
+                controlador.cargarPrecios();
                 cardLayout.show(cardPanel, "Listar Servicios");
             }
         });
@@ -100,7 +94,7 @@ public class JavaEscritorio extends JFrame {
         });
         menuServicios.add(menuItemEliminar);
 
-        //SubMenu Crear Ticket
+        //SubMenu Ticket
         menuItemGenerarTicket = new JMenuItem("Generar Ticket");
         menuItemGenerarTicket.addActionListener(new ActionListener() {
             @Override
@@ -109,70 +103,40 @@ public class JavaEscritorio extends JFrame {
                 controlador.guardarPrecios();
                 controlador.cargarPrecios();
                 controlador.actualizarComboBoxCodigoServicio();
-                cardLayout.show(cardPanel, "Generar Ticket");
+                cardLayout.show(cardPanel, "GenerarTicket");
             }
         });
         menuTicket.add(menuItemGenerarTicket);
 
-        //SubMenu Mostrar
-        menuItemMostrarTicket = new JMenuItem("Mostrar Ticket");
-        menuItemMostrarTicket.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Listar Ticket");
-            }
-        });
-        menuTicket.add(menuItemMostrarTicket);
-
-        //SubMenu Modificar
-        menuItemModificarTickets = new JMenuItem("Modificar Ticket");
-        menuItemModificarTickets.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Modificar Ticket");
-            }
-        });
-        menuTicket.add(menuItemModificarTickets);
-
-        //SubMenu Eliminar
-        menuItemEliminarTickets = new JMenuItem("Eliminar Ticket");
-        menuItemEliminarTickets.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Eliminar Ticket");
-            }
-        });
-        menuTicket.add(menuItemEliminarTickets);
-
         //SubMenu Cliente
-        menuItemEditarClientes = new JMenuItem("Añadir Clientes");
+        menuItemEditarClientes = new JMenuItem("Anadir Clientes");
         menuItemEditarClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Añadir Clientes");
+                cardLayout.show(cardPanel, "AnadirClientes");
             }
         });
         menuCliente.add(menuItemEditarClientes);
 
         menuItemMostrarClientes = new JMenuItem("Mostrar Clientes");
-
+        
         menuItemMostrarClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "Mostrar Clientes");
+                cardLayout.show(cardPanel, "MostrarClientes");
             }
         });
         menuCliente.add(menuItemMostrarClientes);
 
-        menuItemMasAyuda = new JMenuItem("Más Ayuda");
+        menuItemMasAyuda = new JMenuItem("Mas Ayuda");
         menuItemMasAyuda.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(
-                        JavaEscritorio.this,
-                        "Para obtener más ayuda contáctenos en:\nGitHub - Balles1316\nGitHub - blue-c0de",
-                        "Ayuda",
-                        JOptionPane.INFORMATION_MESSAGE
+                    JavaEscritorio.this,
+                    "Para obtener más ayuda contactenos en:\nGitHub - Balles1316\nGitHub - blue-c0de",
+                    "Ayuda",
+                    JOptionPane.INFORMATION_MESSAGE
                 );
             }
         });
@@ -185,65 +149,32 @@ public class JavaEscritorio extends JFrame {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
-        // Create panels and add them to the cardPanel and panelsMap
-        PanelGenerarTicket panelGenerarTicket = new PanelGenerarTicket(this);
-        PanelMostrarTicket panelMostrarTicket = new PanelMostrarTicket(this);
-        MostrarServiciosView mostrarServiciosView = new MostrarServiciosView(this);
-        InsertarServiciosView insertarServiciosView = new InsertarServiciosView(this);
-        ModificarServiciosView modificarServiciosView = new ModificarServiciosView(this);
-        EliminarServiciosView eliminarServiciosView = new EliminarServiciosView(this);
-        PanelDatosCliente panelDatosCliente = new PanelDatosCliente(this);
-        PanelMostrarCliente panelMostrarCliente = new PanelMostrarCliente(this);
-
-        cardPanel.add(panelGenerarTicket, "Generar Ticket");
-        cardPanel.add(panelMostrarTicket, "Listar Ticket");
-/*
-        cardPanel.add(panelGenerarTicket, "Modificar Ticket");
-        cardPanel.add(panelGenerarTicket, "Eliminar Ticket");
-*/
-        cardPanel.add(mostrarServiciosView, "Listar Servicios");
-        cardPanel.add(insertarServiciosView, "Insertar Servicio");
-        cardPanel.add(modificarServiciosView, "Modificar Servicio");
-        cardPanel.add(eliminarServiciosView, "Eliminar Servicio");
-        cardPanel.add(panelDatosCliente, "Añadir Clientes");
-        cardPanel.add(panelMostrarCliente, "Mostrar Clientes");
-
-        panelsMap.put("Generar Ticket", panelGenerarTicket);
-        panelsMap.put("Listar Ticket", panelMostrarTicket);
-        /*panelsMap.put("Modificar Ticket", panelGenerarTicket); // This should probably be another panel in real usage
-        panelsMap.put("Eliminar Ticket", panelGenerarTicket); // This should probably be another panel in real usage*/
-        panelsMap.put("Listar Servicios", mostrarServiciosView);
-        panelsMap.put("Insertar Servicio", insertarServiciosView);
-        panelsMap.put("Modificar Servicio", modificarServiciosView);
-        panelsMap.put("Eliminar Servicio", eliminarServiciosView);
-        panelsMap.put("Añadir Clientes", panelDatosCliente);
-        panelsMap.put("Mostrar Clientes", panelMostrarCliente);
+        // Agregar paneles al cardPanel
+        cardPanel.add(new PanelGenerarTicket(this), "GenerarTicket");
+        cardPanel.add(new MostrarServiciosView(this), "Listar Servicios");
+        cardPanel.add(new InsertarServiciosView(this), "Insertar Servicio");
+        cardPanel.add(new ModificarServiciosView(this), "Modificar Servicio");
+        cardPanel.add(new EliminarServiciosView(this), "Eliminar Servicio");
+        cardPanel.add(new InsertarClienteView(), "AnadirClientes");
+        cardPanel.add(new MostrarClienteView(this), "MostrarClientes");
 
         add(cardPanel);
     }
 
     public DefaultTableModel getModeloTabla() {
-        return ((MostrarServiciosView) panelsMap.get("Listar Servicios")).getModeloTabla();
+        return ((MostrarServiciosView) cardPanel.getComponent(1)).getModeloTabla();
     }
 
     public JTable getTable() {
-        return ((MostrarServiciosView) panelsMap.get("Listar Servicios")).getTablaPrecios();
+        return ((MostrarServiciosView) cardPanel.getComponent(1)).getTablaPrecios();
     }
 
     public JButton getBtnImprimir() {
-        return ((PanelGenerarTicket) panelsMap.get("Generar Ticket")).getBtnImprimir();
+        return ((PanelGenerarTicket) cardPanel.getComponent(0)).getBtnImprimir();
     }
 
     public void actualizarComboBoxCodigoServicio() {
-        ((PanelGenerarTicket) panelsMap.get("Generar Ticket")).actualizarComboBoxCodigoServicio(getModeloTabla());
+        ((PanelGenerarTicket) cardPanel.getComponent(0)).actualizarComboBoxCodigoServicio(getModeloTabla());
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new JavaEscritorio().setVisible(true);
-            }
-        });
-    }
 }

@@ -8,7 +8,8 @@ import java.awt.*;
 
 public class PanelMostrarTicket extends JPanel {
     private DefaultTableModel modeloTabla;
-    private JTable tablaServiciosRealizados;
+    private JTable tablaCliente;
+    private JButton btnAgregar, btnEliminar;
 
     public PanelMostrarTicket(JavaEscritorio vista) {
         setLayout(new BorderLayout());
@@ -16,26 +17,33 @@ public class PanelMostrarTicket extends JPanel {
     }
 
     private void inicializarComponentes() {
-        String[] columnas = {"N-Ticket", "Servicio" , "Cantidad", "PrecioIVA", "Cliente"};
+        String[] columnas = {"Nombre", "N*Telefono" , "Correo"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-        tablaServiciosRealizados = new JTable(modeloTabla);
+        tablaCliente = new JTable(modeloTabla);
 
-        add(new JScrollPane(tablaServiciosRealizados), BorderLayout.CENTER);
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnAgregar = new JButton("Anadir Cliente");
+        btnEliminar = new JButton("Eliminar Cliente");
+        panelBotones.add(btnAgregar);
+        panelBotones.add(btnEliminar);
+
+        add(new JScrollPane(tablaCliente), BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
     }
 
     public DefaultTableModel getModeloTabla() {
         return modeloTabla;
     }
 
-    public void setModeloTabla(DefaultTableModel modeloTabla) {
-        this.modeloTabla = modeloTabla;
+    public JTable getTablaCliente() {
+        return tablaCliente;
     }
 
-    public JTable getTablaServiciosRealizados() {
-        return tablaServiciosRealizados;
+    public JButton getBtnAgregar() {
+        return btnAgregar;
     }
 
-    public void setTablaServiciosRealizados(JTable tablaServiciosRealizados) {
-        this.tablaServiciosRealizados = tablaServiciosRealizados;
+    public JButton getBtnEliminar() {
+        return btnEliminar;
     }
 }
