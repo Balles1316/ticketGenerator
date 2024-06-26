@@ -1,6 +1,8 @@
 package Vista.Cliente;
 
+/*
 import Database.Remoto.Insertar;
+*/
 import Modelo.Cliente;
 
 import javax.swing.*;
@@ -68,6 +70,7 @@ public class InsertarClienteView extends JPanel {
             String email = txtEmail.getText().trim();
             String cp = txtCP.getText().trim();
 
+/*
             Insertar insertar = new Insertar();
             Cliente nuevoCliente = new Cliente(nombre, apellido, fecha, telefono, email, cp);
             try {
@@ -75,6 +78,7 @@ public class InsertarClienteView extends JPanel {
             } catch (IOException | ExecutionException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
+*/
             limpiarCampos();
         });
     }

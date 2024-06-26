@@ -15,9 +15,13 @@ public class CrearTabla {
         try {
             conn = getConnection();
             s = conn.createStatement();
-            s.execute("CREATE TABLE IF NOT EXISTS SERVICIOS ("
-                        + "nombre TEXT NOT NULL,"
-                        + "precio REAL)"
+            s.execute("CREATE TABLE IF NOT EXISTS SERVICIOSREALIZADOS ("
+                        + "numeroTicket INT NOT NULL,"
+                        + "servicio TEXT NOT NULL,)"
+                        + "cantidad INT NOT NULL,)"
+                        + "precioIVA REAL NOT NULL,)"
+                        + "cliente TEXT NOT NULL,)"
+                        + "metodoPago TEXT NOT NULL,)"
             );
         } catch (SQLException ex) {
             System.out.println("Error en CREATE de SERVICIOS");

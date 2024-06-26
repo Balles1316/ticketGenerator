@@ -1,6 +1,8 @@
 package Vista.Cliente;
 
+/*
 import Database.Remoto.Consulta;
+*/
 import Modelo.Cliente;
 import Modelo.Servicio;
 import Vista.JavaEscritorio;
@@ -26,6 +28,7 @@ public class MostrarClienteView extends JPanel {
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaCliente = new JTable(modeloTabla);
 
+/*
         try {
             Consulta consulta = new Consulta();
             consulta.consultarClientes();
@@ -44,6 +47,7 @@ public class MostrarClienteView extends JPanel {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar los clientes.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+*/
 
         add(new JScrollPane(tablaCliente), BorderLayout.CENTER);
     }

@@ -2,44 +2,28 @@ package Modelo;
 
 public class Ticket {
 
-    private int txtNumeroTicket;
-    private int txtCantidad;
-    private String txtPrecioConIVA;
+    private int numeroTicket;
     private String servicio;
+    private int cantidad;
+    private double precioConIVA;
+    private String cliente;
+    private String metodoPago;
 
-    public Ticket() {
-        // Constructor por defecto
-    }
-
-    public Ticket(int txtNumeroTicket, String servicio , int txtCantidad, String txtPrecioConIVA ) {
-        this.txtNumeroTicket = txtNumeroTicket;
-        this.txtCantidad = txtCantidad;
-        this.txtPrecioConIVA = txtPrecioConIVA;
+    public Ticket(int numeroTicket, String servicio, int cantidad, double precioConIVA, String cliente, String metodoPago) {
+        this.numeroTicket = numeroTicket;
         this.servicio = servicio;
+        this.cantidad = cantidad;
+        this.precioConIVA = precioConIVA;
+        this.cliente = cliente;
+        this.metodoPago = metodoPago;
     }
 
-    public int getTxtNumeroTicket() {
-        return txtNumeroTicket;
+    public int getNumeroTicket() {
+        return numeroTicket;
     }
 
-    public void setTxtNumeroTicket(int txtNumeroTicket) {
-        this.txtNumeroTicket = txtNumeroTicket;
-    }
-
-    public int getTxtCantidad() {
-        return txtCantidad;
-    }
-
-    public void setTxtCantidad(int txtCantidad) {
-        this.txtCantidad = txtCantidad;
-    }
-
-    public String getTxtPrecioConIVA() {
-        return txtPrecioConIVA;
-    }
-
-    public void setTxtPrecioConIVA(String txtPrecioConIVA) {
-        this.txtPrecioConIVA = txtPrecioConIVA;
+    public void setNumeroTicket(int numeroTicket) {
+        this.numeroTicket = numeroTicket;
     }
 
     public String getServicio() {
@@ -48,5 +32,37 @@ public class Ticket {
 
     public void setServicio(String servicio) {
         this.servicio = servicio;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public double getPrecioConIVA() {
+        return precioConIVA;
+    }
+
+    public void setPrecioConIVA(double precioConIVA) {
+        this.precioConIVA = precioConIVA;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
     }
 }

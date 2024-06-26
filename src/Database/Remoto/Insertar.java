@@ -1,3 +1,4 @@
+/*
 package Database.Remoto;
 
 import Modelo.Cliente;
@@ -50,3 +51,4 @@ public class Insertar {
         }
     }
 }
+*/

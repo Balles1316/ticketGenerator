@@ -4,7 +4,7 @@ import Database.Clientes.Consulta;
 import Database.Clientes.Insertar;
 import Modelo.Servicio;
 import Vista.JavaEscritorio;
-import Vista.tickets.PanelGenerarTicket;
+import Vista.tickets.GenerarTicketView;
 import Modelo.Ticket;
 
 import java.awt.*;
@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class JavaEscritorioControlador extends WindowAdapter implements Printable {
     private JavaEscritorio vista;
-    private PanelGenerarTicket generarTicket ;
+    private GenerarTicketView generarTicket ;
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
     private List<Ticket> tickets;

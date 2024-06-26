@@ -1,6 +1,7 @@
 package Database.ServiciosRealizados;
 
 import Modelo.Servicio;
+import Modelo.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,13 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Consulta {
-    private static List<Servicio> serviciosList;
+    private static List<Ticket> ticketsList;
 
     public Consulta() {
-        serviciosList = new ArrayList<>();
+        ticketsList = new ArrayList<>();
     }
 
-    public void consultarServicios() {
+    public void consultarTicket() {
         Connection conn = null;
         Statement s = null;
         ResultSet rs = null;
@@ -23,16 +24,59 @@ public class Consulta {
         try {
             conn = getConnection();
             s = conn.createStatement();
-            rs = s.executeQuery("SELECT * FROM SERVICIOS");
+            rs = s.executeQuery("SELECT * FROM SERVICIOSREALIZADOS");
 
-            serviciosList.clear();
+            ticketsList.clear();
 
             while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                double precio = rs.getDouble("precio");
+                int numeroTicket = rs.getInt("numeroTicket");
+                String servicio = rs.getString("servicio");
+                int cantidad = rs.getInt("cantidad");
+                double precioIVA = rs.getDouble("precioIVA");
+                String cliente = rs.getString("cliente");
+                String metodoPago = rs.getString("metodoPago");
 
-                Servicio servicio = new Servicio(nombre, precio);
-                serviciosList.add(servicio);
+                Ticket ticket = new Ticket(numeroTicket, servicio,cantidad,precioIVA,cliente,metodoPago);
+                ticketsList.add(ticket);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error en SELECT de SERVICIOSREALIZADOS");
+        } finally{
+            try {
+                if (s != null) {
+                    s.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void consultarTicketsPorID(int numeroTicketBuscar) {
+        Connection conn = null;
+        Statement s = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            s = conn.createStatement();
+            rs = s.executeQuery("SELECT * FROM SERVICIOSREALIZADOS WHERE NOMBRE LIKE '%"+numeroTicketBuscar+"%'");
+
+            ticketsList.clear();
+
+            while (rs.next()) {
+                int numeroTicket = rs.getInt("numeroTicket");
+                String servicio = rs.getString("servicio");
+                int cantidad = rs.getInt("cantidad");
+                double precioIVA = rs.getDouble("precioIVA");
+                String cliente = rs.getString("cliente");
+                String metodoPago = rs.getString("metodoPago");
+
+                Ticket ticket = new Ticket(numeroTicket, servicio,cantidad,precioIVA,cliente,metodoPago);
+                ticketsList.add(ticket);
             }
         } catch (SQLException ex) {
             System.out.println("Error en SELECT de SERVICIOS");
@@ -50,43 +94,8 @@ public class Consulta {
         }
     }
 
-    public void consultarServiciosPorNombre(String nombreABuscar) {
-        Connection conn = null;
-        Statement s = null;
-        ResultSet rs = null;
-
-        try {
-            conn = getConnection();
-            s = conn.createStatement();
-            rs = s.executeQuery("SELECT * FROM SERVICIOS WHERE NOMBRE LIKE '%"+nombreABuscar+"%'");
-
-            serviciosList.clear();
-
-            while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                double precio = rs.getDouble("precio");
-
-                Servicio servicio = new Servicio(nombre, precio);
-                serviciosList.add(servicio);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error en SELECT de SERVICIOS");
-        } finally{
-            try {
-                if (s != null) {
-                    s.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    public List<Servicio> getServiciosList() {
-        return serviciosList;
+    public List<Ticket> getTicketList() {
+        return ticketsList;
     }
 
     private static Connection getConnection() {
