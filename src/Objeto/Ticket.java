@@ -1,4 +1,4 @@
-package Modelo;
+package Objeto;
 
 public class Ticket {
 

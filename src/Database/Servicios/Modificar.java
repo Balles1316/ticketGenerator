@@ -7,8 +7,17 @@ import java.util.logging.Logger;
 public class Modificar {
     private Connection conn = null;
     private Statement s = null;
+    private static String nombreNuevo;
+    private static String nombreViejo;
+    private static Double precio;
 
-    public void modificarServicio(String nombreNuevo, Double precio, String nombreViejo) {
+    public Modificar(String nombreNuevo, Double precio, String nombreViejo) {
+        this.nombreNuevo = nombreNuevo;
+        this.nombreViejo = nombreViejo;
+        this.precio = precio;
+    }
+
+    public void modificarServicio() {
         try {
             conn = getConnection();
             s = conn.createStatement();

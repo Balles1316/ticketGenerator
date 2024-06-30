@@ -1,4 +1,4 @@
-package Vista.tickets;
+package Vista.Ticket;
 
 import Vista.JavaEscritorio;
 

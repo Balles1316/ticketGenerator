@@ -7,10 +7,10 @@ import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
 import Vista.Servicio.MostrarServiciosView;
-import Vista.tickets.EliminarTicketView;
-import Vista.tickets.GenerarTicketView;
-import Vista.tickets.ModificarTicketView;
-import Vista.tickets.MostrarTicketView;
+import Vista.Ticket.EliminarTicketView;
+import Vista.Ticket.GenerarTicketView;
+import Vista.Ticket.ModificarTicketView;
+import Vista.Ticket.MostrarTicketView;
 
 
 import javax.swing.*;
@@ -193,10 +193,10 @@ public class JavaEscritorio extends JFrame {
         MostrarTicketView mostrarTicketView = new MostrarTicketView(this);
         ModificarTicketView modificarTicketView = new ModificarTicketView(this);
         EliminarTicketView eliminarTicketView = new EliminarTicketView(this);
-        MostrarServiciosView mostrarServiciosView = new MostrarServiciosView(this);
-        InsertarServiciosView insertarServiciosView = new InsertarServiciosView(this);
-        ModificarServiciosView modificarServiciosView = new ModificarServiciosView(this);
-        EliminarServiciosView eliminarServiciosView = new EliminarServiciosView(this);
+        MostrarServiciosView mostrarServiciosView = new MostrarServiciosView();
+        InsertarServiciosView insertarServiciosView = new InsertarServiciosView();
+        ModificarServiciosView modificarServiciosView = new ModificarServiciosView();
+        EliminarServiciosView eliminarServiciosView = new EliminarServiciosView();
         InsertarClienteView panelDatosCliente = new InsertarClienteView();
         MostrarClienteView panelMostrarCliente = new MostrarClienteView(this);
 

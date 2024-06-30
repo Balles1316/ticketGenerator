@@ -5,16 +5,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Eliminar {
+    private String nombre;
     private Connection conn = null;
     private Statement s = null;
 
-    public void eliminarServicio(String nombreS) {
+    public Eliminar(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void eliminarServicio() {
         try {
             conn = getConnection();
             s = conn.createStatement();
 
             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM SERVICIOS WHERE nombre = ?");
-            pstmt.setString(1, nombreS);
+            pstmt.setString(1, nombre);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error en DELETE de SERVICIOS");

@@ -1,7 +1,6 @@
 package Database.ServiciosRealizados;
 
-import Modelo.Servicio;
-import Modelo.Ticket;
+import Objeto.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;

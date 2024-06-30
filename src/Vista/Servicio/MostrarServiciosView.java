@@ -1,7 +1,5 @@
 package Vista.Servicio;
 
-import Vista.JavaEscritorio;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -10,7 +8,7 @@ public class MostrarServiciosView extends JPanel {
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
 
-    public MostrarServiciosView(JavaEscritorio vista) {
+    public MostrarServiciosView() {
         setLayout(new BorderLayout());
         inicializarComponentes();
     }
@@ -28,5 +26,10 @@ public class MostrarServiciosView extends JPanel {
 
     public JTable getTablaPrecios() {
         return tablaPrecios;
+    }
+
+
+    public void mostrarMensaje(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 }

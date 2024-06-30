@@ -2,10 +2,10 @@ package Controlador;
 
 import Database.Clientes.Consulta;
 import Database.Clientes.Insertar;
-import Modelo.Servicio;
+import Objeto.Servicio;
 import Vista.JavaEscritorio;
-import Vista.tickets.GenerarTicketView;
-import Modelo.Ticket;
+import Vista.Ticket.GenerarTicketView;
+import Objeto.Ticket;
 
 import java.awt.*;
 import java.awt.event.*;

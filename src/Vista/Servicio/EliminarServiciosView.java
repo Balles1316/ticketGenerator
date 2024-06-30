@@ -1,27 +1,28 @@
 package Vista.Servicio;
-
-import Database.Clientes.Consulta;
-import Database.Clientes.Eliminar;
-import Modelo.Servicio;
-import Vista.JavaEscritorio;
+import Database.Servicios.Consulta;
+import Database.Servicios.Eliminar;
+import Objeto.Servicio;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 public class EliminarServiciosView extends JPanel {
-    private JavaEscritorio vista;
-    private JPanel panelDatos;
     private JTextField tfPregunta;
     private JTextField txtNombre;
     private JTextField txtPrecio;
     private JButton btnGuardar;
+    private JButton btnEliminar;
+    private JPanel panelDatos;
+    private DefaultTableModel modeloTabla;
+    private JTable tablaPrecios;
+    private JScrollPane scrollPane;
 
-    public EliminarServiciosView(JavaEscritorio vista) {
+    public EliminarServiciosView() {
         setLayout(new BorderLayout());
-        this.vista = vista;
         initComponents();
     }
 
@@ -36,127 +37,115 @@ public class EliminarServiciosView extends JPanel {
 
         JLabel lblTitulo = new JLabel("Eliminar Servicios");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-
         panelPrincipal.add(lblTitulo, gbc);
 
         // SIGUIENTE LINEA
         gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
         JPanel panelPregunta = new JPanel(new GridBagLayout());
+        panelPregunta.setBorder(BorderFactory.createTitledBorder("Servicio a buscar"));
         GridBagConstraints gbcPregunta = new GridBagConstraints();
         gbcPregunta.insets = new Insets(10, 10, 10, 10);
 
         gbcPregunta.gridx = 0;
         gbcPregunta.gridy = 0;
-
-        JLabel lblPregunta = new JLabel("Nombre a buscar:");
-        lblPregunta.setPreferredSize(new Dimension(110, 25));
-        panelPregunta.add(lblPregunta, gbcPregunta);
-
-        gbcPregunta.gridx = 1;
-        gbcPregunta.gridy = 0;
         tfPregunta = new JTextField();
         tfPregunta.setPreferredSize(new Dimension(200, 25));
         panelPregunta.add(tfPregunta, gbcPregunta);
 
-        gbcPregunta.gridx = 2;
+        gbcPregunta.gridx = 1;
         gbcPregunta.gridy = 0;
-        JButton btnBuscar = new JButton("Buscar");
-        panelPregunta.add(btnBuscar, gbcPregunta);
+        btnGuardar = new JButton("Buscar");
+        panelPregunta.add(btnGuardar, gbcPregunta);
 
         panelPrincipal.add(panelPregunta, gbc);
 
-        panelDatos = new JPanel(new GridBagLayout());
-        GridBagConstraints gbcDatos = new GridBagConstraints();
-        gbcDatos.insets = new Insets(10, 10, 10, 10);
-
-        gbcDatos.gridx = 0;
-        gbcDatos.gridy = 0;
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setPreferredSize(new Dimension(70, 25));
-        panelDatos.add(lblNombre, gbcDatos);
-
-        gbcDatos.gridx = 1;
-        gbcDatos.gridy = 0;
-        txtNombre = new JTextField();
-        txtNombre.setPreferredSize(new Dimension(200, 25));
-        panelDatos.add(txtNombre, gbcDatos);
-
-        gbcDatos.gridx = 0;
-        gbcDatos.gridy = 1;
-        JLabel lblPrecio = new JLabel("Precio:");
-        lblPrecio.setPreferredSize(new Dimension(70, 25));
-        panelDatos.add(lblPrecio, gbcDatos);
-
-        gbcDatos.gridx = 1;
-        gbcDatos.gridy = 1;
-        txtPrecio = new JTextField();
-        txtPrecio.setPreferredSize(new Dimension(200, 25));
-        panelDatos.add(txtPrecio, gbcDatos);
-
         // SIGUIENTE LINEA
-        gbc.gridy = 2; // Posición después del panel de pregunta
-        gbc.anchor = GridBagConstraints.CENTER;
-        panelPrincipal.add(panelDatos, gbc);
+        gbc.gridy = 2;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        String[] columnas = {"Producto", "Precio"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+        tablaPrecios = new JTable(modeloTabla);
+        scrollPane = new JScrollPane(tablaPrecios);
+        scrollPane.setVisible(false);
+        panelPrincipal.add(scrollPane, gbc);
 
         // SIGUIENTE LINEA
         gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.CENTER;
-        btnGuardar = new JButton("Eliminar");
-        panelPrincipal.add(btnGuardar, gbc);
+        panelDatos = new JPanel(new GridBagLayout());
+        panelDatos.setVisible(false);
+        GridBagConstraints gbcDatos = new GridBagConstraints();
+        gbcDatos.insets = new Insets(10, 10, 10, 10);
+        gbcDatos.gridy = 2;
+        gbcDatos.anchor = GridBagConstraints.CENTER;
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setVisible(false);
+        panelDatos.add(btnEliminar, gbcDatos);
 
-        btnBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarServicio();
-            }
-        });
-
-        btnGuardar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eliminarServicio();
-            }
-        });
+        panelPrincipal.add(panelDatos, gbc);
 
         add(panelPrincipal);
     }
 
-    private void buscarServicio() {
-        String nombreBusqueda = tfPregunta.getText().trim();
-        if (nombreBusqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Por favor, ingresa un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        Consulta consulta = new Consulta();
-        consulta.consultarServiciosPorNombre(nombreBusqueda);
-
-        List<Servicio> serviciosList = consulta.getServiciosList();
-        if (!serviciosList.isEmpty()) {
-            Servicio servicio = serviciosList.get(0); // Tomamos el primer servicio encontrado
-            txtNombre.setText(servicio.getNombre());
-            txtPrecio.setText(String.valueOf(servicio.getPrecio()));
-        } else {
-            JOptionPane.showMessageDialog(vista, "No se encontró ningún servicio con ese nombre.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
+    public void buscarListener(ActionListener listener) {
+        btnGuardar.addActionListener(listener);
     }
 
-    private void eliminarServicio() {
-        int respuesta = JOptionPane.showConfirmDialog(vista,
-                "¿Estás seguro de que quieres eliminar este servicio?",
-                "Confirmar Eliminación",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE);
+    public void eliminarListener(ActionListener listener) {
+        btnEliminar.addActionListener(listener);
+    }
 
-        if (respuesta == JOptionPane.YES_OPTION) {
-            Eliminar eliminar = new Eliminar();
-            eliminar.eliminarServicio(txtNombre.getText().trim());
-            JOptionPane.showMessageDialog(vista, "Servicio eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    public DefaultTableModel getModeloTabla() {
+        return modeloTabla;
+    }
+
+    public JTable getTablaPrecios() {
+        return tablaPrecios;
+    }
+
+    public JPanel getPanelDatos() {
+        return panelDatos;
+    }
+
+    public JButton getBtnEliminar() {
+        return btnEliminar;
+    }
+
+    public String getNombreABuscar() {
+        return tfPregunta.getText().trim();
+    }
+
+    public String getNombre() {
+        return txtNombre.getText().trim();
+    }
+
+    public String getPrecio() {
+        return txtPrecio.getText().trim();
+    }
+
+    public void mostrarMensaje(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void confirmarEliminacion(String nombreServicio, Runnable eliminacionConfirmada) {
+        if (nombreServicio == null || nombreServicio.isEmpty()) {
+            mostrarMensaje("Por favor, selecciona un servicio para eliminar.");
+        } else {
+            int opcion = JOptionPane.showConfirmDialog(
+                    this, "¿Estás seguro de que quieres eliminar este servicio?", "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                eliminacionConfirmada.run();
+            }
         }
-
-        // Limpia los campos de texto independientemente de la respuesta
-        txtNombre.setText("");
-        txtPrecio.setText("");
-        tfPregunta.setText("");
     }
 }

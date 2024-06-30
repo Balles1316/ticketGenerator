@@ -3,16 +3,13 @@ package Vista.Cliente;
 /*
 import Database.Remoto.Insertar;
 */
-import Modelo.Cliente;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 public class InsertarClienteView extends JPanel {
 

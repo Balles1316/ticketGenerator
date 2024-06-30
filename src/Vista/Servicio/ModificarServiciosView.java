@@ -1,26 +1,22 @@
 package Vista.Servicio;
 
-import Database.Clientes.Consulta;
-import Database.Clientes.Modificar;
-import Modelo.Servicio;
-import Vista.JavaEscritorio;
-
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class ModificarServiciosView extends JPanel {
-    private JavaEscritorio vista;
     private JTextField tfPregunta;
     private JTextField txtNombre;
     private JTextField txtPrecio;
     private JButton btnGuardar;
+    private JButton btnModificar;
     private JPanel panelDatos;
+    private DefaultTableModel modeloTabla;
+    private JTable tablaPrecios;
+    private JScrollPane scrollPane;
 
-    public ModificarServiciosView(JavaEscritorio vista) {
-        this.vista = vista;
+    public ModificarServiciosView() {
         setLayout(new BorderLayout());
         initComponents();
     }
@@ -36,130 +32,101 @@ public class ModificarServiciosView extends JPanel {
 
         JLabel lblTitulo = new JLabel("Modificar Servicios");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-
         panelPrincipal.add(lblTitulo, gbc);
 
         // SIGUIENTE LINEA
         gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
         JPanel panelPregunta = new JPanel(new GridBagLayout());
+        panelPregunta.setBorder(BorderFactory.createTitledBorder("Servicio a buscar"));
         GridBagConstraints gbcPregunta = new GridBagConstraints();
         gbcPregunta.insets = new Insets(10, 10, 10, 10);
 
         gbcPregunta.gridx = 0;
         gbcPregunta.gridy = 0;
-
-        JLabel lblPregunta = new JLabel("Nombre a buscar:");
-        lblPregunta.setPreferredSize(new Dimension(110, 25));
-        panelPregunta.add(lblPregunta, gbcPregunta);
-
-        gbcPregunta.gridx = 1;
-        gbcPregunta.gridy = 0;
         tfPregunta = new JTextField();
         tfPregunta.setPreferredSize(new Dimension(200, 25));
         panelPregunta.add(tfPregunta, gbcPregunta);
 
-        gbcPregunta.gridx = 2;
+        gbcPregunta.gridx = 1;
         gbcPregunta.gridy = 0;
-        JButton btnBuscar = new JButton("Buscar");
-        panelPregunta.add(btnBuscar, gbcPregunta);
+        btnGuardar = new JButton("Buscar");
+        panelPregunta.add(btnGuardar, gbcPregunta);
 
         panelPrincipal.add(panelPregunta, gbc);
 
-        panelDatos = new JPanel(new GridBagLayout());
-        GridBagConstraints gbcDatos = new GridBagConstraints();
-        gbcDatos.insets = new Insets(10, 10, 10, 10);
+        // SIGUIENTE LINEA
+        gbc.gridy = 2;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
 
-        gbcDatos.gridx = 0;
-        gbcDatos.gridy = 0;
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setPreferredSize(new Dimension(70, 25));
-        panelDatos.add(lblNombre, gbcDatos);
-
-        gbcDatos.gridx = 1;
-        gbcDatos.gridy = 0;
-        txtNombre = new JTextField();
-        txtNombre.setPreferredSize(new Dimension(200, 25));
-        panelDatos.add(txtNombre, gbcDatos);
-
-        gbcDatos.gridx = 0;
-        gbcDatos.gridy = 1;
-        JLabel lblPrecio = new JLabel("Precio:");
-        lblPrecio.setPreferredSize(new Dimension(70, 25));
-        panelDatos.add(lblPrecio, gbcDatos);
-
-        gbcDatos.gridx = 1;
-        gbcDatos.gridy = 1;
-        txtPrecio = new JTextField();
-        txtPrecio.setPreferredSize(new Dimension(200, 25));
-        panelDatos.add(txtPrecio, gbcDatos);
-
-        gbc.gridy = 2; // Posición después del panel de pregunta
-        gbc.anchor = GridBagConstraints.CENTER;
-        panelPrincipal.add(panelDatos, gbc);
+        String[] columnas = {"Producto", "Precio"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+        tablaPrecios = new JTable(modeloTabla);
+        scrollPane = new JScrollPane(tablaPrecios);
+        scrollPane.setVisible(false);
+        panelPrincipal.add(scrollPane, gbc);
 
         // SIGUIENTE LINEA
         gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.CENTER;
-        btnGuardar = new JButton("Modificar");
-        panelPrincipal.add(btnGuardar, gbc);
+        panelDatos = new JPanel(new GridBagLayout());
+        panelDatos.setVisible(false);
+        GridBagConstraints gbcDatos = new GridBagConstraints();
+        gbcDatos.insets = new Insets(10, 10, 10, 10);
+        gbcDatos.gridy = 2;
+        gbcDatos.anchor = GridBagConstraints.CENTER;
+        btnModificar = new JButton("Modificar");
+        btnModificar.setVisible(false);
+        panelDatos.add(btnModificar, gbcDatos);
 
-        btnBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarServicio();
-            }
-        });
-
-        btnGuardar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                modificarServicio();
-            }
-        });
+        panelPrincipal.add(panelDatos, gbc);
 
         add(panelPrincipal);
     }
 
-    private void buscarServicio() {
-        String nombreBusqueda = tfPregunta.getText().trim();
-        if (nombreBusqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Por favor, ingresa un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        Consulta consulta = new Consulta();
-        consulta.consultarServiciosPorNombre(nombreBusqueda);
-
-        List<Servicio> serviciosList = consulta.getServiciosList();
-        if (!serviciosList.isEmpty()) {
-            Servicio servicio = serviciosList.get(0); // Tomamos el primer servicio encontrado
-            txtNombre.setText(servicio.getNombre());
-            txtPrecio.setText(String.valueOf(servicio.getPrecio()));
-        } else {
-            JOptionPane.showMessageDialog(vista, "No se encontró ningún servicio con ese nombre.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
+    public void buscarListener(ActionListener listener) {
+        btnGuardar.addActionListener(listener);
     }
 
-    private void modificarServicio() {
-        String nuevoNombre = txtNombre.getText().trim();
-        String nuevoPrecio = txtPrecio.getText().trim();
-        String nombreBusqueda = tfPregunta.getText().trim();
+    public void modificarListener(ActionListener listener) {
+        btnModificar.addActionListener(listener);
+    }
 
-        if (nuevoNombre.isEmpty() || nuevoPrecio.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Por favor, completa todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
 
-        try {
-            double precio = Double.parseDouble(nuevoPrecio);
-            Modificar modificar = new Modificar();
-            modificar.modificarServicio(nuevoNombre, precio, nombreBusqueda);
-            JOptionPane.showMessageDialog(vista, "Servicio modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            txtNombre.setText("");
-            txtPrecio.setText("");
-            tfPregunta.setText("");
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vista, "El precio debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    public DefaultTableModel getModeloTabla() {
+        return modeloTabla;
+    }
+
+    public JTable getTablaPrecios() {
+        return tablaPrecios;
+    }
+
+    public JPanel getPanelDatos() {
+        return panelDatos;
+    }
+
+    public JButton getBtnModificar() {
+        return btnModificar;
+    }
+
+    public String getNombreABuscar() {
+        return tfPregunta.getText().trim();
+    }
+
+    public String getNombre() {
+        return txtNombre.getText().trim();
+    }
+
+    public String getPrecio() {
+        return txtPrecio.getText().trim();
+    }
+
+    public void mostrarMensaje(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 }

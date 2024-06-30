@@ -1,6 +1,6 @@
-package Vista.tickets;
+package Vista.Ticket;
 
-import Modelo.Ticket;
+import Objeto.Ticket;
 import Vista.JavaEscritorio;
 
 import javax.swing.*;

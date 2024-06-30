@@ -1,6 +1,6 @@
 package Database.Servicios;
 
-import Modelo.Servicio;
+import Objeto.Servicio;
 
 import java.sql.*;
 import java.util.ArrayList;

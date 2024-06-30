@@ -1,107 +1,91 @@
 package Vista.Servicio;
 
-import Database.Clientes.Insertar;
-import Vista.JavaEscritorio;
-
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class InsertarServiciosView extends JPanel {
     private JTextField txtNombre;
     private JTextField txtPrecio;
-    private JavaEscritorio vista;
-    private Insertar insertar;
+    private JButton btnGuardar;
 
-    public InsertarServiciosView(JavaEscritorio vista) {
+    private static final int INSETS_TOP = 10, INSETS_BOTTOM = 10, INSETS_LEFT = 10, INSETS_RIGHT = 10;
+    private static final Dimension LABEL_SIZE = new Dimension(70, 25), TEXT_FIELD_SIZE = new Dimension(200, 25);
+
+    public InsertarServiciosView() {
         setLayout(new BorderLayout());
         initComponents();
-        this.vista = vista;
     }
 
     private void initComponents() {
         JPanel panelPrincipal = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-
-        // PRIMERA LINEA
-        gbc.insets = new Insets(10, 10, 10, 10); // Márgenes
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.insets = new Insets(INSETS_TOP, INSETS_LEFT, INSETS_BOTTOM, INSETS_RIGHT);
 
         JLabel lblTitulo = new JLabel("Insertar Servicios");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         panelPrincipal.add(lblTitulo, gbc);
-
-        // SIGUIENTE LINEA
-        gbc.gridy = 1;
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints panelGbc = new GridBagConstraints();
+        panelGbc.insets = new Insets(INSETS_TOP, INSETS_LEFT, INSETS_BOTTOM, INSETS_RIGHT);
 
-        gbc.insets = new Insets(10, 10, 10, 10); // Márgenes
-
+        JLabel lblNombre = new JLabel("Nombre:");
+        lblNombre.setPreferredSize(LABEL_SIZE);
         panelGbc.gridx = 0;
         panelGbc.gridy = 0;
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setPreferredSize(new Dimension(70, 25));
         panel.add(lblNombre, panelGbc);
 
+        txtNombre = new JTextField();
+        txtNombre.setPreferredSize(TEXT_FIELD_SIZE);
         panelGbc.gridx = 1;
         panelGbc.gridy = 0;
-        txtNombre = new JTextField();
-        txtNombre.setPreferredSize(new Dimension(200, 25));
         panel.add(txtNombre, panelGbc);
 
+        JLabel lblPrecio = new JLabel("Precio:");
+        lblPrecio.setPreferredSize(LABEL_SIZE);
         panelGbc.gridx = 0;
         panelGbc.gridy = 1;
-        JLabel lblPrecio = new JLabel("Precio:");
-        lblPrecio.setPreferredSize(new Dimension(70, 25));
         panel.add(lblPrecio, panelGbc);
 
+        txtPrecio = new JTextField();
+        txtPrecio.setPreferredSize(TEXT_FIELD_SIZE);
         panelGbc.gridx = 1;
         panelGbc.gridy = 1;
-        txtPrecio = new JTextField();
-        txtPrecio.setPreferredSize(new Dimension(200, 25));
         panel.add(txtPrecio, panelGbc);
 
-
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         panelPrincipal.add(panel, gbc);
 
-        // SIGUIENTE LINEA
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        JButton btnGuardar = new JButton("Guardar");
-
+        btnGuardar = new JButton("Guardar");
         panelPrincipal.add(btnGuardar, gbc);
+
         add(panelPrincipal);
+    }
 
-        btnGuardar.addActionListener(_ -> {
-            String nombre = txtNombre.getText().trim();
-            String precioStr = txtPrecio.getText().trim();
+    public void guardarListener(ActionListener listener) {
+        btnGuardar.addActionListener(listener);
+    }
 
-            if (!nombre.isEmpty()) {
-                if (!precioStr.isEmpty()) {
-                    try {
-                        double precio = Double.parseDouble(precioStr);
-                        if (precio > 0.0) {
-                            insertar = new Insertar(nombre, precio);
-                            insertar.insertarServicio();
-                            JOptionPane.showMessageDialog(vista, "Servicio guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                            txtNombre.setText("");
-                            txtPrecio.setText("");
-                        } else {
-                            JOptionPane.showMessageDialog(vista, "El precio debe ser mayor que cero.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (NumberFormatException ex) {
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(vista, "Formato de precio incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(vista, "El precio no puede ser vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(vista, "El nombre no puede ser vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+    public String getNombre() {
+        return txtNombre.getText().trim();
+    }
+
+    public String getPrecio() {
+        return txtPrecio.getText().trim();
+    }
+
+    public void limpiarCampos(){
+        txtNombre.setText("");
+        txtPrecio.setText("");
+    }
+
+    public void mostrarMensaje(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 }

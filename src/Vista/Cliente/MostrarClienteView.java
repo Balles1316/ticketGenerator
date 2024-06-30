@@ -3,8 +3,6 @@ package Vista.Cliente;
 /*
 import Database.Remoto.Consulta;
 */
-import Modelo.Cliente;
-import Modelo.Servicio;
 import Vista.JavaEscritorio;
 
 import javax.swing.*;
@@ -12,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class MostrarClienteView extends JPanel {
     private DefaultTableModel modeloTabla;
