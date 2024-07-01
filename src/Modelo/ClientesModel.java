@@ -9,6 +9,7 @@ import Objeto.Cliente;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ClientesModel {
@@ -27,7 +28,8 @@ public class ClientesModel {
 
         List<Cliente> clientesList = consulta.getClientesList();
         for (Cliente cliente : clientesList) {
-            modeloTabla.addRow(new Object[]{cliente.getNombre(), cliente.getApellido(), cliente.getfNacimiento(), cliente.getTelefono(), cliente.getEmail(), cliente.getCp()});
+            String formattedDate = new SimpleDateFormat("dd/MM/yyyy").format(cliente.getfNacimiento());
+            modeloTabla.addRow(new Object[]{cliente.getNombre(), cliente.getApellido(), formattedDate, cliente.getTelefono(), cliente.getEmail(), cliente.getCp()});
         }
     }
 
