@@ -16,7 +16,6 @@ public class CrearTabla {
             conn = getConnection();
             s = conn.createStatement();
             s.execute("CREATE TABLE IF NOT EXISTS CLIENTES (" +
-                        "    ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "    nombre VARCHAR(50) NOT NULL," +
                         "    apellido VARCHAR(50) NOT NULL," +
                         "    fNacimiento DATE NOT NULL," +

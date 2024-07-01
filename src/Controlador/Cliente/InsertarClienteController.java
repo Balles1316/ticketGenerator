@@ -23,32 +23,37 @@ public class InsertarClienteController {
             String nombre = vista.getNombre();
             String apellido = vista.getApellido();
             String email = vista.getEmail();
-            Date fecha;
-            try {
-                fecha = getFechaNacimiento(vista.getNacimiento());
-            } catch (ParseException ex) {
-                throw new RuntimeException(ex);
-            }
+            String fechaStr = vista.getNacimiento();
             String telefono = vista.getTelefono();
             String cp = vista.getCP();
 
             if (!nombre.isEmpty()) {
                 if(!apellido.isEmpty()){
-                    if (fecha != null) {
-                        if(!email.isEmpty()){
+                    if(!fechaStr.isEmpty()){
+                        Date fecha;
+                        try {
+                            fecha = getFechaNacimiento(fechaStr);
+                        } catch (ParseException ex) {
+                            vista.mostrarMensaje("Ingrese una fecha de nacimiento válida.");
+                            throw new RuntimeException(ex);
+                        }
+
+                        if (fecha != null) {
                             if(!telefono.isEmpty()){
-                                if(!cp.isEmpty()){
-                                    modelo.guardarCliente(nombre, apellido, fecha, telefono, email, cp);
-                                    vista.mostrarMensaje("Cliente guardado correctamente.");
-                                    vista.limpiarCampos();
+                                if(!email.isEmpty()){
+                                    if(!cp.isEmpty()){
+                                        modelo.guardarCliente(nombre, apellido, fecha, telefono, email, cp);
+                                        vista.mostrarMensaje("Cliente guardado correctamente.");
+                                        vista.limpiarCampos();
+                                    } else {
+                                        vista.mostrarMensaje("Debe ingresar un código postal");
+                                    }
                                 } else {
-                                    vista.mostrarMensaje("Debe ingresar un código postal");
+                                    vista.mostrarMensaje("Debe ingresar un correo electrónico.");
                                 }
                             } else {
-                                vista.mostrarMensaje("Debe ingresar un telefono.");
+                                vista.mostrarMensaje("Debe ingresar un teléfono.");
                             }
-                        } else {
-                            vista.mostrarMensaje("Debe ingresar un correo electrónico.");
                         }
                     } else {
                         vista.mostrarMensaje("Debe ingresar una fecha de nacimiento.");
@@ -64,7 +69,7 @@ public class InsertarClienteController {
 
     public Date getFechaNacimiento(String fechaTexto) throws ParseException {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaNacimiento = (Date) formatoFecha.parse(fechaTexto);
-        return fechaNacimiento;
+        java.util.Date fechaUtil = formatoFecha.parse(fechaTexto);
+        return new Date(fechaUtil.getTime());
     }
 }

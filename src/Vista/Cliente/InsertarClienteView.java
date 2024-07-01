@@ -55,7 +55,7 @@ public class InsertarClienteView extends JPanel {
         panelGbc.gridy = 1;
         panel.add(txtApellido, panelGbc);
 
-        JLabel lblFecha = new JLabel("Fecha de Nacimiento:");
+        JLabel lblFecha = new JLabel("Fecha de Nacimiento (dd/MM/yyyy):");
         lblFecha.setPreferredSize(LABEL_SIZE);
         panelGbc.gridx = 0;
         panelGbc.gridy = 2;
@@ -79,7 +79,7 @@ public class InsertarClienteView extends JPanel {
         panelGbc.gridy = 3;
         panel.add(txtTelefono, panelGbc);
 
-        JLabel lblEmail = new JLabel("Telefono:");
+        JLabel lblEmail = new JLabel("Correo electrónico:");
         lblEmail.setPreferredSize(LABEL_SIZE);
         panelGbc.gridx = 0;
         panelGbc.gridy = 4;
@@ -91,16 +91,16 @@ public class InsertarClienteView extends JPanel {
         panelGbc.gridy = 4;
         panel.add(txtEmail, panelGbc);
 
-        JLabel lblCP = new JLabel("Telefono:");
+        JLabel lblCP = new JLabel("Código Postal:");
         lblCP.setPreferredSize(LABEL_SIZE);
         panelGbc.gridx = 0;
-        panelGbc.gridy = 4;
+        panelGbc.gridy = 5;
         panel.add(lblCP, panelGbc);
 
         txtCP = new JTextField();
         txtCP.setPreferredSize(TEXT_FIELD_SIZE);
         panelGbc.gridx = 1;
-        panelGbc.gridy = 4;
+        panelGbc.gridy = 5;
         panel.add(txtCP, panelGbc);
 
         gbc.gridx = 0;
