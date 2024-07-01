@@ -1,5 +1,9 @@
 package Main;
 
+import Controlador.Cliente.EliminarClienteController;
+import Controlador.Cliente.InsertarClienteController;
+import Controlador.Cliente.ModificarClienteController;
+import Controlador.Cliente.MostrarClienteController;
 import Controlador.Servicio.EliminarServiciosController;
 import Controlador.Servicio.InsertarServiciosController;
 import Controlador.Servicio.ModificarServiciosController;
@@ -8,8 +12,13 @@ import Controlador.Ticket.EliminarTicketController;
 import Controlador.Ticket.GenerarTicketController;
 import Controlador.Ticket.ModificarTicketController;
 import Controlador.Ticket.MostrarTicketController;
+import Modelo.ClientesModel;
 import Modelo.ServiciosModel;
 import Modelo.TicketModel;
+import Vista.Cliente.EliminarClienteView;
+import Vista.Cliente.InsertarClienteView;
+import Vista.Cliente.ModificarClienteView;
+import Vista.Cliente.MostrarClienteView;
 import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
@@ -105,6 +114,8 @@ public class Main {
     }
 
     public static void clients(JMenuBar menuBar, JFrame frame){
+        ClientesModel model = new ClientesModel();
+
         JMenu menuClientes = new JMenu("Clientes");
 
         JMenuItem menuItemListarClientes = new JMenuItem("Listar clientes");
@@ -119,21 +130,39 @@ public class Main {
 
         menuBar.add(menuClientes);
 
-        menuItemListarClientes.addActionListener(e -> {
+        ActionListener mostrarVistaAction = e -> {
+            JMenuItem menuItem = (JMenuItem) e.getSource();
+            JPanel nuevaVista = null;
 
-        });
+            switch (menuItem.getText()) {
+                case "Listar clientes":
+                    nuevaVista = new MostrarClienteView();
+                    new MostrarClienteController((MostrarClienteView) nuevaVista, model);
+                    break;
+                case "Insertar clientes":
+                    nuevaVista = new InsertarClienteView();
+                    new InsertarClienteController((InsertarClienteView) nuevaVista, model);
+                    break;
+                case "Modificar clientes":
+                    nuevaVista = new ModificarClienteView();
+                    new ModificarClienteController((ModificarClienteView) nuevaVista, model);
+                    break;
+                case "Eliminar clientes":
+                    nuevaVista = new EliminarClienteView();
+                    new EliminarClienteController((EliminarClienteView) nuevaVista, model);
+                    break;
+            }
 
-        menuItemInsertarClientes.addActionListener(e -> {
+            if (nuevaVista != null) {
+                mostrarVista(frame, nuevaVista);
+            }
+        };
 
-        });
 
-        menuItemModificarClientes.addActionListener(e -> {
-
-        });
-
-        menuItemEliminarClientes.addActionListener(e -> {
-
-        });
+        menuItemListarClientes.addActionListener(mostrarVistaAction);
+        menuItemInsertarClientes.addActionListener(mostrarVistaAction);
+        menuItemModificarClientes.addActionListener(mostrarVistaAction);
+        menuItemEliminarClientes.addActionListener(mostrarVistaAction);
     }
 
     public static void tickets(JMenuBar menuBar, JFrame frame){

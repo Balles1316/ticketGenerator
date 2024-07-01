@@ -3,22 +3,36 @@ package Database.Clientes;
 import java.sql.*;
 
 public class Insertar {
-    private static String nombreS;
-    private static Double precioS;
+
     private Connection conn = null;
     private PreparedStatement pstmt = null;
 
-    public Insertar(String nombre, Double precio) {
-        this.nombreS = nombre;
-        this.precioS = precio;
+    private String nombre;
+    private String apellido;
+    private Date fNacimiento;
+    private String telefono;
+    private String email;
+    private String cp;
+
+    public Insertar(String nombre, String apellido, Date fNacimiento, String telefono, String email, String cp) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.fNacimiento = fNacimiento;
+        this.telefono = telefono;
+        this.email = email;
+        this.cp = cp;
     }
 
-    public void insertarServicio() {
+    public void insertarCliente() {
         try {
             conn = getConnection();
-            pstmt = conn.prepareStatement("INSERT INTO SERVICIOS (nombre, precio) VALUES (?, ?)");
-            pstmt.setString(1, this.nombreS);
-            pstmt.setDouble(2, this.precioS);
+            pstmt = conn.prepareStatement("INSERT INTO CLIENTES VALUES (?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, this.nombre);
+            pstmt.setString(2, this.apellido);
+            pstmt.setDate(3, fNacimiento);
+            pstmt.setString(4, this.telefono);
+            pstmt.setString(5, this.email);
+            pstmt.setString(6, this.cp);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error en INSERT de SERVICIOS: " + ex.getMessage());

@@ -1,11 +1,11 @@
-package Vista.Servicio;
+package Vista.Cliente;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ModificarServiciosView extends JPanel {
+public class ModificarClienteView extends JPanel {
     private JTextField tfPregunta;
     private JButton btnGuardar;
     private JButton btnModificar;
@@ -14,7 +14,7 @@ public class ModificarServiciosView extends JPanel {
     private JTable tablaPrecios;
     private JScrollPane scrollPane;
 
-    public ModificarServiciosView() {
+    public ModificarClienteView() {
         setLayout(new BorderLayout());
         initComponents();
     }
@@ -28,7 +28,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        JLabel lblTitulo = new JLabel("Modificar Servicios");
+        JLabel lblTitulo = new JLabel("Modificar Clientes");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
         panelPrincipal.add(lblTitulo, gbc);
 
@@ -36,7 +36,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
         JPanel panelPregunta = new JPanel(new GridBagLayout());
-        panelPregunta.setBorder(BorderFactory.createTitledBorder("Servicio a buscar"));
+        panelPregunta.setBorder(BorderFactory.createTitledBorder("Cliente a buscar"));
         GridBagConstraints gbcPregunta = new GridBagConstraints();
         gbcPregunta.insets = new Insets(10, 10, 10, 10);
 
@@ -60,7 +60,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        String[] columnas = {"Producto", "Precio"};
+        String[] columnas = {"Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Correo Electrónico", "Código postal"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaPrecios = new JTable(modeloTabla);
         scrollPane = new JScrollPane(tablaPrecios);

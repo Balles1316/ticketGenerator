@@ -1,20 +1,20 @@
-package Vista.Servicio;
+package Vista.Cliente;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ModificarServiciosView extends JPanel {
+public class EliminarClienteView extends JPanel {
     private JTextField tfPregunta;
     private JButton btnGuardar;
-    private JButton btnModificar;
+    private JButton btnEliminar;
     private JPanel panelDatos;
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
     private JScrollPane scrollPane;
 
-    public ModificarServiciosView() {
+    public EliminarClienteView() {
         setLayout(new BorderLayout());
         initComponents();
     }
@@ -28,7 +28,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        JLabel lblTitulo = new JLabel("Modificar Servicios");
+        JLabel lblTitulo = new JLabel("Eliminar Clientes");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
         panelPrincipal.add(lblTitulo, gbc);
 
@@ -36,7 +36,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
         JPanel panelPregunta = new JPanel(new GridBagLayout());
-        panelPregunta.setBorder(BorderFactory.createTitledBorder("Servicio a buscar"));
+        panelPregunta.setBorder(BorderFactory.createTitledBorder("Cliente a buscar"));
         GridBagConstraints gbcPregunta = new GridBagConstraints();
         gbcPregunta.insets = new Insets(10, 10, 10, 10);
 
@@ -60,7 +60,7 @@ public class ModificarServiciosView extends JPanel {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        String[] columnas = {"Producto", "Precio"};
+        String[] columnas = {"Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Correo Electrónico", "Código postal"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaPrecios = new JTable(modeloTabla);
         scrollPane = new JScrollPane(tablaPrecios);
@@ -75,9 +75,9 @@ public class ModificarServiciosView extends JPanel {
         gbcDatos.insets = new Insets(10, 10, 10, 10);
         gbcDatos.gridy = 2;
         gbcDatos.anchor = GridBagConstraints.CENTER;
-        btnModificar = new JButton("Modificar");
-        btnModificar.setVisible(false);
-        panelDatos.add(btnModificar, gbcDatos);
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setVisible(false);
+        panelDatos.add(btnEliminar, gbcDatos);
 
         panelPrincipal.add(panelDatos, gbc);
 
@@ -88,8 +88,8 @@ public class ModificarServiciosView extends JPanel {
         btnGuardar.addActionListener(listener);
     }
 
-    public void modificarListener(ActionListener listener) {
-        btnModificar.addActionListener(listener);
+    public void eliminarListener(ActionListener listener) {
+        btnEliminar.addActionListener(listener);
     }
 
     public JScrollPane getScrollPane() {
@@ -108,8 +108,8 @@ public class ModificarServiciosView extends JPanel {
         return panelDatos;
     }
 
-    public JButton getBtnModificar() {
-        return btnModificar;
+    public JButton getBtnEliminar() {
+        return btnEliminar;
     }
 
     public String getNombreABuscar() {
@@ -118,5 +118,19 @@ public class ModificarServiciosView extends JPanel {
 
     public void mostrarMensaje(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void confirmarEliminacion(String nombreServicio, Runnable eliminacionConfirmada) {
+        if (nombreServicio == null || nombreServicio.isEmpty()) {
+            mostrarMensaje("Por favor, selecciona un servicio para eliminar.");
+        } else {
+            int opcion = JOptionPane.showConfirmDialog(
+                    this, "¿Estás seguro de que quieres eliminar este servicio?", "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                eliminacionConfirmada.run();
+            }
+        }
     }
 }

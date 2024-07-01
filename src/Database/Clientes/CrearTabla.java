@@ -15,12 +15,17 @@ public class CrearTabla {
         try {
             conn = getConnection();
             s = conn.createStatement();
-            s.execute("CREATE TABLE IF NOT EXISTS SERVICIOS ("
-                        + "nombre TEXT NOT NULL,"
-                        + "precio REAL)"
+            s.execute("CREATE TABLE IF NOT EXISTS CLIENTES (" +
+                        "    ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "    nombre VARCHAR(50) NOT NULL," +
+                        "    apellido VARCHAR(50) NOT NULL," +
+                        "    fNacimiento DATE NOT NULL," +
+                        "    telefono VARCHAR(9)," +
+                        "    email VARCHAR(100)," +
+                        "    cp VARCHAR(5))"
             );
         } catch (SQLException ex) {
-            System.out.println("Error en CREATE de SERVICIOS");
+            System.out.println("Error en CREATE de CLIENTES: " + ex.getMessage());
         } finally{
             try {
                 if (s != null) {
