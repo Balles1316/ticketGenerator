@@ -1,7 +1,6 @@
 package Vista.Ticket;
 
 import Objeto.Ticket;
-import Vista.JavaEscritorio;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,13 +14,11 @@ public class GenerarTicketView extends JPanel {
     private JComboBox<String> comboServicios;
     private JButton btnImprimir, btnBuscar;
     private JRadioButton jRadiometalico, jRadioVisa ;
-    private JavaEscritorio vista;
     public List<Ticket> tickets;
     public static int nTicket;
 
-    public GenerarTicketView(JavaEscritorio vista) {
+    public GenerarTicketView() {
         setLayout(new BorderLayout());
-        this.vista = vista;
         inicializarComponentes();
     }
 
@@ -74,7 +71,7 @@ public class GenerarTicketView extends JPanel {
         panelBoton.add(btnImprimir);
         add(panelBoton, BorderLayout.SOUTH);
 
-        comboServicios.addActionListener(e -> {
+        /*comboServicios.addActionListener(e -> {
             if (comboServicios.getSelectedItem() != null) {
                 for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
                     if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
@@ -91,7 +88,7 @@ public class GenerarTicketView extends JPanel {
                     }
                 }
             }
-        });
+        });*/
     }
 
 /*    public void addServicio(int nTicket, String nameServicio, int cantidad, String precioConIVA) {

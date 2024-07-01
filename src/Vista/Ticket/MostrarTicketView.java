@@ -1,7 +1,5 @@
 package Vista.Ticket;
 
-import Vista.JavaEscritorio;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -10,7 +8,7 @@ public class MostrarTicketView extends JPanel {
     private DefaultTableModel modeloTabla;
     private JTable tablaCliente;
 
-    public MostrarTicketView(JavaEscritorio vista) {
+    public MostrarTicketView() {
         setLayout(new BorderLayout());
         inicializarComponentes();
     }

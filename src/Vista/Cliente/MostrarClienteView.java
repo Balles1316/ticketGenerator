@@ -3,7 +3,6 @@ package Vista.Cliente;
 /*
 import Database.Remoto.Consulta;
 */
-import Vista.JavaEscritorio;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +14,7 @@ public class MostrarClienteView extends JPanel {
     private DefaultTableModel modeloTabla;
     private JTable tablaCliente;
 
-    public MostrarClienteView(JavaEscritorio vista) {
+    public MostrarClienteView() {
         setLayout(new BorderLayout());
         inicializarComponentes();
     }

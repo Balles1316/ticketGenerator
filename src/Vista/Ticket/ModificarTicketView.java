@@ -3,7 +3,6 @@ package Vista.Ticket;
 import Database.Clientes.Consulta;
 import Database.Clientes.Modificar;
 import Objeto.Servicio;
-import Vista.JavaEscritorio;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,15 +11,13 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class ModificarTicketView extends JPanel {
-    private JavaEscritorio vista;
     private JTextField tfPregunta;
     private JTextField txtNombre;
     private JTextField txtPrecio;
     private JButton btnGuardar;
     private JPanel panelDatos;
 
-    public ModificarTicketView(JavaEscritorio vista) {
-        this.vista = vista;
+    public ModificarTicketView() {
         setLayout(new BorderLayout());
         initComponents();
     }
@@ -103,63 +100,6 @@ public class ModificarTicketView extends JPanel {
         btnGuardar = new JButton("Modificar");
         panelPrincipal.add(btnGuardar, gbc);
 
-        btnBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarServicio();
-            }
-        });
-
-        btnGuardar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                modificarServicio();
-            }
-        });
-
         add(panelPrincipal);
-    }
-
-    private void buscarServicio() {
-        String nombreBusqueda = tfPregunta.getText().trim();
-        if (nombreBusqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Por favor, ingresa un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        Consulta consulta = new Consulta();
-        consulta.consultarServiciosPorNombre(nombreBusqueda);
-
-        List<Servicio> serviciosList = consulta.getServiciosList();
-        if (!serviciosList.isEmpty()) {
-            Servicio servicio = serviciosList.get(0); // Tomamos el primer servicio encontrado
-            txtNombre.setText(servicio.getNombre());
-            txtPrecio.setText(String.valueOf(servicio.getPrecio()));
-        } else {
-            JOptionPane.showMessageDialog(vista, "No se encontró ningún servicio con ese nombre.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    private void modificarServicio() {
-        String nuevoNombre = txtNombre.getText().trim();
-        String nuevoPrecio = txtPrecio.getText().trim();
-        String nombreBusqueda = tfPregunta.getText().trim();
-
-        if (nuevoNombre.isEmpty() || nuevoPrecio.isEmpty()) {
-            JOptionPane.showMessageDialog(vista, "Por favor, completa todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            double precio = Double.parseDouble(nuevoPrecio);
-            Modificar modificar = new Modificar();
-            modificar.modificarServicio(nuevoNombre, precio, nombreBusqueda);
-            JOptionPane.showMessageDialog(vista, "Servicio modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            txtNombre.setText("");
-            txtPrecio.setText("");
-            tfPregunta.setText("");
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vista, "El precio debe ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 }

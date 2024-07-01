@@ -4,11 +4,20 @@ import Controlador.Servicio.EliminarServiciosController;
 import Controlador.Servicio.InsertarServiciosController;
 import Controlador.Servicio.ModificarServiciosController;
 import Controlador.Servicio.MostrarServiciosController;
+import Controlador.Ticket.EliminarTicketController;
+import Controlador.Ticket.GenerarTicketController;
+import Controlador.Ticket.ModificarTicketController;
+import Controlador.Ticket.MostrarTicketController;
 import Modelo.ServiciosModel;
+import Modelo.TicketModel;
 import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
 import Vista.Servicio.MostrarServiciosView;
+import Vista.Ticket.EliminarTicketView;
+import Vista.Ticket.GenerarTicketView;
+import Vista.Ticket.ModificarTicketView;
+import Vista.Ticket.MostrarTicketView;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -23,12 +32,17 @@ public class Main {
             frame.setSize(800, 600);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-
 
             tickets(menuBar, frame);
             servicios(menuBar, frame);
             clients(menuBar, frame);
+
+            // Initialize and show GenerarTicketView by default
+            TicketModel model = new TicketModel();
+            GenerarTicketView generarTicketView = new GenerarTicketView();
+            new GenerarTicketController(generarTicketView, model);
+            frame.add(generarTicketView);
+            frame.setVisible(true);
         });
     }
 
@@ -123,6 +137,8 @@ public class Main {
     }
 
     public static void tickets(JMenuBar menuBar, JFrame frame){
+        TicketModel model = new TicketModel();
+
         JMenu menuTickets = new JMenu("Tickets");
 
         JMenuItem menuItemListarTickets = new JMenuItem("Listar tickets");
@@ -137,16 +153,41 @@ public class Main {
 
         menuBar.add(menuTickets);
 
-        menuItemListarTickets.addActionListener(e -> {
-        });
+        ActionListener mostrarVistaAction = e -> {
+            JMenuItem menuItem = (JMenuItem) e.getSource();
+            JPanel nuevaVista = null;
 
-        menuItemInsertarTickets.addActionListener(e -> {
-        });
+            switch (menuItem.getText()) {
+                case "Listar tickets":
+                    nuevaVista = new MostrarTicketView();
+                    new MostrarTicketController((MostrarTicketView) nuevaVista, model);
+                    break;
+                case "Insertar tickets":
+                    nuevaVista = new GenerarTicketView();
+                    new GenerarTicketController((GenerarTicketView) nuevaVista, model);
+                    break;
+                case "Modificar tickets":
+                    nuevaVista = new ModificarTicketView();
+                    new ModificarTicketController((ModificarTicketView)nuevaVista, model);
+                    break;
+                case "Eliminar tickets":
+                    nuevaVista = new EliminarTicketView();
+                    new EliminarTicketController((EliminarTicketView) nuevaVista, model);
+                    break;
+                default:
+                    nuevaVista = new GenerarTicketView();
+                    new GenerarTicketController((GenerarTicketView) nuevaVista, model);
+                    break;
+            }
 
-        menuItemModificarTickets.addActionListener(e -> {
-        });
+            if (nuevaVista != null) {
+                mostrarVista(frame, nuevaVista);
+            }
+        };
 
-        menuItemEliminarTickets.addActionListener(e -> {
-        });
+        menuItemListarTickets.addActionListener(mostrarVistaAction);
+        menuItemInsertarTickets.addActionListener(mostrarVistaAction);
+        menuItemModificarTickets.addActionListener(mostrarVistaAction);
+        menuItemEliminarTickets.addActionListener(mostrarVistaAction);
     }
 }

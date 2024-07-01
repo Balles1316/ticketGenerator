@@ -1,9 +1,9 @@
+/*
 package Controlador;
 
 import Database.Clientes.Consulta;
 import Database.Clientes.Insertar;
 import Objeto.Servicio;
-import Vista.JavaEscritorio;
 import Vista.Ticket.GenerarTicketView;
 import Objeto.Ticket;
 
@@ -16,7 +16,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class JavaEscritorioControlador extends WindowAdapter implements Printable {
-    private JavaEscritorio vista;
     private GenerarTicketView generarTicket ;
     private DefaultTableModel modeloTabla;
     private JTable tablaPrecios;
@@ -68,7 +67,8 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
             }
         });
 
-        /*generarTicket.getComboServicios().addActionListener(new ActionListener(){
+        */
+/*generarTicket.getComboServicios().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 JComboBox<String> comboServicios = generarTicket.getComboServicios() ;
@@ -80,7 +80,8 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
                     }
                 }
             }
-        });*/
+        });*//*
+
     }
 
     public void guardarPrecios() {
@@ -209,3 +210,4 @@ public class JavaEscritorioControlador extends WindowAdapter implements Printabl
         guardarPrecios();
     }
 }
+*/
