@@ -1,9 +1,9 @@
 package Modelo;
-import Database.Servicios.Consulta;
-import Database.Servicios.Eliminar;
-import Database.Servicios.Insertar;
-import Database.Servicios.Modificar;
+import Database.ServiciosRealizados.Consulta;
+import Database.ServiciosRealizados.Insertar;
+import Objeto.Cliente;
 import Objeto.Servicio;
+import Objeto.Ticket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,48 +11,62 @@ import java.util.List;
 
 public class TicketModel {
 
-    public void cargarPrecios(JTable tablaPrecios, DefaultTableModel modeloTabla) {
+    public void cargarTickets(JTable tablaTickets, DefaultTableModel modeloTabla) {
         Consulta consulta = new Consulta();
-        consulta.consultarServicios();
+        consulta.consultarTicket();
 
-        if (tablaPrecios == null || tablaPrecios.getModel() != modeloTabla){
-            tablaPrecios.setModel(modeloTabla);
+        if (tablaTickets == null || tablaTickets.getModel() != modeloTabla){
+            tablaTickets.setModel(modeloTabla);
         }
 
-        tablaPrecios.setEnabled(true);
-        tablaPrecios.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
+        tablaTickets.setEnabled(false);
+        tablaTickets.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
 
         modeloTabla.setRowCount(0);
 
-        List<Servicio> serviciosList = consulta.getServiciosList();
-        for (Servicio servicio : serviciosList) {
-            modeloTabla.addRow(new Object[]{servicio.getNombre(), servicio.getPrecio()});
+        List<Ticket> ticketsList = consulta.getTicketList();
+        for (Ticket ticket : ticketsList) {
+            modeloTabla.addRow(new Object[]{ticket.getNumeroTicket()
+                    , ticket.getServicio()
+                    , ticket.getCantidad()
+                    , ticket.getPrecioConIVA()
+                    , ticket.getPrecioConIVA()
+                    , ticket.getCliente()
+                    , ticket.getMetodoPago()
+                    });
         }
     }
 
-    public void guardarPrecios(Double precio, String nombre) {
-        Insertar insertar = new Insertar(nombre, precio);
-        insertar.insertarServicio();
+    public void guardarTicket(int numeroTicket, String servicio , int cantidad , int precioIVA , String cliente , String metodoPago) {
+        Insertar insertar = new Insertar(numeroTicket, servicio , cantidad , precioIVA , cliente , metodoPago);
+        insertar.insertarTicket();
     }
 
-    public void buscarServicio(String nombreBusqueda, JTable tablaPrecios, DefaultTableModel modeloTabla){
+    public void buscarTicket(int numeroTicketBuscar, JTable tablaTickets, DefaultTableModel modeloTabla){
         Consulta consulta = new Consulta();
-        consulta.consultarServiciosPorNombre(nombreBusqueda);
+        consulta.consultarTicketsPorID(numeroTicketBuscar);
 
-        if (tablaPrecios == null || tablaPrecios.getModel() != modeloTabla){
-            tablaPrecios.setModel(modeloTabla);
+        if (tablaTickets == null || tablaTickets.getModel() != modeloTabla){
+            tablaTickets.setModel(modeloTabla);
         }
 
-        tablaPrecios.setEnabled(true);
-        tablaPrecios.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
+        tablaTickets.setEnabled(true);
+        tablaTickets.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
         modeloTabla.setRowCount(0);
 
-        List<Servicio> serviciosList = consulta.getServiciosList();
-        for (Servicio servicio : serviciosList) {
-            modeloTabla.addRow(new Object[]{servicio.getNombre(), servicio.getPrecio()});
+        List<Ticket> ticketsList = consulta.getTicketList();
+        for (Ticket ticket : ticketsList) {
+            modeloTabla.addRow(new Object[]{ticket.getNumeroTicket()
+                    , ticket.getServicio()
+                    , ticket.getCantidad()
+                    , ticket.getPrecioConIVA()
+                    , ticket.getPrecioConIVA()
+                    , ticket.getCliente()
+                    , ticket.getMetodoPago()
+            });
         }
     }
-
+/*
     public void actualizarServicio(List<Servicio> serviciosActualizados, List<Servicio> serviciosViejos) {
         int size = Math.min(serviciosActualizados.size(), serviciosViejos.size());
 
@@ -65,5 +79,5 @@ public class TicketModel {
     public void eliminarServicio(String nombreSeleccionado) {
         Eliminar eliminar = new Eliminar(nombreSeleccionado);
         eliminar.eliminarServicio();
-    }
+    }*/
 }

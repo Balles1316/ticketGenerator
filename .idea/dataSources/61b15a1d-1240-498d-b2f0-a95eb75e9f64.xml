@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-07-01.20:09:36</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-02.13:40:07</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1590,8 +1590,8 @@
     <argument id="554" parent="190">
       <Position>1</Position>
     </argument>
-    <table id="555" parent="191" name="CLIENTES"/>
-    <table id="556" parent="191" name="SERVICIOS"/>
+    <table id="555" parent="191" name="SERVICIOS"/>
+    <table id="556" parent="191" name="SERVICIOSREALIZADOS"/>
     <table id="557" parent="191" name="sqlite_master">
       <System>1</System>
     </table>
@@ -1599,65 +1599,73 @@
       <System>1</System>
     </table>
     <column id="559" parent="555" name="nombre">
-      <DasType>VARCHAR(50)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="560" parent="555" name="apellido">
-      <DasType>VARCHAR(50)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="561" parent="555" name="fNacimiento">
-      <DasType>DATE|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="562" parent="555" name="telefono">
-      <DasType>VARCHAR(9)|0s</DasType>
-      <Position>4</Position>
-    </column>
-    <column id="563" parent="555" name="email">
-      <DasType>VARCHAR(100)|0s</DasType>
-      <Position>5</Position>
-    </column>
-    <column id="564" parent="555" name="cp">
-      <DasType>VARCHAR(5)|0s</DasType>
-      <Position>6</Position>
-    </column>
-    <column id="565" parent="556" name="nombre">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="566" parent="556" name="precio">
+    <column id="560" parent="555" name="precio">
       <DasType>REAL|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="567" parent="557" name="type">
+    <column id="561" parent="556" name="numeroTicket">
+      <DasType>INT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="562" parent="556" name="servicio">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="563" parent="556" name="producto">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="564" parent="556" name="cantidad">
+      <DasType>INT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="565" parent="556" name="precioIVA">
+      <DasType>REAL|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="566" parent="556" name="cliente">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+    </column>
+    <column id="567" parent="556" name="metodoPago">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+    </column>
+    <column id="568" parent="557" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="568" parent="557" name="name">
+    <column id="569" parent="557" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="569" parent="557" name="tbl_name">
+    <column id="570" parent="557" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="570" parent="557" name="rootpage">
+    <column id="571" parent="557" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="571" parent="557" name="sql">
+    <column id="572" parent="557" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="572" parent="558" name="name">
+    <column id="573" parent="558" name="name">
       <Position>1</Position>
     </column>
-    <column id="573" parent="558" name="seq">
+    <column id="574" parent="558" name="seq">
       <Position>2</Position>
     </column>
   </database-model>

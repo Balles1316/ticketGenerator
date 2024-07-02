@@ -16,13 +16,13 @@ public class Consulta {
     }
 
     public void consultarTicket() {
-        Connection conn = null;
+        Connection connection = null;
         Statement s = null;
         ResultSet rs = null;
 
         try {
-            conn = getConnection();
-            s = conn.createStatement();
+            connection = getConnection();
+            s = connection.createStatement();
             rs = s.executeQuery("SELECT * FROM SERVICIOSREALIZADOS");
 
             ticketsList.clear();
@@ -45,8 +45,8 @@ public class Consulta {
                 if (s != null) {
                     s.close();
                 }
-                if (conn != null) {
-                    conn.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,13 +55,13 @@ public class Consulta {
     }
 
     public void consultarTicketsPorID(int numeroTicketBuscar) {
-        Connection conn = null;
+        Connection connection = null;
         Statement s = null;
         ResultSet rs = null;
 
         try {
-            conn = getConnection();
-            s = conn.createStatement();
+            connection = getConnection();
+            s = connection.createStatement();
             rs = s.executeQuery("SELECT * FROM SERVICIOSREALIZADOS WHERE NOMBRE LIKE '%"+numeroTicketBuscar+"%'");
 
             ticketsList.clear();
@@ -84,8 +84,8 @@ public class Consulta {
                 if (s != null) {
                     s.close();
                 }
-                if (conn != null) {
-                    conn.close();
+                if (connection != null) {
+                    connection.close();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);

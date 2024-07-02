@@ -12,5 +12,15 @@ public class MostrarTicketController {
     public MostrarTicketController(MostrarTicketView vista, TicketModel modelo) {
         this.vista = vista;
         this.modelo = modelo;
+
+        try{
+            cargarTicket();
+        } catch (Exception ex) {
+            vista.mostrarMensaje("Error al cargar los clientes.");
+        }
+    }
+
+    private void cargarTicket() {
+        modelo.cargarTickets(vista.getTablaTicket(), vista.getModeloTabla());
     }
 }

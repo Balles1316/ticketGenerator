@@ -16,16 +16,17 @@ public class CrearTabla {
             conn = getConnection();
             s = conn.createStatement();
             s.execute("CREATE TABLE IF NOT EXISTS SERVICIOSREALIZADOS ("
-                        + "numeroTicket INT NOT NULL,"
-                        + "servicio TEXT NOT NULL,)"
-                        + "cantidad INT NOT NULL,)"
-                        + "precioIVA REAL NOT NULL,)"
-                        + "cliente TEXT NOT NULL,)"
-                        + "metodoPago TEXT NOT NULL,)"
-            );
+                    + "numeroTicket INT NOT NULL,"
+                    + "servicio TEXT NOT NULL,"
+                    + "producto TEXT NOT NULL,"
+                    + "cantidad INT NOT NULL,"
+                    + "precioIVA REAL NOT NULL,"
+                    + "cliente TEXT NOT NULL,"
+                    + "metodoPago TEXT NOT NULL"
+                    + ");");
         } catch (SQLException ex) {
-            System.out.println("Error en CREATE de SERVICIOS");
-        } finally{
+            System.out.println("Error en CREATE de SERVICIOSREALIZADOS: " + ex.getMessage());
+        } finally {
             try {
                 if (s != null) {
                     s.close();

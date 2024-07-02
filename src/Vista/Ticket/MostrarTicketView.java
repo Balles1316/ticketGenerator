@@ -6,7 +6,8 @@ import java.awt.*;
 
 public class MostrarTicketView extends JPanel {
     private DefaultTableModel modeloTabla;
-    private JTable tablaCliente;
+    private JTable tablaTicket;
+    private JTextField txtNumeroTicket, txtServicio, txtProducto , txtCantidad, txtPrecioConIVA, txtCliente;
 
     public MostrarTicketView() {
         setLayout(new BorderLayout());
@@ -14,19 +15,51 @@ public class MostrarTicketView extends JPanel {
     }
 
     private void inicializarComponentes() {
-        String[] columnas = {"N-Ticket", "Servicio" , "Cantidad", "PrecioIVA", "Cliente"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
-        tablaCliente = new JTable(modeloTabla);
+        JPanel panelFiltro = new JPanel(new FlowLayout());
+        panelFiltro.setBorder(BorderFactory.createTitledBorder("Ticket Filtro"));
 
-        add(new JScrollPane(tablaCliente), BorderLayout.CENTER);
+        txtNumeroTicket = new JTextField( 3);
+        txtServicio = new JTextField(6);
+        txtProducto = new JTextField(6);
+        txtCantidad = new JTextField(3);
+        txtPrecioConIVA = new JTextField(6);
+        txtCliente = new JTextField(6);
+
+        panelFiltro.add(new JLabel("Numero Ticket"));
+        panelFiltro.add(txtNumeroTicket);
+        panelFiltro.add(new JLabel("Servicio"));
+        panelFiltro.add(txtServicio);
+        panelFiltro.add(new JLabel("Producto"));
+        panelFiltro.add(txtProducto);
+        panelFiltro.add(new JLabel("Cantidad"));
+        panelFiltro.add(txtCantidad);
+        panelFiltro.add(new JLabel("Precio ConIVA"));
+        panelFiltro.add(txtPrecioConIVA);
+        panelFiltro.add(new JLabel("Cliente"));
+        panelFiltro.add(txtCliente);
+
+        add(panelFiltro, BorderLayout.NORTH);
+
+        String[] columnas = {"N-Ticket", "Servicio" , "Producto" , "Cantidad", "PrecioIVA", "Cliente"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+        tablaTicket = new JTable(modeloTabla);
+        tablaTicket.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JScrollPane scrollPane = new JScrollPane(tablaTicket);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Tabla Ticket"));
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public DefaultTableModel getModeloTabla() {
         return modeloTabla;
     }
 
-    public JTable getTablaCliente() {
-        return tablaCliente;
+    public JTable getTablaTicket() {
+        return tablaTicket;
+    }
+
+    public void mostrarMensaje(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 
 }

@@ -1,18 +1,20 @@
-package Controlador.Ticket;
+package Controlador.RecursosHumanos;
 
+import Modelo.FichajesModel;
 import Modelo.TicketModel;
+import Vista.Fichaje.FichajeView;
 import Vista.Ticket.GenerarTicketView;
 
-public class GenerarTicketController {
-    private final GenerarTicketView vista;
-    private final TicketModel modelo;
+public class FichajeTicketController {
+    private final FichajeView vista;
+    private final FichajesModel modelo;
 
-    public GenerarTicketController(GenerarTicketView vista, TicketModel modelo) {
+    public FichajeTicketController(FichajeView vista, FichajesModel modelo) {
         this.vista = vista;
         this.modelo = modelo;
     }
 
-   /* private void guardarTicket(){
+/*    private void guardarTicket(){
         vista.guardarListener(e -> {
             String nombre = vista.getNombre();
             String precio = vista.getPrecio();

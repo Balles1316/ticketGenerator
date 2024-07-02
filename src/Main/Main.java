@@ -4,6 +4,7 @@ import Controlador.Cliente.EliminarClienteController;
 import Controlador.Cliente.InsertarClienteController;
 import Controlador.Cliente.ModificarClienteController;
 import Controlador.Cliente.MostrarClienteController;
+import Controlador.RecursosHumanos.FichajeTicketController;
 import Controlador.Servicio.EliminarServiciosController;
 import Controlador.Servicio.InsertarServiciosController;
 import Controlador.Servicio.ModificarServiciosController;
@@ -13,12 +14,14 @@ import Controlador.Ticket.GenerarTicketController;
 import Controlador.Ticket.ModificarTicketController;
 import Controlador.Ticket.MostrarTicketController;
 import Modelo.ClientesModel;
+import Modelo.FichajesModel;
 import Modelo.ServiciosModel;
 import Modelo.TicketModel;
 import Vista.Cliente.EliminarClienteView;
 import Vista.Cliente.InsertarClienteView;
 import Vista.Cliente.ModificarClienteView;
 import Vista.Cliente.MostrarClienteView;
+import Vista.Fichaje.FichajeView;
 import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
@@ -45,6 +48,7 @@ public class Main {
             tickets(menuBar, frame);
             servicios(menuBar, frame);
             clients(menuBar, frame);
+            fichajes(menuBar, frame);
 
             // Initialize and show GenerarTicketView by default
             TicketModel model = new TicketModel();
@@ -203,10 +207,6 @@ public class Main {
                     nuevaVista = new EliminarTicketView();
                     new EliminarTicketController((EliminarTicketView) nuevaVista, model);
                     break;
-                default:
-                    nuevaVista = new GenerarTicketView();
-                    new GenerarTicketController((GenerarTicketView) nuevaVista, model);
-                    break;
             }
 
             if (nuevaVista != null) {
@@ -218,5 +218,37 @@ public class Main {
         menuItemInsertarTickets.addActionListener(mostrarVistaAction);
         menuItemModificarTickets.addActionListener(mostrarVistaAction);
         menuItemEliminarTickets.addActionListener(mostrarVistaAction);
+    }
+
+    public static void fichajes(JMenuBar menuBar, JFrame frame){
+        FichajesModel model = new FichajesModel();
+
+        JMenu menuFichaje = new JMenu("Fichajes");
+
+        JMenuItem menuItemFichaje = new JMenuItem("In/Out");
+
+        menuFichaje.add(menuItemFichaje);
+
+        menuBar.add(menuFichaje);
+
+        ActionListener mostrarVistaAction = e -> {
+            JMenuItem menuItem = (JMenuItem) e.getSource();
+            JPanel nuevaVista = null;
+
+            switch (menuItem.getText()) {
+                case "Fichajes":
+                    nuevaVista = new FichajeView();
+                    new FichajeTicketController((FichajeView) nuevaVista, model);
+                    break;
+
+            }
+
+            if (nuevaVista != null) {
+                mostrarVista(frame, nuevaVista);
+            }
+        };
+
+        menuItemFichaje.addActionListener(mostrarVistaAction);
+
     }
 }

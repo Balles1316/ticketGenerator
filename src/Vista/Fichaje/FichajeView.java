@@ -1,33 +1,32 @@
-package Vista.Ticket;
+package Vista.Fichaje;
 
 import Objeto.Ticket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GenerarTicketView extends JPanel {
+public class FichajeView extends JPanel {
     private JTextField txtNumeroTicket, txtCantidad, txtPrecioConIVA, txtCliente, txtClienteEncontrado;
     private JComboBox<String> comboServicios;
     private JButton btnImprimir, btnBuscar;
     private JRadioButton jRadiometalico, jRadioVisa ;
     public List<Ticket> tickets;
 
-    public GenerarTicketView() {
+    public FichajeView() {
         setLayout(new BorderLayout());
         inicializarComponentes();
     }
 
     private void inicializarComponentes() {
         JPanel panelFormulario = new JPanel(new GridLayout(7, 2, 10, 10));
-        panelFormulario.setBorder(BorderFactory.createTitledBorder("Generar Ticket"));
+        panelFormulario.setBorder(BorderFactory.createTitledBorder("Datos del Cliente"));
 
-        txtNumeroTicket = new JTextField("1");
+        txtNumeroTicket = new JTextField();
         comboServicios = new JComboBox<>();
         txtCantidad = new JTextField("1");
         txtPrecioConIVA = new JTextField();
@@ -116,9 +115,5 @@ public class GenerarTicketView extends JPanel {
     public JTextField getTxtPrecioConIVA() {
         return txtPrecioConIVA;
     }
-
-  /*  public void guardarListener(ActionListener listener) {
-        btn.addActionListener(listener);
-    }*/
 
 }
