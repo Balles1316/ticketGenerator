@@ -4,14 +4,16 @@ public class Ticket {
 
     private int numeroTicket;
     private String servicio;
+    private String producto;
     private int cantidad;
     private double precioConIVA;
     private String cliente;
     private String metodoPago;
 
-    public Ticket(int numeroTicket, String servicio, int cantidad, double precioConIVA, String cliente, String metodoPago) {
+    public Ticket(int numeroTicket, String servicio,String producto, int cantidad, double precioConIVA, String cliente, String metodoPago) {
         this.numeroTicket = numeroTicket;
         this.servicio = servicio;
+        this.producto = producto;
         this.cantidad = cantidad;
         this.precioConIVA = precioConIVA;
         this.cliente = cliente;
@@ -32,6 +34,12 @@ public class Ticket {
 
     public void setServicio(String servicio) {
         this.servicio = servicio;
+    }
+
+    public String getProducto() {return producto;}
+
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
     public int getCantidad() {

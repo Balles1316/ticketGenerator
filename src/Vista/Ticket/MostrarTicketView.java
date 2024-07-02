@@ -7,7 +7,8 @@ import java.awt.*;
 public class MostrarTicketView extends JPanel {
     private DefaultTableModel modeloTabla;
     private JTable tablaTicket;
-    private JTextField txtNumeroTicket, txtServicio, txtProducto , txtCantidad, txtPrecioConIVA, txtCliente;
+    private JTextField txtNumeroTicket, txtServicio, txtProducto , txtCantidad, txtPrecioConIVA, txtCliente , txtMetodoPago;
+    private JButton btnBuscarTicket;
 
     public MostrarTicketView() {
         setLayout(new BorderLayout());
@@ -24,6 +25,7 @@ public class MostrarTicketView extends JPanel {
         txtCantidad = new JTextField(3);
         txtPrecioConIVA = new JTextField(6);
         txtCliente = new JTextField(6);
+        btnBuscarTicket = new JButton("Buscar");
 
         panelFiltro.add(new JLabel("Numero Ticket"));
         panelFiltro.add(txtNumeroTicket);
@@ -37,10 +39,11 @@ public class MostrarTicketView extends JPanel {
         panelFiltro.add(txtPrecioConIVA);
         panelFiltro.add(new JLabel("Cliente"));
         panelFiltro.add(txtCliente);
+        panelFiltro.add(btnBuscarTicket);
 
         add(panelFiltro, BorderLayout.NORTH);
 
-        String[] columnas = {"N-Ticket", "Servicio" , "Producto" , "Cantidad", "PrecioIVA", "Cliente"};
+        String[] columnas = {"N-Ticket", "Servicio" , "Producto" , "Cantidad", "PrecioIVA", "Cliente","MetodoPago","Fecha"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaTicket = new JTable(modeloTabla);
         tablaTicket.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

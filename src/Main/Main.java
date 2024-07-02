@@ -41,7 +41,7 @@ public class Main {
 
             JFrame frame = new JFrame("Parabeus Ticket Generator");
             frame.setJMenuBar(menuBar);
-            frame.setSize(800, 600);
+            frame.setSize(900, 600);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
 

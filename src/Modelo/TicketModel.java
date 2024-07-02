@@ -28,8 +28,8 @@ public class TicketModel {
         for (Ticket ticket : ticketsList) {
             modeloTabla.addRow(new Object[]{ticket.getNumeroTicket()
                     , ticket.getServicio()
+                    , ticket.getProducto()
                     , ticket.getCantidad()
-                    , ticket.getPrecioConIVA()
                     , ticket.getPrecioConIVA()
                     , ticket.getCliente()
                     , ticket.getMetodoPago()
@@ -37,8 +37,8 @@ public class TicketModel {
         }
     }
 
-    public void guardarTicket(int numeroTicket, String servicio , int cantidad , int precioIVA , String cliente , String metodoPago) {
-        Insertar insertar = new Insertar(numeroTicket, servicio , cantidad , precioIVA , cliente , metodoPago);
+    public void guardarTicket(int numeroTicket, String servicio , String producto , int cantidad , double precioIVA , String cliente , String metodoPago) {
+        Insertar insertar = new Insertar(numeroTicket, servicio , producto , cantidad , precioIVA , cliente , metodoPago);
         insertar.insertarTicket();
     }
 
@@ -58,8 +58,8 @@ public class TicketModel {
         for (Ticket ticket : ticketsList) {
             modeloTabla.addRow(new Object[]{ticket.getNumeroTicket()
                     , ticket.getServicio()
+                    , ticket.getProducto()
                     , ticket.getCantidad()
-                    , ticket.getPrecioConIVA()
                     , ticket.getPrecioConIVA()
                     , ticket.getCliente()
                     , ticket.getMetodoPago()

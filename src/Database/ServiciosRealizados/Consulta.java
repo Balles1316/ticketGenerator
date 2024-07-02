@@ -30,12 +30,13 @@ public class Consulta {
             while (rs.next()) {
                 int numeroTicket = rs.getInt("numeroTicket");
                 String servicio = rs.getString("servicio");
+                String producto = rs.getString("producto");
                 int cantidad = rs.getInt("cantidad");
                 double precioIVA = rs.getDouble("precioIVA");
                 String cliente = rs.getString("cliente");
                 String metodoPago = rs.getString("metodoPago");
 
-                Ticket ticket = new Ticket(numeroTicket, servicio,cantidad,precioIVA,cliente,metodoPago);
+                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {
@@ -69,12 +70,13 @@ public class Consulta {
             while (rs.next()) {
                 int numeroTicket = rs.getInt("numeroTicket");
                 String servicio = rs.getString("servicio");
+                String producto = rs.getString("producto");
                 int cantidad = rs.getInt("cantidad");
                 double precioIVA = rs.getDouble("precioIVA");
                 String cliente = rs.getString("cliente");
                 String metodoPago = rs.getString("metodoPago");
 
-                Ticket ticket = new Ticket(numeroTicket, servicio,cantidad,precioIVA,cliente,metodoPago);
+                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {
