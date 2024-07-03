@@ -1,7 +1,12 @@
 package Controlador.Ticket;
 
+import Database.Servicios.Consulta;
 import Modelo.TicketModel;
+import Objeto.Servicio;
 import Vista.Ticket.GenerarTicketView;
+
+import javax.swing.*;
+import java.util.List;
 
 public class GenerarTicketController {
     private final GenerarTicketView vista;
@@ -11,11 +16,46 @@ public class GenerarTicketController {
         this.vista = vista;
         this.modelo = modelo;
 
+        actualizarComboBoxCodigoServicio();
+        establecerPrecios();
         guardarTicket();
     }
 
+    public void actualizarComboBoxCodigoServicio() {
+        Consulta consulta = new Consulta();
+        consulta.consultarServicios();
+        List<Servicio> servicioList = consulta.getServiciosList();
+
+        vista.getComboServicios().removeAllItems();
+
+        for (Servicio codigoServicio : servicioList) {
+            vista.getComboServicios().addItem(codigoServicio.getNombre());
+        }
+    }
+
+    private void establecerPrecios() {
+        vista.guardarListenerJComboBox(e -> {
+
+            Consulta consulta = new Consulta();
+            consulta.consultarServicios();
+            List<Servicio> servicioList = consulta.getServiciosList();
+
+            String nombreSeleccionado = (String) vista.getComboServicios().getSelectedItem();
+            if (nombreSeleccionado != null) {
+                for (Servicio servicio : servicioList) {
+                    if (servicio.getNombre().equals(nombreSeleccionado)) {
+                        vista.getTxtPrecioConIVA().setText(String.valueOf(servicio.getPrecio()));
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+
+
     private void guardarTicket() {
-        vista.guardarListener(e -> {
+        vista.guardarListenerImprimir(e -> {
             String numeroTicketStr = vista.getNumeroTicket();
             String servicio = vista.getServicio();
             String producto = vista.getProducto();

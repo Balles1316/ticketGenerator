@@ -1,22 +1,14 @@
 package Vista.Ticket;
 
-import Objeto.Ticket;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class GenerarTicketView extends JPanel {
-    private JTextField txtNumeroTicket, txtCantidad, txtProducto ,txtPrecioConIVA, txtCliente, txtClienteEncontrado;
+    private JTextField txtNumeroTicket, txtCantidad, txtProducto, txtPrecioConIVA, txtCliente, txtClienteEncontrado;
     private JComboBox<String> comboServicios;
     private JButton btnImprimir, btnBuscar;
-    private JRadioButton jRadiometalico, jRadioVisa ;
-    public List<Ticket> tickets;
+    private JRadioButton jRadiometalico, jRadioVisa;
 
     public GenerarTicketView() {
         setLayout(new BorderLayout());
@@ -37,7 +29,7 @@ public class GenerarTicketView extends JPanel {
         txtClienteEncontrado = new JTextField("Anonimo");
         btnImprimir = new JButton("Imprimir");
         jRadiometalico = new JRadioButton("Metalico");
-        jRadioVisa = new JRadioButton("Tarjeta Crédito/Débito ");
+        jRadioVisa = new JRadioButton("Tarjeta Crédito/Débito");
 
         // Set jRadioVisa as the default selected option
         jRadioVisa.setSelected(true);
@@ -74,45 +66,19 @@ public class GenerarTicketView extends JPanel {
         JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBoton.add(btnImprimir);
         add(panelBoton, BorderLayout.SOUTH);
-
-        /*comboServicios.addActionListener(e -> {
-            if (comboServicios.getSelectedItem() != null) {
-                for (int i = 0; i < vista.getModeloTabla().getRowCount(); i++) {
-                    if (comboServicios.getSelectedItem().toString().equals(vista.getModeloTabla().getValueAt(i, 0))) {
-                        Object precioConIVAObj = vista.getModeloTabla().getValueAt(i, 1);
-                        String precioConIVA = precioConIVAObj.toString(); // Convertir a String
-                        txtPrecioConIVA.setText(precioConIVA);
-                        try {
-                            int cantidad = Integer.parseInt(txtCantidad.getText());
-                            //addServicio(nTicket, comboServicios.getSelectedItem().toString(), cantidad, precioConIVA);
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(this, "Cantidad debe ser un número entero.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                        break;
-                    }
-                }
-            }
-        });*/
     }
 
-    public void actualizarComboBoxCodigoServicio(DefaultTableModel modeloTabla) {
-        Set<String> codigoServicioSet = new HashSet<>();
-        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
-            String codigoServicio = (String) modeloTabla.getValueAt(i, 0);
-            codigoServicioSet.add(codigoServicio);
-        }
-        comboServicios.removeAllItems();
-        for (String codigoServicio : codigoServicioSet) {
-            comboServicios.addItem(codigoServicio);
-        }
-    }
 
     public JComboBox<String> getComboServicios() {
         return comboServicios;
     }
 
-    public void guardarListener(ActionListener listener) {
+    public void guardarListenerImprimir(ActionListener listener) {
         btnImprimir.addActionListener(listener);
+    }
+
+    public void guardarListenerJComboBox(ActionListener listener) {
+        comboServicios.addActionListener(listener);
     }
 
     public String getNumeroTicket() {
@@ -120,7 +86,7 @@ public class GenerarTicketView extends JPanel {
     }
 
     public String getServicio() {
-        return /*comboServicios.getSelectedItem().toString().trim();*/ "CorteEl" ;
+        return comboServicios.getSelectedItem().toString().trim();
     }
 
     public String getProducto() {
@@ -133,6 +99,14 @@ public class GenerarTicketView extends JPanel {
 
     public String getPrecioConIVA() {
         return txtPrecioConIVA.getText().trim();
+    }
+
+    public JTextField getTxtPrecioConIVA() {
+        return txtPrecioConIVA;
+    }
+
+    public void setTxtPrecioConIVA(JTextField txtPrecioConIVA) {
+        this.txtPrecioConIVA = txtPrecioConIVA;
     }
 
     public String getClienteEncontrado() {
@@ -148,7 +122,6 @@ public class GenerarTicketView extends JPanel {
         return "";
     }
 
-
     public void mostrarMensaje(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
@@ -160,10 +133,5 @@ public class GenerarTicketView extends JPanel {
         txtPrecioConIVA.setText("");
         txtCliente.setText("");
         txtClienteEncontrado.setText("");
-/*
-        comboServicios.setSelectedIndex(0); // Reinicia el combo box al primer elemento
-*/
     }
-
-
 }
