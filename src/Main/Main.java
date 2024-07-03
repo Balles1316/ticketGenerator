@@ -14,14 +14,14 @@ import Controlador.Ticket.GenerarTicketController;
 import Controlador.Ticket.ModificarTicketController;
 import Controlador.Ticket.MostrarTicketController;
 import Modelo.ClientesModel;
-import Modelo.FichajesModel;
+import Modelo.RRHHModel;
 import Modelo.ServiciosModel;
 import Modelo.TicketModel;
 import Vista.Cliente.EliminarClienteView;
 import Vista.Cliente.InsertarClienteView;
 import Vista.Cliente.ModificarClienteView;
 import Vista.Cliente.MostrarClienteView;
-import Vista.Fichaje.FichajeView;
+import Vista.RRHH.FichajeView;
 import Vista.Servicio.EliminarServiciosView;
 import Vista.Servicio.InsertarServiciosView;
 import Vista.Servicio.ModificarServiciosView;
@@ -48,7 +48,7 @@ public class Main {
             tickets(menuBar, frame);
             servicios(menuBar, frame);
             clients(menuBar, frame);
-            fichajes(menuBar, frame);
+            RRHH(menuBar, frame);
 
             // Initialize and show GenerarTicketView by default
             TicketModel model = new TicketModel();
@@ -220,23 +220,23 @@ public class Main {
         menuItemEliminarTickets.addActionListener(mostrarVistaAction);
     }
 
-    public static void fichajes(JMenuBar menuBar, JFrame frame){
-        FichajesModel model = new FichajesModel();
+    public static void RRHH(JMenuBar menuBar, JFrame frame){
+        RRHHModel model = new RRHHModel();
 
-        JMenu menuFichaje = new JMenu("Fichajes");
+        JMenu menuRRHH = new JMenu("RRHH");
 
         JMenuItem menuItemFichaje = new JMenuItem("In/Out");
 
-        menuFichaje.add(menuItemFichaje);
+        menuRRHH.add(menuItemFichaje);
 
-        menuBar.add(menuFichaje);
+        menuBar.add(menuRRHH);
 
         ActionListener mostrarVistaAction = e -> {
             JMenuItem menuItem = (JMenuItem) e.getSource();
             JPanel nuevaVista = null;
 
             switch (menuItem.getText()) {
-                case "Fichajes":
+                case "In/Out":
                     nuevaVista = new FichajeView();
                     new FichajeTicketController((FichajeView) nuevaVista, model);
                     break;

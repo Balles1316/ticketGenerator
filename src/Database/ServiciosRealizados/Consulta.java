@@ -41,7 +41,7 @@ public class Consulta {
             }
         } catch (SQLException ex) {
             System.out.println("Error en SELECT de SERVICIOSREALIZADOS");
-        } finally{
+        } finally {
             try {
                 if (s != null) {
                     s.close();
@@ -55,7 +55,7 @@ public class Consulta {
         }
     }
 
-    public void consultarTicketsPorID(int numeroTicketBuscar) {
+    public void consultarTicketsConFiltros(String numeroTicket, String servicio, String producto, String cantidad, String precioIVA, String cliente) {
         Connection connection = null;
         Statement s = null;
         ResultSet rs = null;
@@ -63,25 +63,46 @@ public class Consulta {
         try {
             connection = getConnection();
             s = connection.createStatement();
-            rs = s.executeQuery("SELECT * FROM SERVICIOSREALIZADOS WHERE NOMBRE LIKE '%"+numeroTicketBuscar+"%'");
+            String query = "SELECT * FROM SERVICIOSREALIZADOS WHERE 1=1";
+
+            if (!numeroTicket.isEmpty()) {
+                query += " AND numeroTicket LIKE '%" + numeroTicket + "%'";
+            }
+            if (!servicio.isEmpty()) {
+                query += " AND servicio LIKE '%" + servicio + "%'";
+            }
+            if (!producto.isEmpty()) {
+                query += " AND producto LIKE '%" + producto + "%'";
+            }
+            if (!cantidad.isEmpty()) {
+                query += " AND cantidad LIKE '%" + cantidad + "%'";
+            }
+            if (!precioIVA.isEmpty()) {
+                query += " AND precioIVA LIKE '%" + precioIVA + "%'";
+            }
+            if (!cliente.isEmpty()) {
+                query += " AND cliente LIKE '%" + cliente + "%'";
+            }
+
+            rs = s.executeQuery(query);
 
             ticketsList.clear();
 
             while (rs.next()) {
-                int numeroTicket = rs.getInt("numeroTicket");
-                String servicio = rs.getString("servicio");
-                String producto = rs.getString("producto");
-                int cantidad = rs.getInt("cantidad");
-                double precioIVA = rs.getDouble("precioIVA");
-                String cliente = rs.getString("cliente");
-                String metodoPago = rs.getString("metodoPago");
+                int numeroTicketVal = rs.getInt("numeroTicket");
+                String servicioVal = rs.getString("servicio");
+                String productoVal = rs.getString("producto");
+                int cantidadVal = rs.getInt("cantidad");
+                double precioIVAVal = rs.getDouble("precioIVA");
+                String clienteVal = rs.getString("cliente");
+                String metodoPagoVal = rs.getString("metodoPago");
 
-                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago);
+                Ticket ticket = new Ticket(numeroTicketVal, servicioVal, productoVal, cantidadVal, precioIVAVal, clienteVal, metodoPagoVal);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {
             System.out.println("Error en SELECT de SERVICIOS");
-        } finally{
+        } finally {
             try {
                 if (s != null) {
                     s.close();

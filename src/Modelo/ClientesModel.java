@@ -21,7 +21,7 @@ public class ClientesModel {
             tablaPrecios.setModel(modeloTabla);
         }
 
-        tablaPrecios.setEnabled(true);
+        tablaPrecios.setEnabled(false);
         tablaPrecios.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
 
         modeloTabla.setRowCount(0);

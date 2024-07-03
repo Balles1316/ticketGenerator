@@ -1,15 +1,13 @@
 package Controlador.RecursosHumanos;
 
-import Modelo.FichajesModel;
-import Modelo.TicketModel;
-import Vista.Fichaje.FichajeView;
-import Vista.Ticket.GenerarTicketView;
+import Modelo.RRHHModel;
+import Vista.RRHH.FichajeView;
 
 public class FichajeTicketController {
     private final FichajeView vista;
-    private final FichajesModel modelo;
+    private final RRHHModel modelo;
 
-    public FichajeTicketController(FichajeView vista, FichajesModel modelo) {
+    public FichajeTicketController(FichajeView vista, RRHHModel modelo) {
         this.vista = vista;
         this.modelo = modelo;
     }

@@ -95,11 +95,6 @@ public class GenerarTicketView extends JPanel {
         });*/
     }
 
-
-    public JButton getBtnImprimir() {
-        return btnImprimir;
-    }
-
     public void actualizarComboBoxCodigoServicio(DefaultTableModel modeloTabla) {
         Set<String> codigoServicioSet = new HashSet<>();
         for (int i = 0; i < modeloTabla.getRowCount(); i++) {
@@ -119,6 +114,7 @@ public class GenerarTicketView extends JPanel {
     public void guardarListener(ActionListener listener) {
         btnImprimir.addActionListener(listener);
     }
+
     public String getNumeroTicket() {
         return txtNumeroTicket.getText().trim();
     }

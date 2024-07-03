@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class MostrarServiciosView extends JPanel {
     private DefaultTableModel modeloTabla;
-    private JTable tablaPrecios;
+    private JTable tablaServicios;
 
     public MostrarServiciosView() {
         setLayout(new BorderLayout());
@@ -16,8 +16,9 @@ public class MostrarServiciosView extends JPanel {
     private void inicializarComponentes() {
         String[] columnas = {"Producto", "Precio"};
         modeloTabla = new DefaultTableModel(columnas, 0);
-        tablaPrecios = new JTable(modeloTabla);
-        add(new JScrollPane(tablaPrecios), BorderLayout.CENTER);
+        tablaServicios = new JTable(modeloTabla);
+        tablaServicios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        add(new JScrollPane(tablaServicios), BorderLayout.CENTER);
     }
 
     public DefaultTableModel getModeloTabla() {
@@ -25,7 +26,7 @@ public class MostrarServiciosView extends JPanel {
     }
 
     public JTable getTablaPrecios() {
-        return tablaPrecios;
+        return tablaServicios;
     }
 
 

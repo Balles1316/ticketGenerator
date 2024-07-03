@@ -17,6 +17,7 @@ public class MostrarClienteView extends JPanel {
         String[] columnas = {"Nombre", "Apellido", "Fecha Nacimiento", "Teléfono", "Correo Electrónico", "Código postal"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaCliente = new JTable(modeloTabla);
+        tablaCliente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         add(new JScrollPane(tablaCliente), BorderLayout.CENTER);
     }
 
