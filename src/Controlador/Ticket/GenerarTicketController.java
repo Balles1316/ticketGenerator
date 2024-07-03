@@ -6,11 +6,20 @@ import Objeto.Servicio;
 import Vista.Ticket.GenerarTicketView;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class GenerarTicketController {
     private final GenerarTicketView vista;
     private final TicketModel modelo;
+    public static int nTicket;
 
     public GenerarTicketController(GenerarTicketView vista, TicketModel modelo) {
         this.vista = vista;
@@ -35,7 +44,6 @@ public class GenerarTicketController {
 
     private void establecerPrecios() {
         vista.guardarListenerJComboBox(e -> {
-
             Consulta consulta = new Consulta();
             consulta.consultarServicios();
             List<Servicio> servicioList = consulta.getServiciosList();
@@ -52,8 +60,6 @@ public class GenerarTicketController {
         });
     }
 
-
-
     private void guardarTicket() {
         vista.guardarListenerImprimir(e -> {
             String numeroTicketStr = vista.getNumeroTicket();
@@ -65,51 +71,70 @@ public class GenerarTicketController {
             String metodoPago = vista.getMetodoPago();
 
             if (!numeroTicketStr.isEmpty()) {
-/*
-                if (!servicio.isEmpty()) {
-*/
-                    if (!producto.isEmpty()) {
-                        if (!cantidadStr.isEmpty()) {
-                            if (!precioConIVAStr.isEmpty()) {
-                                if (!cliente.isEmpty()) {
-                                    if (!metodoPago.isEmpty()) {
-                                        try {
-                                            int numeroTicket = Integer.parseInt(numeroTicketStr);
-                                            int cantidad = Integer.parseInt(cantidadStr);
-                                            double precioConIVA = Double.parseDouble(precioConIVAStr);
+                if (!producto.isEmpty()) {
+                    if (!cantidadStr.isEmpty()) {
+                        if (!precioConIVAStr.isEmpty()) {
+                            if (!cliente.isEmpty()) {
+                                if (!metodoPago.isEmpty()) {
+                                    try {
+                                        int numeroTicket = Integer.parseInt(numeroTicketStr);
+                                        int cantidad = Integer.parseInt(cantidadStr);
+                                        double precioConIVA = Double.parseDouble(precioConIVAStr);
 
-                                            if (numeroTicket > 0 && cantidad > 0 && precioConIVA > 0.0) {
-                                                modelo.guardarTicket(numeroTicket, servicio, producto, cantidad, precioConIVA, cliente, metodoPago);
-                                                vista.mostrarMensaje("Ticket guardado correctamente.");
-                                                vista.limpiarCampos();
-                                            } else {
-                                                vista.mostrarMensaje("El número de ticket, la cantidad y el precio con IVA deben ser mayores que cero.");
-                                            }
-                                        } catch (NumberFormatException ex) {
-                                            vista.mostrarMensaje("Formato incorrecto en número de ticket, cantidad o precio con IVA.");
+                                        if (numeroTicket > 0 && cantidad > 0 && precioConIVA > 0.0) {
+
+                                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                            String fecha = dateFormat.format(new Date());
+
+                                            //Guardo Ticket en la BD
+                                            modelo.guardarTicket(numeroTicket, servicio, producto, cantidad, precioConIVA, cliente, metodoPago,fecha);
+                                            vista.mostrarMensaje("Ticket guardado correctamente.");
+
+                                            //Traigo el nTicket le sumo 1 y lo vuelvo a pasar
+                                            nTicket = Integer.parseInt(vista.getNumeroTicket());
+                                            nTicket ++ ;
+                                            vista.setTxtNumeroTicket(String.valueOf(nTicket));
+
+                                            //Lo imprimo
+                                            iniciarImpresion();
+                                            vista.limpiarCampos();
+                                        } else {
+                                            vista.mostrarMensaje("El número de ticket, la cantidad y el precio con IVA deben ser mayores que cero.");
                                         }
-                                    } else {
-                                        vista.mostrarMensaje("El método de pago no puede ser vacío.");
+                                    } catch (NumberFormatException ex) {
+                                        vista.mostrarMensaje("Formato incorrecto en número de ticket, cantidad o precio con IVA.");
                                     }
                                 } else {
-                                    vista.mostrarMensaje("El cliente no puede ser vacío.");
+                                    vista.mostrarMensaje("El método de pago no puede ser vacío.");
                                 }
                             } else {
-                                vista.mostrarMensaje("El precio con IVA no puede ser vacío.");
+                                vista.mostrarMensaje("El cliente no puede ser vacío.");
                             }
                         } else {
-                            vista.mostrarMensaje("La cantidad no puede ser vacía.");
+                            vista.mostrarMensaje("El precio con IVA no puede ser vacío.");
                         }
                     } else {
-                        vista.mostrarMensaje("El producto no puede ser vacío.");
+                        vista.mostrarMensaje("La cantidad no puede ser vacía.");
                     }
-                /*} else {
-                    vista.mostrarMensaje("El servicio no puede ser vacío.");
-                }*/
+                } else {
+                    vista.mostrarMensaje("El producto no puede ser vacío.");
+                }
             } else {
                 vista.mostrarMensaje("El número de ticket no puede ser vacío.");
             }
         });
     }
 
+    private void iniciarImpresion() {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(modelo);
+        boolean doPrint = job.printDialog();
+        if (doPrint) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

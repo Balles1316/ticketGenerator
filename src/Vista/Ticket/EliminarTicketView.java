@@ -30,7 +30,7 @@ public class EliminarTicketView extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        JLabel lblTitulo = new JLabel("Eliminar Servicios");
+        JLabel lblTitulo = new JLabel("Eliminar Ticket");
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
         panelPrincipal.add(lblTitulo, gbc);
 
@@ -38,7 +38,7 @@ public class EliminarTicketView extends JPanel {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
         JPanel panelPregunta = new JPanel(new GridBagLayout());
-        panelPregunta.setBorder(BorderFactory.createTitledBorder("Servicio a buscar"));
+        panelPregunta.setBorder(BorderFactory.createTitledBorder("Ticket a buscar"));
         GridBagConstraints gbcPregunta = new GridBagConstraints();
         gbcPregunta.insets = new Insets(10, 10, 10, 10);
 

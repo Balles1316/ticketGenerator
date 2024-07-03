@@ -35,8 +35,9 @@ public class Consulta {
                 double precioIVA = rs.getDouble("precioIVA");
                 String cliente = rs.getString("cliente");
                 String metodoPago = rs.getString("metodoPago");
+                String fechaHora = rs.getString("fecha");
 
-                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago);
+                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago,fechaHora);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {
@@ -96,8 +97,9 @@ public class Consulta {
                 double precioIVAVal = rs.getDouble("precioIVA");
                 String clienteVal = rs.getString("cliente");
                 String metodoPagoVal = rs.getString("metodoPago");
+                String fechaHora = rs.getString("fecha");
 
-                Ticket ticket = new Ticket(numeroTicketVal, servicioVal, productoVal, cantidadVal, precioIVAVal, clienteVal, metodoPagoVal);
+                Ticket ticket = new Ticket(numeroTicketVal, servicioVal, productoVal, cantidadVal, precioIVAVal, clienteVal, metodoPagoVal,fechaHora);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {

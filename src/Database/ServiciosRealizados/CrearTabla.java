@@ -22,7 +22,8 @@ public class CrearTabla {
                     + "cantidad INT NOT NULL,"
                     + "precioIVA REAL NOT NULL,"
                     + "cliente TEXT NOT NULL,"
-                    + "metodoPago TEXT NOT NULL"
+                    + "metodoPago TEXT NOT NULL,"
+                    + "fecha TEXT NOT NULL"
                     + ");");
         } catch (SQLException ex) {
             System.out.println("Error en CREATE de SERVICIOSREALIZADOS: " + ex.getMessage());

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import static Controlador.Ticket.GenerarTicketController.nTicket;
+
 public class GenerarTicketView extends JPanel {
     private JTextField txtNumeroTicket, txtCantidad, txtProducto, txtPrecioConIVA, txtCliente, txtClienteEncontrado;
     private JComboBox<String> comboServicios;
@@ -19,7 +21,7 @@ public class GenerarTicketView extends JPanel {
         JPanel panelFormulario = new JPanel(new GridLayout(8, 2, 10, 10));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Generar Ticket"));
 
-        txtNumeroTicket = new JTextField("1");
+        txtNumeroTicket = new JTextField(nTicket);
         comboServicios = new JComboBox<>();
         txtCantidad = new JTextField("1");
         txtProducto = new JTextField("Champu Normal");
@@ -68,6 +70,13 @@ public class GenerarTicketView extends JPanel {
         add(panelBoton, BorderLayout.SOUTH);
     }
 
+    public JTextField getTxtNumeroTicket() {
+        return txtNumeroTicket;
+    }
+
+    public void setTxtNumeroTicket(String numeroTicket) {
+        txtNumeroTicket.setText(numeroTicket);
+    }
 
     public JComboBox<String> getComboServicios() {
         return comboServicios;
@@ -127,11 +136,8 @@ public class GenerarTicketView extends JPanel {
     }
 
     public void limpiarCampos() {
-        txtNumeroTicket.setText("");
         txtCantidad.setText("1");
-        txtProducto.setText("");
         txtPrecioConIVA.setText("");
         txtCliente.setText("");
-        txtClienteEncontrado.setText("");
     }
 }

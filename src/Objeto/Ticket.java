@@ -9,8 +9,9 @@ public class Ticket {
     private double precioConIVA;
     private String cliente;
     private String metodoPago;
+    private String fecha;
 
-    public Ticket(int numeroTicket, String servicio,String producto, int cantidad, double precioConIVA, String cliente, String metodoPago) {
+    public Ticket(int numeroTicket, String servicio,String producto, int cantidad, double precioConIVA, String cliente, String metodoPago,String fecha) {
         this.numeroTicket = numeroTicket;
         this.servicio = servicio;
         this.producto = producto;
@@ -18,6 +19,7 @@ public class Ticket {
         this.precioConIVA = precioConIVA;
         this.cliente = cliente;
         this.metodoPago = metodoPago;
+        this.fecha = fecha;
     }
 
     public int getNumeroTicket() {
@@ -72,5 +74,13 @@ public class Ticket {
 
     public void setMetodoPago(String metodoPago) {
         this.metodoPago = metodoPago;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fechaHora) {
+        this.fecha = fechaHora;
     }
 }

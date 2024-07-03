@@ -1,9 +1,6 @@
 package Database.ServiciosRealizados;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Insertar {
     private static int numeroTicket;
@@ -13,10 +10,11 @@ public class Insertar {
     private static double precioIVA;
     private static String cliente;
     private static String metodoPago;
+    private static String fecha;
     private Connection conn = null;
     private PreparedStatement pstmt = null;
 
-    public Insertar(int numeroTicket, String servicio, String producto,int cantidad, double precioIVA, String cliente, String metodoPago) {
+    public Insertar(int numeroTicket, String servicio, String producto, int cantidad, double precioIVA, String cliente, String metodoPago, String fecha) {
         this.numeroTicket = numeroTicket;
         this.servicio = servicio;
         this.producto = producto;
@@ -24,12 +22,13 @@ public class Insertar {
         this.precioIVA = precioIVA;
         this.cliente = cliente;
         this.metodoPago = metodoPago;
+        this.fecha = fecha;
     }
 
     public void insertarTicket() {
         try {
             conn = getConnection();
-            pstmt = conn.prepareStatement("INSERT INTO SERVICIOSREALIZADOS (numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            pstmt = conn.prepareStatement("INSERT INTO SERVICIOSREALIZADOS (numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago,fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setInt(1, this.numeroTicket);
             pstmt.setString(2, this.servicio);
             pstmt.setString(3, this.producto);
@@ -37,6 +36,7 @@ public class Insertar {
             pstmt.setDouble(5, this.precioIVA);
             pstmt.setString(6, this.cliente);
             pstmt.setString(7, this.metodoPago);
+            pstmt.setString(8, this.fecha);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Error en INSERT de SERVICIOSREALIZADOS: " + ex.getMessage());
