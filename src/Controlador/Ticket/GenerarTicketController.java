@@ -36,9 +36,11 @@ public class GenerarTicketController {
         if (ultimoTicket != null) {
             // Aquí puedes proceder con el ticket obtenido
             nTicket = ultimoTicket.getNumeroTicket() + 1; // Incrementar el número de ticket
+            vista.setTxtNumeroTicket(String.valueOf(nTicket));
         } else {
             // Manejo del caso cuando no hay tickets en la base de datos
             nTicket = 1; // Puedes iniciar desde el número 1 si no hay tickets previos
+            vista.setTxtNumeroTicket(String.valueOf(nTicket));
         }
 
         actualizarComboBoxCodigoServicio();
@@ -217,7 +219,7 @@ public class GenerarTicketController {
                 y += yShift;
                 g2d.drawString("       +34 915 21 48 86      ", 10, y);
                 y += yShift;
-                g2d.drawString("       nTicket : "  + nTicket, 10, y);
+                g2d.drawString("       nTicket : "  + (nTicket - 1), 10, y);
                 y += yShift;
                 g2d.drawString("-------------------------------------", 10, y);
                 y += headerRectHeight;

@@ -19,7 +19,7 @@
             JPanel panelFiltro = new JPanel(new FlowLayout());
             panelFiltro.setBorder(BorderFactory.createTitledBorder("Ticket Filtro"));
 
-            txtNumeroTicket = new JTextField( 3);
+            txtNumeroTicket = new JTextField( "0");
             txtServicio = new JTextField(6);
             txtProducto = new JTextField(6);
             txtCantidad = new JTextField(3);
