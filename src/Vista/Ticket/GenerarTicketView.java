@@ -21,7 +21,9 @@ public class GenerarTicketView extends JPanel {
         JPanel panelFormulario = new JPanel(new GridLayout(8, 2, 10, 10));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Generar Ticket"));
 
-        txtNumeroTicket = new JTextField(nTicket);
+        txtNumeroTicket = new JTextField();
+        txtNumeroTicket.setEditable(false); // Hacer el campo no editable
+        txtNumeroTicket.setHorizontalAlignment(JTextField.RIGHT); // Alinear a la derecha
         comboServicios = new JComboBox<>();
         txtCantidad = new JTextField("1");
         txtProducto = new JTextField("Champu Normal");

@@ -4,9 +4,11 @@ import Database.Servicios.Eliminar;
 import Database.Servicios.Insertar;
 import Database.Servicios.Modificar;
 import Objeto.Servicio;
+import Objeto.Ticket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.Collections;
 import java.util.List;
 
 public class ServiciosModel {
@@ -66,4 +68,20 @@ public class ServiciosModel {
         Eliminar eliminar = new Eliminar(nombreSeleccionado);
         eliminar.eliminarServicio();
     }
+
+    public List<Servicio> getServices() {
+        Consulta consulta = new Consulta();
+        consulta.consultarServicios();
+        List<Servicio> serviciosList = consulta.getServiciosList();
+
+        if (!serviciosList.isEmpty()) {
+            return serviciosList; // Devuelve la lista completa de servicios
+        } else {
+            // Manejo de caso cuando no hay servicios en la lista
+            return Collections.emptyList(); // Devuelve una lista vacía
+        }
+    }
+
+
+
 }

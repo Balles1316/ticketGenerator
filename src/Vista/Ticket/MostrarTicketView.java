@@ -43,7 +43,7 @@
 
             add(panelFiltro, BorderLayout.NORTH);
 
-            String[] columnas = {"N-Ticket", "Servicio" , "Producto" , "Cantidad", "PrecioIVA", "Cliente","MetodoPago","Fecha"};
+            String[] columnas = {"N-Ticket", "Servicio" , "Producto" , "Cantidad", "Valance", "Cliente","MetodoPago","Fecha"};
             modeloTabla = new DefaultTableModel(columnas, 0);
             tablaTicket = new JTable(modeloTabla);
             tablaTicket.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
