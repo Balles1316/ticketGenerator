@@ -253,7 +253,7 @@ public class GenerarTicketController {
                 y += yShift;
                 g2d.drawString("       SOFTWARE BY:Balles1316          ", 10, y);
                 y += yShift;
-                g2d.drawString("CONTACT: Github : Balles1316 ", 10, y);
+                g2d.drawString("    CONTACT: Github : Balles1316 ", 10, y);
                 y += yShift;
 
                 return PAGE_EXISTS;
