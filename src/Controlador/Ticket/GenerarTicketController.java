@@ -74,13 +74,13 @@ public class GenerarTicketController {
             if (nombreSeleccionado != null) {
                 for (Servicio servicio : servicioList) {
                     if (servicio.getNombre().equals(nombreSeleccionado)) {
-                        vista.getTxtPrecioConIVA().setText(String.valueOf(servicio.getPrecio()));
+                        vista.getTxtBalanceConIVA().setText(String.valueOf(servicio.getPrecio()));
 
                         // Verificar si los campos no están vacíos antes de convertirlos
                         String numeroTicketStr = vista.getNumeroTicket();
                         String producto = vista.getProducto();
                         String cantidadStr = vista.getCantidad();
-                        String precioConIVAStr = vista.getTxtPrecioConIVA().getText();
+                        String precioConIVAStr = vista.getTxtBalanceConIVA().getText();
                         String cliente = vista.getClienteEncontrado();
                         String metodoPago = vista.getMetodoPago();
 
@@ -95,7 +95,7 @@ public class GenerarTicketController {
 
                                 // Actualizar el total acumulado en el campo de precio con IVA
                                 double valance = almacen.stream().mapToDouble(Ticket::getPrecioConIVA).sum();
-                                vista.getTxtPrecioConIVA().setText(String.valueOf(valance));
+                                vista.getTxtBalanceConIVA().setText(String.valueOf(valance));
 
                             } catch (NumberFormatException ex) {
                                 vista.mostrarMensaje("Formato incorrecto en número de ticket, cantidad o precio con IVA.");
@@ -125,7 +125,7 @@ public class GenerarTicketController {
             String servicio = vista.getServicio();
             String producto = vista.getProducto();
             String cantidadStr = vista.getCantidad();
-            String precioConIVAStr = String.valueOf(vista.getPrecioConIVA());
+            String precioConIVAStr = String.valueOf(vista.getBalanceConIVA());
             String cliente = vista.getClienteEncontrado();
             String metodoPago = vista.getMetodoPago();
 
@@ -253,7 +253,7 @@ public class GenerarTicketController {
                 y += yShift;
                 g2d.drawString("       SOFTWARE BY:Balles1316          ", 10, y);
                 y += yShift;
-                g2d.drawString("    CONTACT: Github : Balles1316 ", 10, y);
+                g2d.drawString("    CONTACT: romanballesteros8@Hotmail.com ", 10, y);
                 y += yShift;
 
                 return PAGE_EXISTS;

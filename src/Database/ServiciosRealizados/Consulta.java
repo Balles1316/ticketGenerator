@@ -37,7 +37,7 @@ public class Consulta {
                 String metodoPago = rs.getString("metodoPago");
                 String fechaHora = rs.getString("fecha");
 
-                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago,fechaHora);
+                Ticket ticket = new Ticket(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, metodoPago, fechaHora);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {
@@ -56,7 +56,7 @@ public class Consulta {
         }
     }
 
-    public void consultarTicketsConFiltros(String numeroTicket, String servicio, String producto, String cantidad, String precioIVA, String cliente) {
+    public void consultarTicketsConFiltros(String numeroTicket, String servicio, String producto, String precioIVA, String cliente, String metodoPago, String fecha) {
         Connection connection = null;
         Statement s = null;
         ResultSet rs = null;
@@ -75,14 +75,17 @@ public class Consulta {
             if (!producto.isEmpty()) {
                 query += " AND producto LIKE '%" + producto + "%'";
             }
-            if (!cantidad.isEmpty()) {
-                query += " AND cantidad LIKE '%" + cantidad + "%'";
-            }
             if (!precioIVA.isEmpty()) {
                 query += " AND precioIVA LIKE '%" + precioIVA + "%'";
             }
             if (!cliente.isEmpty()) {
                 query += " AND cliente LIKE '%" + cliente + "%'";
+            }
+            if (!metodoPago.isEmpty()) {
+                query += " AND metodoPago LIKE '%" + metodoPago + "%'";
+            }
+            if (!fecha.isEmpty()) {
+                query += " AND fecha LIKE '%" + fecha + "%'";
             }
 
             rs = s.executeQuery(query);
@@ -99,7 +102,7 @@ public class Consulta {
                 String metodoPagoVal = rs.getString("metodoPago");
                 String fechaHora = rs.getString("fecha");
 
-                Ticket ticket = new Ticket(numeroTicketVal, servicioVal, productoVal, cantidadVal, precioIVAVal, clienteVal, metodoPagoVal,fechaHora);
+                Ticket ticket = new Ticket(numeroTicketVal, servicioVal, productoVal, cantidadVal, precioIVAVal, clienteVal, metodoPagoVal, fechaHora);
                 ticketsList.add(ticket);
             }
         } catch (SQLException ex) {

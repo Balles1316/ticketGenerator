@@ -36,10 +36,12 @@ public class MostrarTicketController {
         String numeroTicket = vista.getTxtNumeroTicket().getText();
         String servicio = vista.getTxtServicio().getText();
         String producto = vista.getTxtProducto().getText();
-        String cantidad = vista.getTxtCantidad().getText();
-        String precioIVA = vista.getTxtPrecioConIVA().getText();
+        String balance = vista.getTxtPrecioConIVA().getText();
         String cliente = vista.getTxtCliente().getText();
+        String metodoPago = (String) vista.getComboMetodoPago().getSelectedItem();
+        String fecha = vista.getTxtFecha().getText();
 
-        modelo.buscarTickets(numeroTicket, servicio, producto, cantidad, precioIVA, cliente, vista.getTablaTicket(), vista.getModeloTabla());
+        modelo.buscarTickets(numeroTicket, servicio, producto, balance, cliente, metodoPago, fecha, vista.getTablaTicket(), vista.getModeloTabla());
     }
+
 }

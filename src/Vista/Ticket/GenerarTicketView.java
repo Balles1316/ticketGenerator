@@ -4,10 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static Controlador.Ticket.GenerarTicketController.nTicket;
-
 public class GenerarTicketView extends JPanel {
-    private JTextField txtNumeroTicket, txtCantidad, txtProducto, txtPrecioConIVA, txtCliente, txtClienteEncontrado;
+    private JTextField txtNumeroTicket, txtCantidad, txtProducto, txtBalanceConIVA, txtCliente, txtClienteEncontrado;
     private JComboBox<String> comboServicios;
     private JButton btnImprimir, btnBuscar;
     private JRadioButton jRadiometalico, jRadioVisa;
@@ -27,7 +25,7 @@ public class GenerarTicketView extends JPanel {
         comboServicios = new JComboBox<>();
         txtCantidad = new JTextField("1");
         txtProducto = new JTextField("Champu Normal");
-        txtPrecioConIVA = new JTextField();
+        txtBalanceConIVA = new JTextField();
         txtCliente = new JTextField();
         btnBuscar = new JButton("Buscar");
         txtClienteEncontrado = new JTextField("Anonimo");
@@ -50,8 +48,8 @@ public class GenerarTicketView extends JPanel {
         panelFormulario.add(txtCantidad);
         panelFormulario.add(new JLabel("Producto:"));
         panelFormulario.add(txtProducto);
-        panelFormulario.add(new JLabel("Precio ConIVA:"));
-        panelFormulario.add(txtPrecioConIVA);
+        panelFormulario.add(new JLabel("Balance :"));
+        panelFormulario.add(txtBalanceConIVA);
         panelFormulario.add(new JLabel("Cliente:"));
         JPanel clientePanel = new JPanel(new BorderLayout());
         clientePanel.add(txtCliente, BorderLayout.CENTER);
@@ -108,16 +106,16 @@ public class GenerarTicketView extends JPanel {
         return txtCantidad.getText().trim();
     }
 
-    public String getPrecioConIVA() {
-        return txtPrecioConIVA.getText().trim();
+    public String getBalanceConIVA() {
+        return txtBalanceConIVA.getText().trim();
     }
 
-    public JTextField getTxtPrecioConIVA() {
-        return txtPrecioConIVA;
+    public JTextField getTxtBalanceConIVA() {
+        return txtBalanceConIVA;
     }
 
-    public void setTxtPrecioConIVA(JTextField txtPrecioConIVA) {
-        this.txtPrecioConIVA = txtPrecioConIVA;
+    public void settxtBalanceConIVA(JTextField txtBalanceConIVA) {
+        this.txtBalanceConIVA = txtBalanceConIVA;
     }
 
     public String getClienteEncontrado() {
@@ -139,7 +137,7 @@ public class GenerarTicketView extends JPanel {
 
     public void limpiarCampos() {
         txtCantidad.setText("1");
-        txtPrecioConIVA.setText("");
+        txtBalanceConIVA.setText("");
         txtCliente.setText("");
     }
 }

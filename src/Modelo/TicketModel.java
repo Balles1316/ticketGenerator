@@ -2,15 +2,10 @@ package Modelo;
 
 import Database.ServiciosRealizados.Consulta;
 import Database.ServiciosRealizados.Insertar;
-import Objeto.Servicio;
 import Objeto.Ticket;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
 import java.util.List;
 
 public class TicketModel {
@@ -34,7 +29,6 @@ public class TicketModel {
                     ticket.getNumeroTicket(),
                     ticket.getServicio(),
                     ticket.getProducto(),
-                    ticket.getCantidad(),
                     ticket.getPrecioConIVA(),
                     ticket.getCliente(),
                     ticket.getMetodoPago(),
@@ -48,9 +42,9 @@ public class TicketModel {
         insertar.insertarTicket();
     }
 
-    public void buscarTickets(String numeroTicket, String servicio, String producto, String cantidad, String precioIVA, String cliente, JTable tablaTickets, DefaultTableModel modeloTabla) {
+    public void buscarTickets(String numeroTicket, String servicio, String producto, String precioIVA, String cliente, String metodoPago, String fecha, JTable tablaTickets, DefaultTableModel modeloTabla) {
         Consulta consulta = new Consulta();
-        consulta.consultarTicketsConFiltros(numeroTicket, servicio, producto, cantidad, precioIVA, cliente);
+        consulta.consultarTicketsConFiltros(numeroTicket, servicio, producto, precioIVA, cliente, metodoPago, fecha);
 
         if (tablaTickets == null || tablaTickets.getModel() != modeloTabla) {
             tablaTickets.setModel(modeloTabla);
@@ -66,10 +60,10 @@ public class TicketModel {
                     ticket.getNumeroTicket(),
                     ticket.getServicio(),
                     ticket.getProducto(),
-                    ticket.getCantidad(),
                     ticket.getPrecioConIVA(),
                     ticket.getCliente(),
-                    ticket.getMetodoPago()
+                    ticket.getMetodoPago(),
+                    ticket.getFecha()
             });
         }
     }
@@ -86,5 +80,4 @@ public class TicketModel {
             return null; // O puedes lanzar una excepción, dependiendo de tus necesidades
         }
     }
-
 }
