@@ -1,6 +1,5 @@
 package Controlador.Ticket;
 
-import Database.Servicios.Consulta;
 import Modelo.ServiciosModel;
 import Modelo.TicketModel;
 import Objeto.Servicio;
@@ -9,8 +8,6 @@ import Vista.Ticket.GenerarTicketView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -24,7 +21,7 @@ public class GenerarTicketController {
     private final TicketModel modelo;
     private final ServiciosModel modeloServicios;
     public static int nTicket = 0;
-    private List<Ticket> almacen;
+    private final List<Ticket> almacen;
 
     public GenerarTicketController(GenerarTicketView vista, TicketModel modelo) {
         this.vista = vista;
@@ -147,7 +144,7 @@ public class GenerarTicketController {
 
                                             // Guardar Ticket en la BD
                                             modelo.guardarTicket(numeroTicket, servicio, producto, cantidad, precioConIVA, cliente, metodoPago, fecha);
-                                            vista.mostrarMensaje("Ticket guardado correctamente.");
+                                            vista.mostrarMensaje("Ticket guardado correctamente en la base de datos local.");
 
                                             // Traigo el nTicket, le sumo 1 y lo vuelvo a pasar
                                             nTicket = Integer.parseInt(vista.getNumeroTicket());
@@ -187,77 +184,77 @@ public class GenerarTicketController {
 
     private void iniciarImpresion() {
         PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(new Printable() {
-            @Override
-            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-                if (pageIndex > 0) {
-                    return NO_SUCH_PAGE;
-                }
-
-                Graphics2D g2d = (Graphics2D) graphics;
-                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-
-                int y = 20;
-                int yShift = 10;
-                int headerRectHeight = 15;
-
-                g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-
-                ImageIcon icon = new ImageIcon("C:\\PARABEUS.jpg");
-                // g2d.drawImage(icon.getImage(), 50, 20, 90, 30, rootPane);
-                y += yShift + 30;
-                g2d.drawString("-------------------------------------", 10, y);
-                y += yShift;
-                g2d.drawString("         Parabeus S.L        ", 10, y);
-                y += yShift;
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                String fecha = dateFormat.format(new Date());
-                g2d.drawString("       Fecha/Hora: " + fecha, 0, y);
-                y += yShift;
-                g2d.drawString("       Calle Sagasta n 15    ", 10, y);
-                y += yShift;
-                g2d.drawString("       +34 915 21 48 86      ", 10, y);
-                y += yShift;
-                g2d.drawString("       nTicket : "  + (nTicket - 1), 10, y);
-                y += yShift;
-                g2d.drawString("-------------------------------------", 10, y);
-                y += headerRectHeight;
-
-                g2d.drawString(" Item Name                  Price   ", 10, y);
-                y += yShift;
-                g2d.drawString("-------------------------------------", 10, y);
-                y += headerRectHeight;
-
-                for (Ticket ticket : almacen) {
-                    g2d.drawString(" " + ticket.getServicio() + "                            ", 10, y);
-                    y += yShift;
-                    g2d.drawString("      " + ticket.getCantidad() + " * " + ticket.getPrecioConIVA(), 10, y);
-                    g2d.drawString(String.valueOf(ticket.getCantidad() * ticket.getPrecioConIVA()), 160, y);
-                    y += yShift;
-                }
-
-                g2d.drawString("-------------------------------------", 10, y);
-                y += yShift;
-                double totalAmount = almacen.stream().mapToDouble(t -> t.getCantidad() * t.getPrecioConIVA()).sum();
-                g2d.drawString(" Total amount:               " + totalAmount + "   ", 10, y);
-                y += yShift;
-                g2d.drawString("-------------------------------------", 10, y);
-                y += yShift;
-
-                g2d.drawString("*************************************", 10, y);
-                y += yShift;
-                g2d.drawString("       THANK YOU COME AGAIN          ", 10, y);
-                y += yShift;
-                g2d.drawString("*************************************", 10, y);
-                y += yShift;
-                g2d.drawString("       SOFTWARE BY:Balles1316          ", 10, y);
-                y += yShift;
-                g2d.drawString("    CONTACT: romanballesteros8@Hotmail.com ", 10, y);
-                y += yShift;
-
-                return PAGE_EXISTS;
+        job.setPrintable((graphics, pageFormat, pageIndex) -> {
+            if (pageIndex > 0) {
+                return Printable.NO_SUCH_PAGE;
             }
+
+            Graphics2D g2d = (Graphics2D) graphics;
+            g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+            int pageWidth = (int) pageFormat.getImageableWidth();
+            int y = 20;
+            int yShift = 10;
+            int headerRectHeight = 15;
+
+            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
+
+            ImageIcon icon = new ImageIcon("C:\\PARABEUS.jpg");
+
+            int imgX = (pageWidth - icon.getIconWidth()) / 2;
+            g2d.drawImage(icon.getImage(), imgX, y, icon.getIconWidth(), icon.getIconHeight(), null);
+            y += icon.getIconHeight() + yShift;
+
+            g2d.drawString("-------------------------------------", 10, y);
+            y += yShift;
+            g2d.drawString("         Parabeus S.L        ", 10, y);
+            y += yShift;
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha = dateFormat.format(new Date());
+            g2d.drawString("       Fecha/Hora: " + fecha, 0, y);
+            y += yShift;
+            g2d.drawString("       Calle Sagasta n 15    ", 10, y);
+            y += yShift;
+            g2d.drawString("       +34 915 21 48 86      ", 10, y);
+            y += yShift;
+            g2d.drawString("       nTicket : "  + (nTicket - 1), 10, y);
+            y += yShift;
+            g2d.drawString("-------------------------------------", 10, y);
+            y += headerRectHeight;
+
+            g2d.drawString(" Item Name                  Price   ", 10, y);
+            y += yShift;
+            g2d.drawString("-------------------------------------", 10, y);
+            y += headerRectHeight;
+
+            for (Ticket ticket : almacen) {
+                g2d.drawString(" " + ticket.getServicio() + "                            ", 10, y);
+                y += yShift;
+                g2d.drawString("      " + ticket.getCantidad() + " * " + ticket.getPrecioConIVA(), 10, y);
+                g2d.drawString(String.valueOf(ticket.getCantidad() * ticket.getPrecioConIVA()), 160, y);
+                y += yShift;
+            }
+
+            g2d.drawString("-------------------------------------", 10, y);
+            y += yShift;
+            double totalAmount = almacen.stream().mapToDouble(t -> t.getCantidad() * t.getPrecioConIVA()).sum();
+            g2d.drawString(" Total amount:               " + totalAmount + "   ", 10, y);
+            y += yShift;
+            g2d.drawString("-------------------------------------", 10, y);
+            y += yShift;
+
+            g2d.drawString("*************************************", 10, y);
+            y += yShift;
+            g2d.drawString("       THANK YOU COME AGAIN          ", 10, y);
+            y += yShift;
+            g2d.drawString("*************************************", 10, y);
+            y += yShift;
+            g2d.drawString("       SOFTWARE BY:Balles1316          ", 10, y);
+            y += yShift;
+            g2d.drawString("    CONTACT: romanballesteros8@Hotmail.com ", 10, y);
+
+            return Printable.PAGE_EXISTS;
         });
         boolean doPrint = job.printDialog();
         if (doPrint) {
