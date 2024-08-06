@@ -192,33 +192,34 @@ public class GenerarTicketController {
             Graphics2D g2d = (Graphics2D) graphics;
             g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
-            int pageWidth = (int) pageFormat.getImageableWidth();
             int y = 20;
             int yShift = 10;
             int headerRectHeight = 15;
 
             g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
 
+            // Imagen de logo
             ImageIcon icon = new ImageIcon("C:\\PARABEUS.jpg");
-
-            int imgX = (pageWidth - icon.getIconWidth()) / 2;
-            g2d.drawImage(icon.getImage(), imgX, y, icon.getIconWidth(), icon.getIconHeight(), null);
-            y += icon.getIconHeight() + yShift;
+            int imgWidth = icon.getIconWidth();
+            int imgHeight = icon.getIconHeight();
+            int imgX = (int) (pageFormat.getImageableWidth() - imgWidth) / 2;
+            g2d.drawImage(icon.getImage(), imgX, y, imgWidth, imgHeight, null);
+            y += imgHeight + yShift;
 
             g2d.drawString("-------------------------------------", 10, y);
             y += yShift;
             g2d.drawString("         Parabeus S.L        ", 10, y);
             y += yShift;
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             String fecha = dateFormat.format(new Date());
-            g2d.drawString("       Fecha/Hora: " + fecha, 0, y);
+            g2d.drawString("       Fecha/Hora: " + fecha, 10, y);
             y += yShift;
             g2d.drawString("       Calle Sagasta n 15    ", 10, y);
             y += yShift;
             g2d.drawString("       +34 915 21 48 86      ", 10, y);
             y += yShift;
-            g2d.drawString("       nTicket : "  + (nTicket - 1), 10, y);
+            g2d.drawString("       nTicket : " + (nTicket - 1), 10, y);
             y += yShift;
             g2d.drawString("-------------------------------------", 10, y);
             y += headerRectHeight;
@@ -229,7 +230,7 @@ public class GenerarTicketController {
             y += headerRectHeight;
 
             for (Ticket ticket : almacen) {
-                g2d.drawString(" " + ticket.getServicio() + "                            ", 10, y);
+                g2d.drawString(" " + ticket.getServicio(), 10, y);
                 y += yShift;
                 g2d.drawString("      " + ticket.getCantidad() + " * " + ticket.getPrecioConIVA(), 10, y);
                 g2d.drawString(String.valueOf(ticket.getCantidad() * ticket.getPrecioConIVA()), 160, y);
@@ -239,7 +240,7 @@ public class GenerarTicketController {
             g2d.drawString("-------------------------------------", 10, y);
             y += yShift;
             double totalAmount = almacen.stream().mapToDouble(t -> t.getCantidad() * t.getPrecioConIVA()).sum();
-            g2d.drawString(" Total amount:               " + totalAmount + "   ", 10, y);
+            g2d.drawString(" Total amount:               " + totalAmount, 10, y);
             y += yShift;
             g2d.drawString("-------------------------------------", 10, y);
             y += yShift;
@@ -256,6 +257,7 @@ public class GenerarTicketController {
 
             return Printable.PAGE_EXISTS;
         });
+
         boolean doPrint = job.printDialog();
         if (doPrint) {
             try {
