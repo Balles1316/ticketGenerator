@@ -204,11 +204,13 @@ public class GenerarTicketController {
                 g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
 
                 ImageIcon icon = new ImageIcon("C:\\PARABEUS.jpg");
-                // g2d.drawImage(icon.getImage(), 50, 20, 90, 30, rootPane);
+                g2d.drawImage(icon.getImage(), 50, 20, 90, 30, null);
                 y += yShift + 30;
                 g2d.drawString("-------------------------------------", 10, y);
                 y += yShift;
                 g2d.drawString("         Parabeus S.L        ", 10, y);
+                y += yShift;
+                g2d.drawString("         ZIF: B87426813        ", 10, y);
                 y += yShift;
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -251,9 +253,9 @@ public class GenerarTicketController {
                 y += yShift;
                 g2d.drawString("*************************************", 10, y);
                 y += yShift;
-                g2d.drawString("       SOFTWARE BY:Balles1316          ", 10, y);
+                g2d.drawString("       SOFTWARE BY:Balles1316 + Blue_Bot       ", 10, y);
                 y += yShift;
-                g2d.drawString("    CONTACT: romanballesteros8@Hotmail.com ", 10, y);
+                g2d.drawString("    CONTACT: +34 915 21 48 86 ", 10, y);
                 y += yShift;
 
                 return PAGE_EXISTS;
