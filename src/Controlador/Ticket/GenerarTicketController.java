@@ -8,9 +8,8 @@ import Vista.Ticket.GenerarTicketView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
+import java.awt.image.ImageObserver;
+import java.awt.print.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +22,8 @@ public class GenerarTicketController {
     public static int nTicket = 0;
     private final List<Ticket> almacen;
 
+    Double bHeight=0.0;
+
     public GenerarTicketController(GenerarTicketView vista, TicketModel modelo) {
         this.vista = vista;
         this.modelo = modelo;
@@ -31,12 +32,12 @@ public class GenerarTicketController {
 
         Ticket ultimoTicket = modelo.getLastTicket();
         if (ultimoTicket != null) {
-            // Aquí puedes proceder con el ticket obtenido
-            nTicket = ultimoTicket.getNumeroTicket() + 1; // Incrementar el número de ticket
+            // Incrementar el número de ticket
+            nTicket = ultimoTicket.getNumeroTicket() + 1;
             vista.setTxtNumeroTicket(String.valueOf(nTicket));
         } else {
-            // Manejo del caso cuando no hay tickets en la base de datos
-            nTicket = 1; // Puedes iniciar desde el número 1 si no hay tickets previos
+            // Si no hay tickets previos, comenzar desde el número 1
+            nTicket = 1;
             vista.setTxtNumeroTicket(String.valueOf(nTicket));
         }
 
@@ -48,11 +49,9 @@ public class GenerarTicketController {
     public void actualizarComboBoxCodigoServicio() {
         List<Servicio> servicioList = modeloServicios.getServices();
 
-        // Verificar si la lista de servicios es null
         if (servicioList == null) {
-            // Manejo de caso cuando la lista de servicios es nula
-            vista.mostrarMensaje("Lista Servicios es nula ! Introduce Servicios !");
-            return; // Salir del método o realizar alguna acción de manejo
+            vista.mostrarMensaje("Lista Servicios es nula. ¡Introduce Servicios!");
+            return;
         }
 
         vista.getComboServicios().removeAllItems();
@@ -61,7 +60,6 @@ public class GenerarTicketController {
             vista.getComboServicios().addItem(servicio.getNombre());
         }
     }
-
 
     private void establecerPrecios() {
         vista.guardarListenerJComboBox(e -> {
@@ -73,7 +71,6 @@ public class GenerarTicketController {
                     if (servicio.getNombre().equals(nombreSeleccionado)) {
                         vista.getTxtBalanceConIVA().setText(String.valueOf(servicio.getPrecio()));
 
-                        // Verificar si los campos no están vacíos antes de convertirlos
                         String numeroTicketStr = vista.getNumeroTicket();
                         String producto = vista.getProducto();
                         String cantidadStr = vista.getCantidad();
@@ -87,10 +84,9 @@ public class GenerarTicketController {
                                 int cantidad = Integer.parseInt(cantidadStr);
                                 double precioConIVA = Double.parseDouble(precioConIVAStr);
 
-                                // Llamar al método para guardar en el almacén
                                 guardarEnAlmacen(numeroTicket, nombreSeleccionado, producto, cantidad, precioConIVA, cliente, metodoPago);
 
-                                // Actualizar el total acumulado en el campo de precio con IVA
+                                // Actualizar el total acumulado
                                 double valance = almacen.stream().mapToDouble(Ticket::getPrecioConIVA).sum();
                                 vista.getTxtBalanceConIVA().setText(String.valueOf(valance));
 
@@ -111,7 +107,7 @@ public class GenerarTicketController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = dateFormat.format(new Date());
 
-        // Agregar ticket al almacen cuando se selecciona un servicio
+        // Agregar ticket al almacen
         Ticket ticket = new Ticket(numeroTicket, nombreSeleccionado, producto, cantidad, precioConIVA, cliente, metodoPago, fecha);
         almacen.add(ticket);
     }
@@ -126,145 +122,153 @@ public class GenerarTicketController {
             String cliente = vista.getClienteEncontrado();
             String metodoPago = vista.getMetodoPago();
 
-            if (!numeroTicketStr.isEmpty()) {
-                if (!producto.isEmpty()) {
-                    if (!cantidadStr.isEmpty()) {
-                        if (!precioConIVAStr.isEmpty()) {
-                            if (!cliente.isEmpty()) {
-                                if (!metodoPago.isEmpty()) {
-                                    try {
-                                        int numeroTicket = Integer.parseInt(numeroTicketStr);
-                                        int cantidad = Integer.parseInt(cantidadStr);
-                                        double precioConIVA = Double.parseDouble(precioConIVAStr);
+            if (!numeroTicketStr.isEmpty() && !producto.isEmpty() && !cantidadStr.isEmpty() && !precioConIVAStr.isEmpty() && !cliente.isEmpty() && !metodoPago.isEmpty()) {
+                try {
+                    int numeroTicket = Integer.parseInt(numeroTicketStr);
+                    int cantidad = Integer.parseInt(cantidadStr);
+                    double precioConIVA = Double.parseDouble(precioConIVAStr);
 
-                                        if (numeroTicket > 0 && cantidad > 0 && precioConIVA > 0.0) {
+                    if (numeroTicket > 0 && cantidad > 0 && precioConIVA > 0.0) {
 
-                                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                                            String fecha = dateFormat.format(new Date());
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String fecha = dateFormat.format(new Date());
 
-                                            // Guardar Ticket en la BD
-                                            modelo.guardarTicket(numeroTicket, servicio, producto, cantidad, precioConIVA, cliente, metodoPago, fecha);
-                                            vista.mostrarMensaje("Ticket guardado correctamente en la base de datos local.");
+                        modelo.guardarTicket(numeroTicket, servicio, producto, cantidad, precioConIVA, cliente, metodoPago, fecha);
+                        vista.mostrarMensaje("Ticket guardado correctamente en la base de datos local.");
 
-                                            // Traigo el nTicket, le sumo 1 y lo vuelvo a pasar
-                                            nTicket = Integer.parseInt(vista.getNumeroTicket());
-                                            nTicket++;
-                                            vista.setTxtNumeroTicket(String.valueOf(nTicket));
+                        nTicket = Integer.parseInt(vista.getNumeroTicket()) + 1;
+                        vista.setTxtNumeroTicket(String.valueOf(nTicket));
 
-                                            // Imprimir el ticket
-                                            iniciarImpresion();
-                                            vista.limpiarCampos();
-                                            almacen.clear();
-                                        } else {
-                                            vista.mostrarMensaje("El número de ticket, la cantidad y el precio con IVA deben ser mayores que cero.");
-                                        }
-                                    } catch (NumberFormatException ex) {
-                                        vista.mostrarMensaje("Formato incorrecto en número de ticket, cantidad o precio con IVA.");
-                                    }
-                                } else {
-                                    vista.mostrarMensaje("El método de pago no puede ser vacío.");
-                                }
-                            } else {
-                                vista.mostrarMensaje("El cliente no puede ser vacío.");
-                            }
-                        } else {
-                            vista.mostrarMensaje("El precio con IVA no puede ser vacío.");
-                        }
+                        iniciarImpresion();
+                        vista.limpiarCampos();
+                        almacen.clear();
                     } else {
-                        vista.mostrarMensaje("La cantidad no puede ser vacía.");
+                        vista.mostrarMensaje("El número de ticket, la cantidad y el precio con IVA deben ser mayores que cero.");
                     }
-                } else {
-                    vista.mostrarMensaje("El producto no puede ser vacío.");
+                } catch (NumberFormatException ex) {
+                    vista.mostrarMensaje("Formato incorrecto en número de ticket, cantidad o precio con IVA.");
                 }
             } else {
-                vista.mostrarMensaje("El número de ticket no puede ser vacío.");
+                vista.mostrarMensaje("Por favor, complete todos los campos.");
             }
         });
     }
 
     private void iniciarImpresion() {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable((graphics, pageFormat, pageIndex) -> {
-            if (pageIndex > 0) {
-                return Printable.NO_SUCH_PAGE;
-            }
 
-            Graphics2D g2d = (Graphics2D) graphics;
-            g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+        bHeight = Double.valueOf(almacen.size());
+        //JOptionPane.showMessageDialog(rootPane, bHeight);
 
-            int y = 20;
-            int yShift = 10;
-            int headerRectHeight = 15;
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        pj.setPrintable(new BillPrintable(),getPageFormat(pj));
+        try {
+            pj.print();
 
-            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-
-            // Imagen de logo
-            ImageIcon icon = new ImageIcon("C:\\PARABEUS.jpg");
-            int imgWidth = icon.getIconWidth();
-            int imgHeight = icon.getIconHeight();
-            int imgX = (int) (pageFormat.getImageableWidth() - imgWidth) / 2;
-            g2d.drawImage(icon.getImage(), imgX, y, imgWidth, imgHeight, null);
-            y += imgHeight + yShift;
-
-            g2d.drawString("-------------------------------------", 10, y);
-            y += yShift;
-            g2d.drawString("         Parabeus S.L        ", 10, y);
-            y += yShift;
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String fecha = dateFormat.format(new Date());
-            g2d.drawString("       Fecha/Hora: " + fecha, 10, y);
-            y += yShift;
-            g2d.drawString("       Calle Sagasta n 15    ", 10, y);
-            y += yShift;
-            g2d.drawString("       +34 915 21 48 86      ", 10, y);
-            y += yShift;
-            g2d.drawString("       nTicket : " + (nTicket - 1), 10, y);
-            y += yShift;
-            g2d.drawString("-------------------------------------", 10, y);
-            y += headerRectHeight;
-
-            g2d.drawString(" Item Name                  Price   ", 10, y);
-            y += yShift;
-            g2d.drawString("-------------------------------------", 10, y);
-            y += headerRectHeight;
-
-            for (Ticket ticket : almacen) {
-                g2d.drawString(" " + ticket.getServicio(), 10, y);
-                y += yShift;
-                g2d.drawString("      " + ticket.getCantidad() + " * " + ticket.getPrecioConIVA(), 10, y);
-                g2d.drawString(String.valueOf(ticket.getCantidad() * ticket.getPrecioConIVA()), 160, y);
-                y += yShift;
-            }
-
-            g2d.drawString("-------------------------------------", 10, y);
-            y += yShift;
-            double totalAmount = almacen.stream().mapToDouble(t -> t.getCantidad() * t.getPrecioConIVA()).sum();
-            g2d.drawString(" Total amount:               " + totalAmount, 10, y);
-            y += yShift;
-            g2d.drawString("-------------------------------------", 10, y);
-            y += yShift;
-
-            g2d.drawString("*************************************", 10, y);
-            y += yShift;
-            g2d.drawString("       THANK YOU COME AGAIN          ", 10, y);
-            y += yShift;
-            g2d.drawString("*************************************", 10, y);
-            y += yShift;
-            g2d.drawString("       SOFTWARE BY:Balles1316          ", 10, y);
-            y += yShift;
-            g2d.drawString("    CONTACT: romanballesteros8@Hotmail.com ", 10, y);
-
-            return Printable.PAGE_EXISTS;
-        });
-
-        boolean doPrint = job.printDialog();
-        if (doPrint) {
-            try {
-                job.print();
-            } catch (PrinterException e) {
-                e.printStackTrace();
-            }
+        }
+        catch (PrinterException ex) {
+            vista.mostrarMensaje("Error al imprimir: " + ex.getMessage());
         }
     }
+
+    public PageFormat getPageFormat(PrinterJob pj)
+    {
+
+        PageFormat pf = pj.defaultPage();
+        Paper paper = pf.getPaper();
+
+        double bodyHeight = bHeight;
+        double headerHeight = 5.0;
+        double footerHeight = 5.0;
+        double width = cm_to_pp(8);
+        double height = cm_to_pp(headerHeight+bodyHeight+footerHeight);
+        paper.setSize(width, height);
+        paper.setImageableArea(0,10,width,height - cm_to_pp(1));
+
+        pf.setOrientation(PageFormat.PORTRAIT);
+        pf.setPaper(paper);
+
+        return pf;
+    }
+
+    protected static double cm_to_pp(double cm)
+    {
+        return toPPI(cm * 0.393600787);
+    }
+
+    protected static double toPPI(double inch)
+    {
+        return inch * 72d;
+    }
+
+    public class BillPrintable implements Printable {
+
+        public int print(Graphics graphics, PageFormat pageFormat,int pageIndex)
+                throws PrinterException
+        {
+
+            int r= almacen.size();
+            ImageIcon icon=new ImageIcon("C:\\PARABEUS.jpg");
+            int result = NO_SUCH_PAGE;
+            if (pageIndex == 0) {
+
+                Graphics2D g2d = (Graphics2D) graphics;
+                double width = pageFormat.getImageableWidth();
+                g2d.translate((int) pageFormat.getImageableX(),(int) pageFormat.getImageableY());
+
+
+
+                //  FontMetrics metrics=g2d.getFontMetrics(new Font("Arial",Font.BOLD,7));
+
+                try{
+                    int y=20;
+                    int yShift = 10;
+                    int headerRectHeight=15;
+                    // int headerRectHeighta=40;
+
+
+                    g2d.setFont(new Font("Monospaced",Font.PLAIN,9));
+                    g2d.drawImage(icon.getImage(), 50, 20, 90, 30, vista.getRootPane());y+=yShift+30;
+                    g2d.drawString("-------------------------------------",12,y);y+=yShift;
+                    g2d.drawString("         Parabeus.es         ",12,y);y+=yShift;
+                    g2d.drawString("       NIE : B-87426813         ",12,y);y+=yShift;
+                    g2d.drawString("       Calle Sagasta n 15    ",12,y);y+=yShift;
+                    g2d.drawString("       +34 915 21 48 86      ",12,y);y+=yShift;
+                    g2d.drawString("-------------------------------------",12,y);y+=headerRectHeight;
+
+                    g2d.drawString(" Item Name                  Price   ",10,y);y+=yShift;
+                    g2d.drawString("-------------------------------------",10,y);y+=headerRectHeight;
+
+                    // Recorrer los artículos y ajustarlos al centro
+                    for (Ticket ticket : almacen) {
+                        g2d.drawString(" " + ticket.getServicio() + "                            ", 10, y);
+                        y += yShift;
+                        g2d.drawString("      " + ticket.getCantidad() + " * " + ticket.getPrecioConIVA(), 10, y);
+                        y += yShift;
+                    }
+
+                    g2d.drawString("-------------------------------------",10,y);y+=yShift;
+                    g2d.drawString(" Total amount:               "+vista.getBalanceConIVA()+"   ",10,y);y+=yShift;
+                    g2d.drawString("-------------------------------------",10,y);y+=yShift;
+                    g2d.drawString(" Cash      :                 "/*+txtcash.getText()*/+"   ",10,y);y+=yShift;
+                    g2d.drawString("-------------------------------------",10,y);y+=yShift;
+                    g2d.drawString(" Balance   :                 "/*+txtbalance.getText()*/+"   ",10,y);y+=yShift;
+
+                    g2d.drawString("*************************************",10,y);y+=yShift;
+                    g2d.drawString("       THANK YOU COME AGAIN            ",10,y);y+=yShift;
+                    g2d.drawString("*************************************",10,y);y+=yShift;
+                    g2d.drawString("       SOFTWARE BY:PARABEUS          ",10,y);y+=yShift;
+                    g2d.drawString(" CONTACT: parabeuspeluqueria@gmail.com ",10,y);y+=yShift;
+
+
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+
+                result = PAGE_EXISTS;
+            }
+            return result;
+        }
+    }
+
 }
