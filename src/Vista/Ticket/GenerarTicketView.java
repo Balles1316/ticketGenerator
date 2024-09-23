@@ -9,6 +9,7 @@ public class GenerarTicketView extends JPanel {
     private JComboBox<String> comboServicios;
     private JButton btnImprimir, btnBuscar;
     private JRadioButton jRadiometalico, jRadioVisa;
+    private JRadioButton jRadioPapel, jRadioEmail;
 
     public GenerarTicketView() {
         setLayout(new BorderLayout());
@@ -16,7 +17,7 @@ public class GenerarTicketView extends JPanel {
     }
 
     private void inicializarComponentes() {
-        JPanel panelFormulario = new JPanel(new GridLayout(8, 2, 10, 10));
+        JPanel panelFormulario = new JPanel(new GridLayout(10, 2, 10, 10));
         panelFormulario.setBorder(BorderFactory.createTitledBorder("Generar Ticket"));
 
         txtNumeroTicket = new JTextField();
@@ -30,15 +31,28 @@ public class GenerarTicketView extends JPanel {
         btnBuscar = new JButton("Buscar");
         txtClienteEncontrado = new JTextField("Anonimo");
         btnImprimir = new JButton("Imprimir");
+
         jRadiometalico = new JRadioButton("Metalico");
         jRadioVisa = new JRadioButton("Tarjeta Crédito/Débito");
+
+        jRadioPapel = new JRadioButton("Papel");
+        jRadioEmail = new JRadioButton("Correo Electronico");
 
         // Set jRadioVisa as the default selected option
         jRadioVisa.setSelected(true);
 
+        // Set jRadioPapel as the default selected option
+        jRadioPapel.setSelected(true);
+
         ButtonGroup bGroup = new ButtonGroup();
         bGroup.add(jRadiometalico);
         bGroup.add(jRadioVisa);
+
+/*
+        ButtonGroup b2Group = new ButtonGroup();
+        b2Group.add(jRadioPapel);
+        b2Group.add(jRadioEmail);
+*/
 
         panelFormulario.add(new JLabel("Numero Ticket:"));
         panelFormulario.add(txtNumeroTicket);
@@ -58,10 +72,18 @@ public class GenerarTicketView extends JPanel {
         panelFormulario.add(new JLabel("Cliente Encontrado:"));
         panelFormulario.add(txtClienteEncontrado);
         panelFormulario.add(new JLabel("Metodo de Pago"));
+
         JPanel metodoPanel = new JPanel(new FlowLayout());
         metodoPanel.add(jRadiometalico);
         metodoPanel.add(jRadioVisa);
         panelFormulario.add(metodoPanel);
+
+        panelFormulario.add(new JLabel("Forma Impresión Ticket"));
+
+        JPanel metodoImpresionPanel = new JPanel(new FlowLayout());
+        metodoImpresionPanel.add(jRadioPapel);
+        metodoImpresionPanel.add(jRadioEmail);
+        panelFormulario.add(metodoImpresionPanel);
 
         add(panelFormulario, BorderLayout.CENTER);
 
@@ -131,10 +153,54 @@ public class GenerarTicketView extends JPanel {
         return "";
     }
 
+    public String getFormaImpresion() {
+        if (jRadioPapel.isSelected()) {
+            return "Papel";
+        } else if (jRadioEmail.isSelected()) {
+            return "Email";
+        }else if (jRadioEmail.isSelected() && jRadioPapel.isSelected()) {
+            return "PapelEmail";
+        }
+        return "";
+    }
+
+    /**
+     * Muestra un mensaje en una ventana emergente.
+     * @param message Que quieras mostrar en la ventana emergente
+     */
     public void mostrarMensaje(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
 
+    /**
+     * Muestra un cuadro de diálogo con un campo de texto para ingresar texto.
+     * @param mensaje que se mostrara en el cuadro de dialogo
+     * @return el texto introducido por el usuario, o null si el usuario cancela el cuadro de diálogo
+     */
+    public String mostrarDialogo(String mensaje) {
+        // Crear el campo de texto
+        JTextField textField = new JTextField();
+
+        // Crear un panel que contenga el mensaje y el JTextField
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(new JLabel(mensaje));
+        panel.add(textField);
+
+        // Mostrar el cuadro de diálogo con el campo de texto
+        int resultado = JOptionPane.showConfirmDialog(null, panel, "Input", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        // Si el usuario presiona "OK", retornar el texto introducido
+        if (resultado == JOptionPane.OK_OPTION) {
+            return textField.getText();
+        } else {
+            return null; // Si el usuario cancela, retornar null
+        }
+    }
+
+    /**
+     * Limpia los campos de texto
+     */
     public void limpiarCampos() {
         txtCantidad.setText("1");
         txtBalanceConIVA.setText("");
