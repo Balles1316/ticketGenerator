@@ -4,12 +4,19 @@ import Modelo.ServiciosModel;
 import Modelo.TicketModel;
 import Objeto.Servicio;
 import Objeto.Ticket;
+import Util.PdfTicketExporter;
 import Vista.Ticket.GenerarTicketView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.print.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -160,7 +167,16 @@ public class GenerarTicketController {
         //JOptionPane.showMessageDialog(rootPane, bHeight);
 
         PrinterJob pj = PrinterJob.getPrinterJob();
-        pj.setPrintable(new BillPrintable(),getPageFormat(pj));
+        PageFormat pageFormat = getPageFormat(pj);
+        BillPrintable printable = new BillPrintable();
+        pj.setPrintable(printable, pageFormat);
+
+        try {
+            guardarCopiaPdf(printable, pageFormat);
+        } catch (IOException | PrinterException ex) {
+            vista.mostrarMensaje("Error al guardar la copia en PDF del ticket: " + ex.getMessage());
+        }
+
         try {
             pj.print();
 
@@ -168,6 +184,37 @@ public class GenerarTicketController {
         catch (PrinterException ex) {
             vista.mostrarMensaje("Error al imprimir: " + ex.getMessage());
         }
+    }
+
+    private static final int ESCALA_PDF = 4;
+
+    private void guardarCopiaPdf(Printable printable, PageFormat pageFormat) throws IOException, PrinterException {
+        Paper paper = pageFormat.getPaper();
+        double widthPt = paper.getWidth();
+        double heightPt = paper.getHeight();
+        int width = (int) Math.ceil(widthPt) * ESCALA_PDF;
+        int height = (int) Math.ceil(heightPt) * ESCALA_PDF;
+
+        BufferedImage imagen = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = imagen.createGraphics();
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, width, height);
+        g2d.setColor(Color.BLACK);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.scale(ESCALA_PDF, ESCALA_PDF);
+        printable.print(g2d, pageFormat, 0);
+        g2d.dispose();
+
+        Path carpetaDestino = Paths.get(System.getProperty("user.home"), "Documents", "TicketsPDF");
+        Files.createDirectories(carpetaDestino);
+
+        String numeroTicketStr = almacen.isEmpty() ? "SN" : String.valueOf(almacen.get(0).getNumeroTicket());
+        String marcaTiempo = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File destino = carpetaDestino.resolve("Ticket_" + numeroTicketStr + "_" + marcaTiempo + ".pdf").toFile();
+
+        PdfTicketExporter.guardarComoPdf(imagen, widthPt, heightPt, destino);
     }
 
     public PageFormat getPageFormat(PrinterJob pj)
@@ -229,7 +276,7 @@ public class GenerarTicketController {
                     g2d.setFont(new Font("Monospaced",Font.PLAIN,9));
                     g2d.drawImage(icon.getImage(), 50, 20, 90, 30, vista.getRootPane());y+=yShift+30;
                     g2d.drawString("-------------------------------------",12,y);y+=yShift;
-                    g2d.drawString("         Parabeus.es         ",12,y);y+=yShift;
+                    g2d.drawString("         Parabeus S.L         ",12,y);y+=yShift;
                     g2d.drawString("       NIE : B-87426813         ",12,y);y+=yShift;
                     g2d.drawString("       Calle Sagasta n 15    ",12,y);y+=yShift;
                     g2d.drawString("       +34 915 21 48 86      ",12,y);y+=yShift;

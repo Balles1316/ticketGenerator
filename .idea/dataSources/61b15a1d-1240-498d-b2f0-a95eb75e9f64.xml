@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="PARABEUS">
-  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.52">
+  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.55">
     <root id="1">
       <ServerVersion>3.45.1</ServerVersion>
     </root>
@@ -1599,91 +1599,91 @@
       <System>1</System>
     </table>
     <column id="559" parent="555" name="nombre">
-      <DasType>VARCHAR(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
+      <StoredType>VARCHAR(50)|0s</StoredType>
     </column>
     <column id="560" parent="555" name="apellido">
-      <DasType>VARCHAR(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
+      <StoredType>VARCHAR(50)|0s</StoredType>
     </column>
     <column id="561" parent="555" name="fNacimiento">
-      <DasType>DATE|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
+      <StoredType>DATE|0s</StoredType>
     </column>
     <column id="562" parent="555" name="telefono">
-      <DasType>VARCHAR(9)|0s</DasType>
       <Position>4</Position>
+      <StoredType>VARCHAR(9)|0s</StoredType>
     </column>
     <column id="563" parent="555" name="email">
-      <DasType>VARCHAR(100)|0s</DasType>
       <Position>5</Position>
+      <StoredType>VARCHAR(100)|0s</StoredType>
     </column>
     <column id="564" parent="555" name="cp">
-      <DasType>VARCHAR(5)|0s</DasType>
       <Position>6</Position>
+      <StoredType>VARCHAR(5)|0s</StoredType>
     </column>
     <column id="565" parent="556" name="numeroTicket">
-      <DasType>INT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
+      <StoredType>INT|0s</StoredType>
     </column>
     <column id="566" parent="556" name="servicio">
-      <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="567" parent="556" name="producto">
-      <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="568" parent="556" name="cantidad">
-      <DasType>INT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
+      <StoredType>INT|0s</StoredType>
     </column>
     <column id="569" parent="556" name="precioIVA">
-      <DasType>REAL|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
+      <StoredType>REAL|0s</StoredType>
     </column>
     <column id="570" parent="556" name="cliente">
-      <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="571" parent="556" name="metodoPago">
-      <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="572" parent="556" name="fecha">
-      <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>8</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="573" parent="557" name="type">
-      <DasType>TEXT|0s</DasType>
       <Position>1</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="574" parent="557" name="name">
-      <DasType>TEXT|0s</DasType>
       <Position>2</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="575" parent="557" name="tbl_name">
-      <DasType>TEXT|0s</DasType>
       <Position>3</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="576" parent="557" name="rootpage">
-      <DasType>INT|0s</DasType>
       <Position>4</Position>
+      <StoredType>INT|0s</StoredType>
     </column>
     <column id="577" parent="557" name="sql">
-      <DasType>TEXT|0s</DasType>
       <Position>5</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="578" parent="558" name="name">
       <Position>1</Position>
